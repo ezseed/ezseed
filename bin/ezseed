@@ -1,0 +1,136 @@
+#!/usr/bin/env node
+
+var pkg = require('../package')
+  , program = require('../cli/mnomnom')(require('nomnom'), '')
+  , config
+
+try {
+  config = require('../config/config')
+} catch(e) {
+  return require('../cli/install')
+}
+
+var daemon = function(command) {
+  return function(opts) {
+    console.log(opts)
+  }
+}
+
+program.options({
+  version: {
+    flag: true,
+    abbr: 'v',
+    callback: function() {
+       return pkg.version;
+    }
+  },
+  quiet: {
+    flag: true,
+    abbr: 'q'
+  }
+})
+
+program
+  .commands('start stop restart')
+  .callback(daemon)
+  .options({
+    rtorrent: {
+      help: "rtorrent",
+      abbr: "r",
+      flag: true
+    },
+    transmission: {
+      abbr: 't',
+      help: "transmission",
+      flag: true
+    },
+    user: {
+      abbr: 'u',
+      help: 'Specify user to restart (if not specified we restart all of them)'
+    }
+  })
+  .help('the ezseed daemon (or specified damon watcher, ezseed, rtorrent, transmission)')
+
+program
+  .commands('rtorrent transmission')
+  .callback(daemon)
+  .options({
+    'user': {
+      abbr: 'u',
+      help: 'Specify user to restart (if not specified we restart all of them)'
+    }
+  })
+
+program
+  .command('install')
+    .option('client', {
+      position: 1,
+      help: "Client to install"
+   })
+  .callback()
+
+program
+  .command('backup')
+    .option('path', {
+      abbr: 'p',
+      default: __dirname + '/backup',
+      help: "Backup path"
+   })
+  .callback()
+
+program
+  .command('reboot')
+  .callback()
+
+program
+  .command('update')
+  .callback()
+
+program
+  .command('credits')
+  .callback()
+
+program.nocommand().callback( require('../cli/menu') )
+
+program.parse()
+
+/*
+if no args, display menu
+else parse args
+
+commands :
+Usage: ezseed [options] [command]
+
+  Commands:
+
+	autocheck if it's first start + make some configuration
+
+    start|stop|restart [options] [name]		the ezseed daemon (or specified damon watcher, ezseed, rtorrent, transmission)
+    rtorrent|transmission [options]     	<start|stop|restart> (-u user)
+
+    install [options] [client] Install ezseed or the specified client
+	update - same
+
+	config
+
+    useradd [options] <rutorrent|transmission|aucun> <username> Adds a user to ezseed and to the system using the specified client
+    userdel <username>     /!\ All files will be deleted
+	passwd <username>
+
+    backup                 Backup
+    restore [options]      Restore backup config
+
+    credits                Credits
+
+    rtorrent [options] <start|stop|restart> stop rtorrent daemon(s)
+    transmission [options] <start|stop|restart> start|stop|restart transmission daemon(s)
+    reboot                 Restart all daemons
+    deploy                 Deploy ezseed
+    configure [options]    Configure
+
+    -v verbose shell commands
+    -q quiet
+    
+    *
+
+*/

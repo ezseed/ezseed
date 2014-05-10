@@ -1,5 +1,5 @@
 {
-  "name": "ezseed-cli",
+  "name": "ezseed",
   "version": "0.1.0",
   "description": "Cli interface for ezseed - rtorrent/transmission multi-user installer and manager",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ezseed/cli"
+    "url": "https://github.com/ezseed/ezseed"
   },
   "keywords": [
     "ezseed",
@@ -19,7 +19,28 @@
   "author": "soyuka",
   "license": "GPL",
   "bugs": {
-    "url": "https://github.com/ezseed/cli/issues"
+    "url": "https://github.com/ezseed/ezseed/issues"
   },
-  "homepage": "https://github.com/ezseed/cli"
+  "homepage": "https://github.com/ezseed/ezseed",
+  "dependencies": {
+    "ansi-rainbow": "0.0.6",
+    "chalk": "~0.4.0",
+    "debug": "~0.8.1",
+    "express": "^4.1.1",
+    "ezseed-database": "~0.1.9",
+    "ezseed-logger": "https://github.com/ezseed/logger/archive/v0.0.2.tar.gz",
+    "lodash": "~2.4.1",
+    "nomnom": "https://github.com/soyuka/nomnom/archive/v1.6.1.tar.gz",
+    "noptify": "0.0.3",
+    "rimraf": "^2.2.8",
+    "terminal-menu": "~0.3.2",
+    "ezseed-watcher": "~0.1.1",
+    "inquirer": "~0.4.1",
+    "i18n": "~0.4.1",
+    "mkdirp": "~0.5.0"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "~1.18.2"
+  }
 }
