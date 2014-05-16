@@ -27,5 +27,5 @@ require('./helpers/ascii').print()
 require('./inquirer/config').then(function(answers) {
 	return require('./inquirer/client')
 }).then(function(client) {
-	console.log(client)
+console.log(client)
 })
