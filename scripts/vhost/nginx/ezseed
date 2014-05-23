@@ -25,7 +25,7 @@ server {
                 index index.php index.html index.htm;
                 server_tokens off;
                 auth_basic "Merci de vous identifier";
-                auth_basic_user_file "/usr/local/nginx/rutorrent_passwd";
+                auth_basic_user_file "/usr/ezseed/rutorrent_passwd";
         }
 
         location ~ \.php$ {
@@ -67,7 +67,7 @@ server {
                 index index.php index.html index.htm;
                 server_tokens off;
                 auth_basic "Merci de vous identifier";
-                auth_basic_user_file "/usr/local/nginx/rutorrent_passwd";
+                auth_basic_user_file "/usr/ezseed/rutorrent_passwd";
         }
 
         location ~ \.php$ {
