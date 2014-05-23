@@ -44,7 +44,7 @@ if [ -f $NGINXENABLED/default ]; then
 	rm $NGINXENABLED/default
 fi
 
-cp $DIR/scripts/vhost/nginx/ezseed $NGINXAVAILABLE/
+cp $DIR/vhost/nginx/ezseed $NGINXAVAILABLE/
 sed -i "/server/ s/variableport/$1/" $NGINXAVAILABLE/ezseed
 ln -s $NGINXAVAILABLE/ezseed $NGINXENABLED/
 
@@ -64,7 +64,7 @@ apache ()
 if [ -f $APACHEAVAILABLE/ezseedvhost ]; then
 	a2dissite ezseedvhost && rm $APACHEAVAILABLE/ezseedvhost
 fi
-cp $DIR/scripts/vhost/apache/ezseedvhost $APACHEAVAILABLE/
+cp $DIR/vhost/apache/ezseedvhost $APACHEAVAILABLE/
 sed -i "/Proxy/ s/variableport/$1/" $APACHEAVAILABLE/ezseedvhost
 
 # Activation des vhost et des mods nécessaire
