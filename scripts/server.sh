@@ -21,15 +21,6 @@ inconnu ()
 echo "Désolé la configuration automatique pour $serveur n'est pas prise en charge."
 echo "Veuillez faire la configuration manuellement."
 
-# Vérification de la désactivation de nginx
-if [ "$(ls -A $NGINXAVAILABLE)" != "" ]; then
-	rm $NGINXAVAILABLE/*
-fi
-
-if [ "$(ls -A $NGINXENABLED)" != "" ]; then
-	rm $NGINXENABLED/*
-fi
-
 exit 0
 }
 
@@ -78,24 +69,14 @@ if [ -f $APACHEAVAILABLE/ezseedvhost ]; then
 fi
 cp /var/www/ezseed2/scripts/vhost/apache/ezseedvhost $APACHEAVAILABLE/
 
-# Vérification de la désactivation de nginx
-if [ "$(ls -A $NGINXAVAILABLE)" != "" ]; then
-	rm $NGINXAVAILABLE/*
-fi
-
-if [ "$(ls -A $NGINXENABLED)" != "" ]; then
-	rm $NGINXENABLED/*
-fi
-
 # Activation des vhost et des mods nécessaire
 a2dissite default
 a2ensite ezseedvhost
 a2enmod proxy proxy_http
 echo "ATTENTION SSL NON SUPPORTE ACTUELLEMENT"
 
-# Redémarrage de apache et nginx
+# Redémarrage de apache
 service apache2 restart
-service nginx restart
 
 exit 0
 }
