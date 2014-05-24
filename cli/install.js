@@ -29,13 +29,6 @@ require('./inquirer/config')
 		config[answer] = answers[answer]
 	}
 
-	if(fs.existsSync(config_path)) {
-		logger.error(i18n.__('%s already exists', config_path))
-	} else {
-		fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config))
-		logger.info(i18n.__('Configuration saved in %s', config_path))
-	}
-
 	logger.info('Installing server...')
 	return require('./commands/install').server('localhost:'+answers.port)
 })
@@ -49,5 +42,13 @@ require('./inquirer/config')
 	return require('./commands/install').client(client)
 })
 .then(function() {
+
+	if(fs.existsSync(config_path)) {
+		logger.error(i18n.__('%s already exists', config_path))
+	} else {
+		fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config))
+		logger.info(i18n.__('Configuration saved in %s', config_path))
+	}
 	console.log('test')
+
 })
