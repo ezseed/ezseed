@@ -45,7 +45,7 @@ nginx ()
 	fi
 
 	cp $DIR/vhost/nginx/ezseed $NGINXAVAILABLE/
-	sed -i "/server/ s/variableport/$1/" $NGINXAVAILABLE/ezseed
+	sed -i "s variableport $1 " $NGINXAVAILABLE/ezseed
 	ln -s $NGINXAVAILABLE/ezseed $NGINXENABLED/
 
 	# Optimisation de worker_processes
@@ -63,7 +63,7 @@ apache ()
 		a2dissite ezseedvhost && rm $APACHEAVAILABLE/ezseedvhost
 	fi
 	cp $DIR/vhost/apache/ezseedvhost $APACHEAVAILABLE/
-	sed -i "/Proxy/ s/variableport/$1/" $APACHEAVAILABLE/ezseedvhost
+	sed -i "s variableport $1 " $APACHEAVAILABLE/ezseedvhost
 
 	# Activation des vhost et des mods nécessaire
 	a2dissite default
@@ -95,14 +95,14 @@ fi
 
 case $serveur in
  nginx)
-  nginx
+  nginx $1
   break;;
  apache2)
-  apache
+  apache $1
   break;;
  aucun)
   aptitude install -y nginx
-  nginx
+  nginx $1
   break;;
  *)
   inconnu

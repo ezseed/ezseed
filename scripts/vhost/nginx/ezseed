@@ -58,7 +58,7 @@ server {
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection "upgrade";
 		proxy_max_temp_file_size 0;
-		proxy_pass http://nodejs;
+		proxy_pass http://ezseed;
 		proxy_redirect off;
 	}
 
