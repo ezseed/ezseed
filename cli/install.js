@@ -29,7 +29,7 @@ require('./inquirer/config')
 	}
 
 	logger.info('Installing server...')
-	return require('./commands/install').server('localhost:'+answers.port)
+	return require('./commands/install').server('http://localhost:'+answers.port)
 })
 .catch(function(code) {
 	logger.error('server.sh bad exit code', code)
@@ -45,7 +45,7 @@ require('./inquirer/config')
 	if(fs.existsSync(config_path)) {
 		logger.error(i18n.__('%s already exists', config_path))
 	} else {
-		fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config))
+		fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config), {mode: 664})
 		logger.info(i18n.__('Configuration saved in %s', config_path))
 	}
 	console.log('test')
