@@ -17,66 +17,62 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ###############################################################################
 inconnu ()
 {
-# Serveur web non pris en charge actuellement
-echo "Désolé la configuration automatique pour $serveur n'est pas prise en charge."
-echo "Veuillez faire la configuration manuellement."
+	# Serveur web non pris en charge actuellement
+	echo "Désolé la configuration automatique pour $serveur n'est pas prise en charge."
+	echo "Veuillez faire la configuration manuellement."
 
-exit 0
+	exit 1
 }
 
 nginx ()
 {
-# Vérification que les répertoires pour le vhost soient présents
-if [ ! -d $NGINXAVAILABLE ]; then
-	mkdir $NGINXAVAILABLE
-fi
+	# Vérification que les répertoires pour le vhost soient présents
+	if [ ! -d $NGINXAVAILABLE ]; then
+		mkdir $NGINXAVAILABLE
+	fi
 
-if [ ! -d $NGINXENABLED ]; then
-	mkdir $NGINXENABLED && sed -i '/http {/ a\include /etc/nginx/sites-enabled/*' $NGINX/nginx.conf
-fi
+	if [ ! -d $NGINXENABLED ]; then
+		mkdir $NGINXENABLED && sed -i '/http {/ a\include /etc/nginx/sites-enabled/*' $NGINX/nginx.conf
+	fi
 
-# Mise en place du vhost ezseed
-if [ -e $NGINXENABLED/ezseed ]; then
-	rm $NGINXENABLED/ezseed
-fi
+	# Mise en place du vhost ezseed
+	if [ -e $NGINXENABLED/ezseed ]; then
+		rm $NGINXENABLED/ezseed
+	fi
 
-if [ -f $NGINXENABLED/default ]; then
-	rm $NGINXENABLED/default
-fi
+	if [ -f $NGINXENABLED/default ]; then
+		rm $NGINXENABLED/default
+	fi
 
-cp $DIR/vhost/nginx/ezseed $NGINXAVAILABLE/
-sed -i "/server/ s/variableport/$1/" $NGINXAVAILABLE/ezseed
-ln -s $NGINXAVAILABLE/ezseed $NGINXENABLED/
+	cp $DIR/vhost/nginx/ezseed $NGINXAVAILABLE/
+	sed -i "/server/ s/variableport/$1/" $NGINXAVAILABLE/ezseed
+	ln -s $NGINXAVAILABLE/ezseed $NGINXENABLED/
 
-# Optimisation de worker_processes
-PROC=$(cat /proc/cpuinfo | grep processor | wc -l)
-perl -pi -e "s|worker_processes .*;|worker_processes '$PROC';|g" $NGINX/nginx.conf
+	# Optimisation de worker_processes
+	PROC=$(cat /proc/cpuinfo | grep processor | wc -l)
+	perl -pi -e "s|worker_processes .*;|worker_processes '$PROC';|g" $NGINX/nginx.conf
 
-# Redémarrage de nginx
-service nginx restart
-
-exit 0
+	# Redémarrage de nginx
+	service nginx restart && exit 0 || exit 1
 }
 
 apache ()
 {
-# Mise en place des vhost apache2
-if [ -f $APACHEAVAILABLE/ezseedvhost ]; then
-	a2dissite ezseedvhost && rm $APACHEAVAILABLE/ezseedvhost
-fi
-cp $DIR/vhost/apache/ezseedvhost $APACHEAVAILABLE/
-sed -i "/Proxy/ s/variableport/$1/" $APACHEAVAILABLE/ezseedvhost
+	# Mise en place des vhost apache2
+	if [ -f $APACHEAVAILABLE/ezseedvhost ]; then
+		a2dissite ezseedvhost && rm $APACHEAVAILABLE/ezseedvhost
+	fi
+	cp $DIR/vhost/apache/ezseedvhost $APACHEAVAILABLE/
+	sed -i "/Proxy/ s/variableport/$1/" $APACHEAVAILABLE/ezseedvhost
 
-# Activation des vhost et des mods nécessaire
-a2dissite default
-a2ensite ezseedvhost
-a2enmod proxy proxy_http
-echo "ATTENTION SSL NON SUPPORTE ACTUELLEMENT"
+	# Activation des vhost et des mods nécessaire
+	a2dissite default
+	a2ensite ezseedvhost
+	a2enmod proxy proxy_http
+	echo "ATTENTION SSL NON SUPPORTE ACTUELLEMENT"
 
-# Redémarrage de apache
-service apache2 restart
-
-exit 0
+	# Redémarrage de apache
+	service apache2 restart	&& exit 0 || exit 1
 }
 
 
@@ -112,5 +108,3 @@ case $serveur in
   inconnu
   break;;
 esac
-
-exit 0

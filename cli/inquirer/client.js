@@ -18,8 +18,6 @@ module.exports = new Promise(function(resolve, reject) {
 			return answers.install_client
 		}
 	}], function(client) {
-		//do some stuff here
-		console.log(client)
 		resolve(client)		
 	})
 
