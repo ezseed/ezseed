@@ -32,7 +32,7 @@ require('./inquirer/config')
 	return require('./commands/install').server('127.0.0.1:'+answers.port)
 })
 .catch(function(code) {
-	logger.error('server.sh bad exit code', code)
+	logger.error('Server install - bad exit code', code)
 })
 .then(function() {
 	return require('./inquirer/client')

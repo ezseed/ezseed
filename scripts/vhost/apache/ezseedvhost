@@ -15,8 +15,8 @@
  
 	ProxyPass /rutorrent !
 	ProxyPassReverse /rutorrent !
-	ProxyPass / variableport/
-	ProxyPassReverse / variableport/
+	ProxyPass / http://variableport/
+	ProxyPassReverse / http://variableport/
  
 	<Location /rutorrent>
 		Order allow,deny
@@ -24,7 +24,7 @@
 		DirectoryIndex index.html index.php
 		AuthType Basic
 		AuthName "ezseed"
-		AuthUserFile /usr/local/nginx/rutorrent_passwd
+		AuthUserFile /usr/ezseed/rutorrent_passwd
 		Require valid-user
 		SetEnv R_ENV "/var/www/rutorrent"
 	</Location>
