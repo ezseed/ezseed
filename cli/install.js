@@ -9,7 +9,10 @@
 
 var p = require('path')
   , logger = require('../lib/logger')
+  , fs = require('fs')
   , i18n = require('i18n')
+  , config = require('../config/config-sample')
+  , config_path = p.join(p.resolve(__dirname, '../config'), 'config.js')
 	
 i18n.configure({
 	locales:['en', 'fr'],
@@ -21,11 +24,20 @@ require('./helpers/ascii').print()
 
 require('./inquirer/config')
 .then(function(answers) {
-	//create config here ?
-	logger.log(answers)
+
+	for(var answer in answers) {
+		config[answer] = answers[answer]
+	}
+
+	if(fs.existsSync(config_path)) {
+		logger.error(i18n.__('%s already exists', config_path))
+	} else {
+		fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config))
+		logger.log(i18n.__('Config written in %s', config_path))
+	}
 
 	logger.info('Installing server...')
-	return require('./commands/install').server('localhost:8970')
+	return require('./commands/install').server('localhost:'+answers.port)
 })
 .catch(function(code) {
 	logger.error('server.sh bad exit code', code)

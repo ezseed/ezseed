@@ -2,5 +2,7 @@
 	"Ezseed home directory": "Ezseed home directory",
 	"Temporary directory": "Temporary directory",
 	"Do you wish to install transmission or rtorrent?": "Do you wish to install transmission or rtorrent?",
-	"Which one?": "Which one?"
+	"Which one?": "Which one?",
+	"Listening on": "Listening on",
+	"Config written in %s": "Config written in %s"
 }

@@ -7,43 +7,59 @@ var sample_config = require('../../config/config-sample')
 	
 module.exports = new Promise(function(resolve, reject) {
 
-	inquirer.prompt(
-	{
-		type	  : "list",
-		name      : "lang",
-		message   : "Language?",
-		default   : "en",
-		choices   : ["fr","en"]
-	}, function(answer) {
-		i18n.setLocale(answer.lang)
+	require('local-port').findOpen(3000, 9000, function(err, open_port) {
+		if(err) {
+			logger.error('We could not find any open port')
+			open_port = 8970
+		}
 
-		inquirer.prompt([{
-			type      : "input",
-			name      : "home",
-			message   : i18n.__("Ezseed home directory"),
-			default   : sample_config.home,
-			validate  : function(directory) {
-				return fs.existsSync(directory)
-			}
-		}, 
+		inquirer.prompt(
 		{
-			type: 'input',
-			name: 'tmp',
-			message: i18n.__('Temporary directory'),
-			default: sample_config.tmp,
-			validate  : function(directory) {
-				if(!fs.existsSync(directory)) {
-					mkdirp.sync(directory)
-				}
+			type	  : "list",
+			name      : "lang",
+			message   : "Lang?",
+			default   : "en",
+			choices   : ["fr","en"]
+		}, function(answer) {
+			i18n.setLocale(answer.lang)
 
-				return true
-			}
-		}], function (answers) {
-			answers.lang = answer.lang
-			return resolve(answers)
+			inquirer.prompt([{
+				type      : "input",
+				name      : "home",
+				message   : i18n.__("Ezseed home directory"),
+				default   : sample_config.home,
+				validate  : function(directory) {
+					return fs.existsSync(directory)
+				}
+			}, 
+			{
+				type: 'input',
+				name: 'tmp',
+				message: i18n.__('Temporary directory'),
+				default: sample_config.tmp,
+				validate  : function(directory) {
+					if(!fs.existsSync(directory)) {
+						mkdirp.sync(directory)
+					}
+
+					return true
+				}
+			},
+			{
+				type: 'input',
+				name: 'port',
+				message: i18n.__('Listening on'),
+				default: open_port,
+				validate: function(port) {
+					return !isNaN(parseInt(port)) && parseInt(port) > 1000
+				}
+			}], function (answers) {
+				answers.lang = answer.lang
+				return resolve(answers)
+			})
+
 		})
 
 	})
-
 })
 
