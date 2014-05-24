@@ -33,7 +33,7 @@ require('./inquirer/config')
 		logger.error(i18n.__('%s already exists', config_path))
 	} else {
 		fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config))
-		logger.log(i18n.__('Config written in %s', config_path))
+		logger.info(i18n.__('Configuration saved in %s', config_path))
 	}
 
 	logger.info('Installing server...')

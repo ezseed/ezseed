@@ -5,8 +5,8 @@ var Spawner = require('promise-spawner')
   , scripts_path = p.resolve(__dirname, '../../scripts')
 
 var spawner = new Spawner({
-	out: chalk.blue('info: '),
-	err: chalk.red('error: ')
+	out: chalk.blue('info') + ': ',
+	err: chalk.red('error') + ': '
 })
 
 spawner.out.pipe(process.stdout)
