@@ -30,7 +30,7 @@
     "ezseed-database": "~0.1.9",
     "ezseed-logger": "https://github.com/ezseed/logger/archive/v0.0.2.tar.gz",
     "lodash": "~2.4.1",
-    "nomnom": "https://github.com/soyuka/nomnom/archive/v1.6.1.tar.gz",
+    "nomnom": "~1.6.2",
     "noptify": "0.0.3",
     "rimraf": "^2.2.8",
     "terminal-menu": "~0.3.2",
