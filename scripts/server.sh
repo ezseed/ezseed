@@ -101,7 +101,7 @@ case $serveur in
   apache
   break;;
  aucun)
-  aptitude install nginx
+  aptitude install -y nginx
   nginx
   break;;
  *)
