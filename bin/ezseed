@@ -3,6 +3,14 @@
 var pkg = require('../package')
   , program = require('../cli/mnomnom')(require('nomnom'), '')
   , config
+  , p = require('path')
+
+  
+require('i18n').configure({
+  locales:['en', 'fr'],
+  defaultLocalge: 'en',
+  directory: p.resolve(__dirname, '..', 'locales')
+})
 
 try {
   config = require('../config/config')

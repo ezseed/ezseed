@@ -13,12 +13,11 @@ var p = require('path')
   , i18n = require('i18n')
   , config = require('../config/config-sample')
   , config_path = p.join(p.resolve(__dirname, '../config'), 'config.js')
-	
-i18n.configure({
-	locales:['en', 'fr'],
-	defaultLocalge: 'en',
-	directory: p.resolve(__dirname, '..', 'locales')
-})
+
+if(process.getuid() !== 0) {
+	logger.error('Sorry but this needs to be run as root. Exiting.')
+		process.exit(1)
+}
 
 require('./helpers/ascii').print()
 
