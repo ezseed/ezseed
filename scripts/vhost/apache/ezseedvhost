@@ -15,8 +15,8 @@
  
 	ProxyPass /rutorrent !
 	ProxyPassReverse /rutorrent !
-	ProxyPass / http://127.0.0.1:3001/
-	ProxyPassReverse / http://127.0.0.1//localhost:3001/
+	ProxyPass / variableport/
+	ProxyPassReverse / variableport/
  
 	<Location /rutorrent>
 		Order allow,deny

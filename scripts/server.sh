@@ -10,7 +10,7 @@ NGINX="/etc/nginx"
 NGINXAVAILABLE="/etc/nginx/sites-available"
 NGINXENABLED="/etc/nginx/sites-enabled"
 APACHEAVAILABLE="/etc/apache2/sites-available"
-
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ###############################################################################
 #####################    DECLARATION DES FONCTIONS    #########################
@@ -20,15 +20,6 @@ inconnu ()
 # Serveur web non pris en charge actuellement
 echo "Désolé la configuration automatique pour $serveur n'est pas prise en charge."
 echo "Veuillez faire la configuration manuellement."
-
-# Vérification de la désactivation de nginx
-if [ "$(ls -A $NGINXAVAILABLE)" != "" ]; then
-	rm $NGINXAVAILABLE/*
-fi
-
-if [ "$(ls -A $NGINXENABLED)" != "" ]; then
-	rm $NGINXENABLED/*
-fi
 
 exit 0
 }
@@ -45,20 +36,17 @@ if [ ! -d $NGINXENABLED ]; then
 fi
 
 # Mise en place du vhost ezseed
-if [ -e $NGINXENABLED/ezseed ] || [ -e $NGINXENABLED/ezseedSSL ]; then
-	rm $NGINXENABLED/ezseed*
-fi
-
-if [ -f $NGINXAVAILABLE/ezseed ] || [ -f $NGINXAVAILABLE/ezseedSSL ]; then
-	rm $NGINXAVAILABLE/ezseed*
+if [ -e $NGINXENABLED/ezseed ]; then
+	rm $NGINXENABLED/ezseed
 fi
 
 if [ -f $NGINXENABLED/default ]; then
 	rm $NGINXENABLED/default
 fi
 
-cp /var/www/ezseed2/scripts/vhost/nginx/ezseed* $NGINXAVAILABLE/
-ln -s $NGINXAVAILABLE/ezseed* $NGINXENABLED/
+cp $DIR/vhost/nginx/ezseed $NGINXAVAILABLE/
+sed -i "/server/ s/variableport/$1/" $NGINXAVAILABLE/ezseed
+ln -s $NGINXAVAILABLE/ezseed $NGINXENABLED/
 
 # Optimisation de worker_processes
 PROC=$(cat /proc/cpuinfo | grep processor | wc -l)
@@ -76,16 +64,8 @@ apache ()
 if [ -f $APACHEAVAILABLE/ezseedvhost ]; then
 	a2dissite ezseedvhost && rm $APACHEAVAILABLE/ezseedvhost
 fi
-cp /var/www/ezseed2/scripts/vhost/apache/ezseedvhost $APACHEAVAILABLE/
-
-# Vérification de la désactivation de nginx
-if [ "$(ls -A $NGINXAVAILABLE)" != "" ]; then
-	rm $NGINXAVAILABLE/*
-fi
-
-if [ "$(ls -A $NGINXENABLED)" != "" ]; then
-	rm $NGINXENABLED/*
-fi
+cp $DIR/vhost/apache/ezseedvhost $APACHEAVAILABLE/
+sed -i "/Proxy/ s/variableport/$1/" $APACHEAVAILABLE/ezseedvhost
 
 # Activation des vhost et des mods nécessaire
 a2dissite default
@@ -93,9 +73,8 @@ a2ensite ezseedvhost
 a2enmod proxy proxy_http
 echo "ATTENTION SSL NON SUPPORTE ACTUELLEMENT"
 
-# Redémarrage de apache et nginx
+# Redémarrage de apache
 service apache2 restart
-service nginx restart
 
 exit 0
 }
