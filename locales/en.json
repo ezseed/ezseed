@@ -4,5 +4,5 @@
 	"Do you wish to install transmission or rtorrent?": "Do you wish to install transmission or rtorrent?",
 	"Which one?": "Which one?",
 	"Listening on": "Listening on",
-	"Config written in %s": "Config written in %s"
+	"Configuration saved in %s": "Configuration saved in %s"
 }

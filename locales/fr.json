@@ -1,7 +1,8 @@
 {
 	"Ezseed home directory": "Répertoire ou sont stockés les dossiers utilisateurs",
-	"Temporary directory": "Temporary directory",
+	"Temporary directory": "Répertoire temporaire",
 	"Do you wish to install transmission or rtorrent?": "Do you wish to install transmission or rtorrent?",
-	"Which one?": "Which one?",
-	"Listening on": "Listening on"
+	"Which one?": "Lequel ?",
+	"Listening on": "Port d'écoute",
+	"Configuration saved in %s": "Configuration sauvegardée dans %s"
 }
