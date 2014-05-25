@@ -109,7 +109,7 @@ d_stop() {
     #fi
     pid=`ps -ef | grep rtorrent-$user | grep -v grep | awk '{print $2}'`
     kill -9 ${pid}
-    rm /home/$user/rtorrent/session/rtorrent.lock
+    rm ${session}/rtorrent.lock
 }
 
 getsession() { 

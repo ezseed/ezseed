@@ -63,7 +63,7 @@ sed -i ":pathToCreatetorrent: s:= ':= '/usr/bin/buildtorrent:" $PLUGINS/create/c
 
 # Donner le répertoire rutorrent à l'utilisateur web
 chown -R $WEBUSER:$WEBUSER $RUTORRENT
-
+chmod -R 777 $RUTORRENT/share/users
 
 ###############################################################################
 ##############################    RTORRENT    #################################
