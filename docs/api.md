@@ -10,14 +10,28 @@ Login
 
 Send it back through Authorized header for protected requests:
 ```
-Authorized: ezseed+key
+Authorized: 'Bearer ' key
 ```
 
-### GET /user/:uid <small>protected</small>
-`@return` user informations, watched paths
+### GET /-/:uid <small>protected</small>
+`@return` user informations
 
-### GET /path/:pid <small>protected</small>
+### GET /-/:uid/files <small>protected</small>
 `@return` path datas
+
+@todo missing params
+
+### GET /-/:uid/size <small>protected</small>
+`@return` user size
+
+```
+{
+  total: { size: 1024, pretty: 1.0Mb },
+  movies: {}
+  others: {}
+  albums: {}
+}
+```
 
 ### GET /:type/:item_id <small>protected</small>
 

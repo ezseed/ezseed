@@ -1,4 +1,4 @@
-module.exports = 
+module.exports =
 {
 	home: '/home', // the path to users home directory (absolute!)
 	tmp: process.env.HOME + '/ezseed/tmp', //the tmp folder path - default to HOME/.ezseed/tmp (absolute!)
@@ -7,5 +7,6 @@ module.exports =
 	client_link: 'embed', //embed|link do we embed the p2p web interface or should it be openin a new window?
 	theme: 'default',
 	scrapper: 'tmdb',
-	lang: 'en'
+	lang: 'en',
+	secret: 'really-secret-key'
 }
