@@ -4,5 +4,15 @@
 	"Do you wish to install transmission or rtorrent?": "Do you wish to install transmission or rtorrent?",
 	"Which one?": "Which one?",
 	"Listening on": "Listening on",
-	"Configuration saved in %s": "Configuration saved in %s"
+	"Configuration saved in %s": "Configuration saved in %s",
+	"failed": "failed",
+	" is not a valid entry for client, install": " is not a valid entry for client, install",
+	"Client installation": "Client installation",
+	"Server installation": "Server installation",
+	"was successful": "was successful",
+	"Replacing %s": "Replacing %s",
+	"%s already exists": "%s already exists",
+	"%s already exists - use force to replace, skipping": "%s already exists - use force to replace, skipping",
+	"Overriding %s": "Overriding %s",
+	"failed with error:": "failed with error:"
 }

@@ -4,19 +4,25 @@ var pkg = require('../package')
   , program = require('../cli/mnomnom')(require('nomnom'), '')
   , config
   , p = require('path')
+  , helper = require('../cli/helpers/promise')
+  , logger = require('ezseed-logger')
+  , fs = require('fs')
 
-  
-require('i18n').configure({
+
+var i18n = require('i18n').configure({
   locales:['en', 'fr'],
-  defaultLocalge: 'en',
+  defaultLocale: 'en',
   directory: p.resolve(__dirname, '..', 'locales')
 })
 
 try {
   config = require('../config/config')
 } catch(e) {
-  return require('../cli/install')
+  return require('../cli/install')({new: true})
 }
+
+i18n = require('i18n')
+i18n.setLocale(config.lang)
 
 var daemon = function(command) {
   return function(opts) {
@@ -57,7 +63,7 @@ program
       help: 'Specify user to restart (if not specified we restart all of them)'
     }
   })
-  .help('the ezseed daemon (or specified damon watcher, ezseed, rtorrent, transmission)')
+  .help('the ezseed daemon (or specified daemon watcher, ezseed, rtorrent, transmission)')
 
 program
   .commands('rtorrent transmission')
@@ -71,11 +77,47 @@ program
 
 program
   .command('install')
-    .option('client', {
-      position: 1,
-      help: "Client to install"
-   })
-  .callback()
+  .option('client', {
+    position: 1,
+    help: "Client to install"
+  })
+  .option('skipserver', {
+    flag: true,
+    help: "Skip server installation"
+  })
+  .option('skipclient', {
+    flag: true,
+    help: "Skip client installation"
+  })
+  .option('skipadmin', {
+    flag: true,
+    help: "Skip admin creation"
+  })
+  .option('skipconfig', {
+    flag: true,
+    help: "Skip config creation"
+  })
+  .option('force', {
+    flag: true,
+    help: "Force"
+  })
+  .callback(function(opts) {
+    if(opts.client === undefined) {
+      return require('../cli/install')(opts)
+    } else if(opts.client == 'rtorrent' || opts.client == 'transmission'){
+      require('../cli/commands/install').client(opts.client)()
+      .then(helper.exit(i18n.__('Client installation')))
+      .catch(helper.exit(i18n.__('Client installation')))
+    } else {
+      helper.exit(opts.client + i18n.__(' is not a valid entry for client, install'))(1)
+    }
+  })
+
+program
+  .command('config')
+  .callback(function() {
+    return require('../cli/install')({skipserver: true, skipadmin: true, skipclient: true})
+  })
 
 program
   .command('backup')
@@ -86,9 +128,9 @@ program
    })
   .callback()
 
-program
-  .command('reboot')
-  .callback()
+// program
+//   .command('reboot')
+//   .callback()
 
 program
   .command('update')
@@ -96,9 +138,11 @@ program
 
 program
   .command('credits')
-  .callback()
+  .callback(function() {
 
-program.nocommand().callback( require('../cli/menu') )
+  })
+
+// program.nocommand().callback(  )
 
 program.parse()
 
@@ -138,7 +182,7 @@ Usage: ezseed [options] [command]
 
     -v verbose shell commands
     -q quiet
-    
+
     *
 
 */

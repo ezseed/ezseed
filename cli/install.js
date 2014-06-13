@@ -8,46 +8,70 @@
  */
 
 var p = require('path')
-  , logger = require('../lib/logger')
+  , logger = require('ezseed-logger')()
   , fs = require('fs')
   , i18n = require('i18n')
   , config = require('../config/config-sample')
   , config_path = p.join(p.resolve(__dirname, '../config'), 'config.js')
+  , helper = require('./helpers/promise')
 
-if(process.getuid() !== 0) {
-	logger.error('Sorry but this needs to be run as root. Exiting.')
-		process.exit(1)
+module.exports = function(opts) {
+	if(opts.new) {
+		require('./helpers/ascii').print()
+		console.log('Welcome to ezseed!')
+	}
+
+	helper.condition(!opts.skipconfig, require('./inquirer/config'))
+	.then(function(answers) {
+
+		var server
+
+		if(answers) {
+			for(var answer in answers) {
+				config[answer] = answers[answer]
+			}
+
+			server = '127.0.0.1:'+answers.port
+		}
+
+		return helper.condition(!opts.skipserver, require('./commands/install').server(server))
+	})
+	.catch(helper.exit(i18n.__('Server installation')))
+
+	.then(function() {
+		return helper.condition(!opts.skipclient, require('./inquirer/client'))
+	})
+	.then(function(client) {
+		//if opts.skipclient
+		if(client === undefined || opts.skipclient)
+			client = {install_client: false}
+
+		return helper.condition(client.install_client, require('./commands/install').client(client.client))
+	})
+	.catch(helper.exit(i18n.__('Client installation')))
+
+	.then(function() {
+
+		if(!opts.skipconfig) {
+
+			if(fs.existsSync(config_path)) {
+				if(!opts.force) {
+					throw new Error(i18n.__('%s already exists - use force to replace, skipping', config_path))
+				} else {
+					logger.warn(i18n.__('Overriding %s', config_path))
+				}
+			}
+
+			fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config, undefined, 2), {mode: 664})
+			logger.info(i18n.__('Configuration saved in %s', config_path))
+
+		}
+
+		return helper.next()
+	})
+	.then(function() {
+		return helper.exit('Installation')(0)
+	})
+  .catch(helper.exit('Configuration'))
+
 }
-
-require('./helpers/ascii').print()
-
-require('./inquirer/config')
-.then(function(answers) {
-
-	for(var answer in answers) {
-		config[answer] = answers[answer]
-	}
-
-	logger.info('Installing server...')
-	return require('./commands/install').server('127.0.0.1:'+answers.port)
-})
-.catch(function(code) {
-	logger.error('Server install - bad exit code', code)
-})
-.then(function() {
-	return require('./inquirer/client')
-})
-.then(function(client) {
-	return require('./commands/install').client(client)
-})
-.then(function() {
-
-	if(fs.existsSync(config_path)) {
-		logger.error(i18n.__('%s already exists', config_path))
-	} else {
-		fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config), {mode: 664})
-		logger.info(i18n.__('Configuration saved in %s', config_path))
-	}
-	console.log('test')
-
-})

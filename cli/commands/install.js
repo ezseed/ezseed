@@ -1,7 +1,7 @@
 var Spawner = require('promise-spawner')
   , chalk = require('chalk')
   , p = require('path')
-  , logger = require('../../lib/logger')
+  , helper = require('../helpers/promise')
   , scripts_path = p.resolve(__dirname, '../../scripts')
 
 var spawner = new Spawner({
@@ -14,9 +14,15 @@ spawner.err.pipe(process.stderr)
 
 module.exports = {
 	client: function(client) {
-		logger.log(client)
+		return function() {
+			helper.checkroot()
+			return spawner.spawn(p.join(scripts_path, client, 'install.sh'))
+		}
 	},
 	server: function(host) { 
-		return spawner.spawn(p.join(scripts_path, 'server.sh '+host))
+		return function() {
+			helper.checkroot()
+			return spawner.spawn(p.join(scripts_path, 'server.sh '+host))
+		}
 	}
 } 
