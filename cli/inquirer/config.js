@@ -29,7 +29,7 @@ module.exports = function() {
 					type      : "input",
 					name      : "home",
 					message   : i18n.__("Ezseed home directory"),
-					default   : sample_config.home,
+        default   : process.env.HOME,
 					validate  : function(directory) {
 						return fs.existsSync(directory)
 					}
@@ -38,7 +38,7 @@ module.exports = function() {
 					type: 'input',
 					name: 'tmp',
 					message: i18n.__('Temporary directory'),
-					default: sample_config.tmp,
+        default: process.env.HOME + '/tmp',
 					validate  : function(directory) {
 						if(!fs.existsSync(directory)) {
 							mkdirp.sync(directory)

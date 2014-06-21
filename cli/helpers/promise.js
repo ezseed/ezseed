@@ -6,7 +6,7 @@ var Promise = require('bluebird')
 module.exports = {
 	checkroot: function() {
 		if(process.getuid() !== 0) {
-			logger.error('Sorry but this needs to be run as root. Exiting.')
+			logger().error('Sorry but this needs to be run as root. Exiting.')
 				process.exit(1)
 		}
 

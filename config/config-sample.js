@@ -5,7 +5,7 @@ module.exports =
 	transmission: false, //is transmission installed?
 	rtorrent: false, //is rtorrent installed?
 	client_link: 'embed', //embed|link do we embed the p2p web interface or should it be openin a new window?
-	theme: 'default',
+	theme: 'ezseed-web',
 	scrapper: 'tmdb',
 	lang: 'en',
 	secret: 'really-secret-key'

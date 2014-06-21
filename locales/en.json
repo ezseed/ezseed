@@ -14,5 +14,6 @@
 	"%s already exists": "%s already exists",
 	"%s already exists - use force to replace, skipping": "%s already exists - use force to replace, skipping",
 	"Overriding %s": "Overriding %s",
-	"failed with error:": "failed with error:"
+	"failed with error:": "failed with error:",
+	"failed with code: %s": "failed with code: %s"
 }

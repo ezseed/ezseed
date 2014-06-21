@@ -39,7 +39,7 @@ api
 
 
 .get('/-/files', function(req, res) {
-  //need params, limit, dateUpdate !
+  //need params, limit, dateUpdate, paths, type !
   db.files(req.user.id, 0, 0, function(err, files) {
     return res.json(files)
   })
