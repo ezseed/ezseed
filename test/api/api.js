@@ -1,33 +1,12 @@
-var db = require('ezseed-database').db
-
-var user = {
-			username: 'test-user' + Math.round(Math.random() * 100),
-			password: 'crazy-password',
-			role: 'admin'
-		}
-		, user_path = '/home/'+user.username+'/downloads'
-	  , token
 
 describe('user', function(){
-
-  before(function(cb) {
-		db.user.create(user, function(err, u) {
-			db.paths.save(
-				user_path,
-				{
-					_id: u._id,
-					default: true
-				},
-				cb)
-		})
-  })
 
   it('should login', function(cb) {
     request
       .post('/api/login')
 			.send(user)
       .set('Accept', 'application/json')
-      .end(function(error, res){
+      .end(function(error, res) {
         expect(error).to.be.null
 				expect(res.body).to.have.property('token')
 				token = res.body.token
@@ -50,7 +29,24 @@ describe('user', function(){
 			.get('/api/-/files')
 			.set({'Authorization': 'Bearer '+token})
 			.end(function(error, res) {
-				console.log(res.text)
+
+				expect(error).to.be.null
+				// console.log(res.body)
+
+				cb()
+			})
+	})
+
+	it('should get sizes', function(cb) {
+		request
+			.get('/api/-/size')
+			.set({'Authorization': 'Bearer '+token})
+			.end(function(error, res) {
+				expect(error).to.be.null
+				expect(res.body).to.have.property('movies')
+				expect(res.body).to.have.property('albums')
+				expect(res.body).to.have.property('others')
+				expect(res.body).to.have.property('total')
 				cb()
 			})
 	})
