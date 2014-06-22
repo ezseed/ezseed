@@ -56,5 +56,8 @@
     "mocha": "~1.20.1",
     "superagent": "~0.18.0",
     "supertest": "~0.13.0"
+  },
+  "optionalDependencies": {
+    "fluent-ffmpeg": "~1.7.2"
   }
 }
