@@ -26,7 +26,7 @@
 # and then uncommenting the following line correcting the path/filename 
 # for the one you used. note the space after the ".".
 # . /etc/rtorrent.init.conf
-CONFIG_DIR="/usr/ezseed"
+CONFIG_DIR="/usr/local/opt/ezseed"
 
 #Do not put a space on either side of the equal signs e.g.
 # user = user 

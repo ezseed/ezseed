@@ -5,6 +5,7 @@ password=$2
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 appdir="$(cd $DIR && cd ../../app && pwd)"
+CONFIG_DIR="/usr/local/opt/ezseed"
 
 # if [ -f /etc/init.d/transmission-daemon ]
 # then
@@ -30,11 +31,11 @@ cp -a /etc/transmission-daemon /etc/transmission-daemon-$username
 cp /etc/default/transmission-daemon /etc/default/transmission-daemon-$username
 
 
-sed 's/NAME=transmission-daemon/NAME=transmission-daemon-'$username'/' </etc/init.d/transmission-daemon-$username >/etc/init.d/transmission-daemon-$username.new
+sed 's/NAME=transmission-daemon/NAME=transmission-daemon-'$username'/' < /etc/init.d/transmission-daemon-$username >/etc/init.d/transmission-daemon-$username.new
 
 mv /etc/init.d/transmission-daemon-$username.new /etc/init.d/transmission-daemon-$username
 
-sed 's/USER=debian-transmission/USER='$username'/' </etc/init.d/transmission-daemon-$username >/etc/init.d/transmission-daemon-$username.new
+sed 's/USER=debian-transmission/USER='$username'/' < /etc/init.d/transmission-daemon-$username > /etc/init.d/transmission-daemon-$username.new
 
 mv /etc/init.d/transmission-daemon-$username.new /etc/init.d/transmission-daemon-$username
 
@@ -61,20 +62,20 @@ chmod 755 /etc/default/transmission-daemon
 
 #mv $userdir/config/settings.json /etc/transmission-daemon-$username/settings.json
 
-#ln -sf /var/lib/transmission-daemon-$username/info/settings.json /etc/transmission-daemon-$username/settings.json 
+#ln -sf /var/lib/transmission-daemon-$username/info/settings.json /etc/transmission-daemon-$username/settings.json
 
 #Symlink to node app
-#ln -sf /var/lib/transmission-daemon-$username/info/settings.json $appdir/scripts/transmission/config/settings.$username.json 
+#ln -sf /var/lib/transmission-daemon-$username/info/settings.json $appdir/scripts/transmission/config/settings.$username.json
 #cp /etc/transmission-daemon-$username/settings.json $appdir/scripts/transmission/config/settings.$username.json
 
-ln -sf /etc/transmission-daemon-$username/settings.json $appdir/../scripts/transmission/config/settings.$username.json 
-ln -sf /etc/transmission-daemon-$username/settings.json /var/lib/transmission-daemon-$username/info/settings.json 
+ln -sf /etc/transmission-daemon-$username/settings.json $CONFCONFIG_DIR/transmission/config/settings.$username.json
+ln -sf /etc/transmission-daemon-$username/settings.json /var/lib/transmission-daemon-$username/info/settings.json
 #ln -sf /var/lib/transmission-daemon-$username/info/settings.json /etc/transmission-daemon-$username/settings.json
 
 chown -R $username:$username /var/lib/transmission-daemon-$username
 chown -R $username:$username /etc/transmission-daemon-$username
 
-chmod 775 $appdir/../scripts/transmission/config/settings.$username.json 
+chmod 775 $CONFIG_DIR/transmission/config/settings.$username.json
 chmod -R 755 /etc/transmission-daemon-$username
 
 #echo "Adding user config username/peerport/rpcport/daysleft"

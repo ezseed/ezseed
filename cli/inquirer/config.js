@@ -1,5 +1,4 @@
-var sample_config = require('../../config/config-sample')
-  , fs = require('fs')
+var fs = require('fs')
   , mkdirp = require('mkdirp')
   , inquirer = require('inquirer')
   , i18n = require('i18n')
@@ -38,15 +37,36 @@ module.exports = function() {
 					type: 'input',
 					name: 'tmp',
 					message: i18n.__('Temporary directory'),
-        default: process.env.HOME + '/tmp',
+          default: process.env.HOME + '/tmp',
 					validate  : function(directory) {
 						if(!fs.existsSync(directory)) {
 							mkdirp.sync(directory)
 						}
 
+            //this is forced - see below
+            if(!fs.existsSync('/usr/local/opt/ezseed')) {
+              mkdirp.sync('/usr/local/opt/ezseed')
+            }
+
 						return true
 					}
 				},
+        //to add this feature we would need to update shells to add the values
+        // in vhosts
+
+        // {
+        //   type: 'input',
+        //   name: 'tmp',
+        //   message: i18n.__('Installation folder'),
+        //   default: '/usr/local/opt/ezseed',
+        //   validate  : function(directory) {
+        //     if(!fs.existsSync(directory)) {
+        //       mkdirp.sync(directory)
+        //     }
+        //
+        //     return true
+        //   }
+        // },
 				{
 					type: 'input',
 					name: 'port',

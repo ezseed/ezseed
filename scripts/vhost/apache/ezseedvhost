@@ -24,7 +24,7 @@
 		DirectoryIndex index.html index.php
 		AuthType Basic
 		AuthName "ezseed"
-		AuthUserFile /usr/ezseed/rutorrent_passwd
+		AuthUserFile /usr/local/opt/ezseed/rutorrent_passwd
 		Require valid-user
 		SetEnv R_ENV "/var/www/rutorrent"
 	</Location>

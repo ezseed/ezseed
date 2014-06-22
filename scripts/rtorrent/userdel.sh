@@ -10,7 +10,7 @@
 USER=$1
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 CHEMIN=$(sudo -i -u $USER env | grep HOME | sed 's/\HOME=//')
-CONFIG_DIR="/usr/ezseed"
+CONFIG_DIR="/usr/local/opt/ezseed"
 
 ###############################################################################
 ###############################    SCRIPT    ##################################

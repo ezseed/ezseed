@@ -1,6 +1,6 @@
 upstream ezseed {
 	server variableport max_fails=0 fail_timeout=0;
-} 
+}
 
 # Configuration acces non SSL
 server {
@@ -25,7 +25,7 @@ server {
                 index index.php index.html index.htm;
                 server_tokens off;
                 auth_basic "Merci de vous identifier";
-                auth_basic_user_file "/usr/ezseed/rutorrent_passwd";
+                auth_basic_user_file "/usr/local/opt/ezseed/rutorrent_passwd";
         }
 
         location ~ \.php$ {
@@ -44,10 +44,10 @@ server {
 	server_name localhost;
 
 	ssl on;
-	ssl_certificate /usr/ezseed/ezseed.pem;
-	ssl_certificate_key /usr/ezseed/ezseed.key;
-    
-	add_header Strict-Transport-Security max-age=500; 
+	ssl_certificate /usr/local/opt/ezseed/ezseed.pem;
+	ssl_certificate_key /usr/local/opt/ezseed/ezseed.key;
+
+	add_header Strict-Transport-Security max-age=500;
 
 	location / {
 		proxy_set_header X-Real-IP $remote_addr;
@@ -67,7 +67,7 @@ server {
                 index index.php index.html index.htm;
                 server_tokens off;
                 auth_basic "Merci de vous identifier";
-                auth_basic_user_file "/usr/ezseed/rutorrent_passwd";
+                auth_basic_user_file "/usr/local/opt/ezseed/rutorrent_passwd";
         }
 
         location ~ \.php$ {
