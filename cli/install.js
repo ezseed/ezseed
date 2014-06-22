@@ -21,6 +21,7 @@ module.exports = function(opts) {
 		console.log('Welcome to ezseed!')
 	}
 
+  //ask configuration questions
 	helper.condition(!opts.skipconfig, require('./inquirer/config'))
 	.then(function(answers) {
 
@@ -38,6 +39,7 @@ module.exports = function(opts) {
 	})
 	.catch(helper.exit(i18n.__('Server installation')))
 
+  //ask client questions
 	.then(function() {
 		return helper.condition(!opts.skipclient, require('./inquirer/client'))
 	})
@@ -50,6 +52,7 @@ module.exports = function(opts) {
 	})
 	.catch(helper.exit(i18n.__('Client installation')))
 
+  //Write configuration
 	.then(function() {
 
 		if(!opts.skipconfig) {
