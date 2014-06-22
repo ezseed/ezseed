@@ -22,7 +22,14 @@ module.exports = function(opts) {
 	}
 
   //ask configuration questions
-	helper.condition(!opts.skipconfig, require('./inquirer/config'))
+  require('/inquirer/lang')
+  .then(function(lang) {
+
+    i18n.setLocale(lang)
+
+    return helper.condition(!opts.skipconfig, require('./inquirer/config'))
+
+  })
 	.then(function(answers) {
 
 		var server
