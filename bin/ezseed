@@ -19,6 +19,7 @@ try {
   if(process.env.EZSEED_ENV == 'install') {
     helper.exit('npm install')(0)
   }
+
 } catch(e) {
   var argv = require('minimist')(process.argv.slice(2));
   argv.new = true
@@ -27,12 +28,6 @@ try {
 
 i18n = require('i18n')
 i18n.setLocale(config.lang)
-
-var daemon = function(command) {
-  return function(opts) {
-    console.log(opts)
-  }
-}
 
 program.options({
   version: {
@@ -50,7 +45,7 @@ program.options({
 
 program
   .commands('start stop restart')
-  .callback(daemon)
+  .callback(require('../cli/commands/daemon').ezseed)
   .options({
     rtorrent: {
       help: "rtorrent",
@@ -71,8 +66,13 @@ program
 
 program
   .commands('rtorrent transmission')
-  .callback(daemon)
+  .callback(require('../cli/commands/daemon').client)
   .options({
+    'command': {
+      position: 1,
+      choices: ['start', 'stop', 'restart'],
+      help: 'One of start|stop|restart'
+    },
     'user': {
       abbr: 'u',
       help: 'Specify user to restart (if not specified we restart all of them)'
