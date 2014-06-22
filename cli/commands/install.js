@@ -19,10 +19,10 @@ module.exports = {
 			return spawner.spawn(p.join(scripts_path, client, 'install.sh'))
 		}
 	},
-	server: function(host) { 
+	server: function(host) {
 		return function() {
 			helper.checkroot()
-			return spawner.spawn(p.join(scripts_path, 'server.sh '+host))
+			return spawner.spawn(p.join(scripts_path, 'server.sh') + ' ' +host)
 		}
 	}
-} 
+}
