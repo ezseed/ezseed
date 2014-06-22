@@ -1,6 +1,5 @@
 var fs = require('fs')
   , mkdirp = require('mkdirp')
-  , p = require('p')
   , inquirer = require('inquirer')
   , i18n = require('i18n')
   , Promise = require('bluebird')

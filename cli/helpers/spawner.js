@@ -6,8 +6,8 @@ var spawner = new Spawner({
   err: chalk.red('error') + ': '
 })
 
+//add silent something here
 spawner.out.pipe(process.stdout)
 spawner.err.pipe(process.stderr)
 
-
-module.exports = spawner;
+module.exports = spawner

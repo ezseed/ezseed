@@ -45,13 +45,12 @@ Authorized: 'Bearer ' key
 Update item
 
 
-### GET /:type/:item_id/:action
+### GET /:type/:file_id/:action
 
 Where `action` one of:
 - delete (protected)
 - download
 - read (stream)
-
 
 ## /admin
 

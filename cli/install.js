@@ -22,7 +22,7 @@ module.exports = function(opts) {
 	}
 
   //ask configuration questions
-  require('/inquirer/lang')
+  require('./inquirer/lang')()
   .then(function(lang) {
 
     i18n.setLocale(lang)
