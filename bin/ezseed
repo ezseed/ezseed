@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var pkg = require('../package')
-  , program = require('../cli/mnomnom')(require('nomnom'), '')
+  , program = require('../cli/helpers/mnomnom')(require('nomnom'), '')
   , config
   , p = require('path')
   , helper = require('../cli/helpers/promise')
@@ -172,7 +172,7 @@ Usage: ezseed [options] [command]
 
     useradd [options] <rutorrent|transmission|aucun> <username> Adds a user to ezseed and to the system using the specified client
     userdel <username>     /!\ All files will be deleted
-	passwd <username>
+	  passwd <username>
 
     backup                 Backup
     restore [options]      Restore backup config
