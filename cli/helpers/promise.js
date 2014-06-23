@@ -3,14 +3,30 @@ var Promise = require('bluebird')
   , i18n = require('i18n')
   , debug = require('debug')('ezseed:cli')
 
+var pw = ''
+
 module.exports = {
+  runasroot: function(cmd) {
+
+    var args = [].slice.call(arguments)
+
+    if(args.length == 2) {
+      pw = args[0], cmd = args[1]
+    } else {
+      cmd = args[1]
+    }
+
+    return require('./spawner')
+      .spawn('echo "'+pw+'" | sudo -S su root -c "'+cmd+'"')
+  },
 	checkroot: function() {
 		if(process.getuid() !== 0) {
-			logger().error('Sorry but this needs to be run as root. Exiting.')
-				process.exit(1)
-		}
+      logger().error('Sorry but this needs to be run as root. Exiting.')
+      process.exit(1)
+		} else {
+      return true
+    }
 
-		return true
 	},
 	next: function() {
 		var args = [].slice.call(arguments)

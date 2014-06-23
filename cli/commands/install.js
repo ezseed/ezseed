@@ -6,14 +6,12 @@ var spawner = require('../helpers/spawner')
 module.exports = {
 	client: function(client) {
 		return function() {
-			helper.checkroot()
-			return spawner.spawn(require('ezseed-'+client)('install'))
+			return helper.runasroot(require('ezseed-'+client)('install'))
 		}
 	},
 	server: function(host) {
 		return function() {
-			helper.checkroot()
-			return spawner.spawn(p.join(scripts_path, 'server.sh') + ' ' +host)
+			return helper.runasroot(p.join(scripts_path, 'server.sh') + ' ' +host)
 		}
 	}
 }

@@ -5,11 +5,11 @@ var spawner = require('../helpers/spawner')
 module.exports = {
   client: function(client) {
     return function(opts) {
-      helper.checkroot()
+      // helper.checkroot()
 
       if(opts.user) {
 			  return
-          spawner.spawn(require('ezseed-'+client)('daemon') + ' ' + [opts.command, opts.user].join(' '))
+          helper.runasroot(require('ezseed-'+client)('daemon') + ' ' + [opts.command, opts.user].join(' '))
           .then(helper.exit(i18n.__('Daemon %s %s', opts.command, client)))
           .catch(helper.exit(i18n.__('Daemon %s %s', opts.command, client)))
       } else {
@@ -22,7 +22,7 @@ module.exports = {
             users.push(require('ezseed-'+client)('daemon') + ' ' + [opts.command, docs[num].username].join(' '))
           }
 
-          return spawner.spawn(users.join(' && '))
+          return helper.runasroot(users.join(' && '))
           .then(helper.exit(i18n.__('Daemon %s %s', opts.command, client)))
           .catch(helper.exit(i18n.__('Daemon %s %s', opts.command, client)))
 

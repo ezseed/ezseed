@@ -30,18 +30,34 @@ module.exports = function() {
 				message: i18n.__('Temporary directory'),
         default: process.env.HOME + '/tmp',
 				validate  : function(directory) {
-					if(!fs.existsSync(directory)) {
+
+
+          if(!fs.existsSync(directory)) {
 						mkdirp.sync(directory)
 					}
 
-          //this is forced - see below
-          if(!fs.existsSync('/usr/local/opt/ezseed')) {
-            mkdirp.sync('/usr/local/opt/ezseed')
-          }
-
-					return true
+          return true
 				}
 			},
+      {
+        type: 'password',
+        name: 'sudo',
+        message: i18n.__('Please enter your root password'),
+        validate: function(pw) {
+          var done = this.async()
+
+          require('../helpers/promise')
+            .runasroot(pw, '[ -d "/usr/local/opt/ezseed" ] || mkdir /usr/local/opt/ezseed')
+            .catch(function(code) {
+              logger().error('Sorry but this needs to be run as root. Exiting.')
+              process.exit(1)
+            })
+            .then(function() {
+              done(true)
+            })
+
+        }
+      },
       //to add this feature we would need to update shells to add the values
       // in vhosts
 
@@ -68,10 +84,11 @@ module.exports = function() {
 				}
 			},
       {
+
         type: 'input',
         name: 'sslkeys',
-        message: i18n.__('Want to add ssl keys? "./ssl.pem ./ssl.key"'),
-        default: '',
+        message: i18n.__('Want to add ssl keys? (ie: "./ssl.pem ./ssl.key"):'),
+        default: ' ',
         validate: function(ssl) {
 
           var done = this.async()
