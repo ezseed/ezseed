@@ -81,35 +81,38 @@ program
 
 program
   .command('install')
-  .option('client', {
-    position: 1,
-    help: "Client to install"
-  })
-  .option('skipserver', {
-    flag: true,
-    help: "Skip server installation"
-  })
-  .option('skipclient', {
-    flag: true,
-    help: "Skip client installation"
-  })
-  .option('skipadmin', {
-    flag: true,
-    help: "Skip admin creation"
-  })
-  .option('skipconfig', {
-    flag: true,
-    help: "Skip config creation"
-  })
-  .option('force', {
-    flag: true,
-    help: "Force"
+  .options({
+    'client': {
+      position: 1,
+      help: "Client to install"
+    },
+    'skipserver': {
+      flag: true,
+      help: "Skip server installation"
+    },
+    'skipclient': {
+      flag: true,
+      help: "Skip client installation"
+    },
+    'skipadmin': {
+      flag: true,
+      help: "Skip admin creation"
+    },
+    'skipconfig': {
+      flag: true,
+      help: "Skip config creation"
+    },
+    'force': {
+      flag: true,
+      help: "Force"
+    }
   })
   .callback(function(opts) {
-
+    //no client, install ezseed
     if(opts.client === undefined) {
       return require('../cli/install')(opts)
     } else if(opts.client == 'rtorrent' || opts.client == 'transmission'){
+      //else install the required client
       require('../cli/commands/install').client(opts.client)()
       .then(helper.exit(i18n.__('Client installation')))
       .catch(helper.exit(i18n.__('Client installation')))
@@ -124,30 +127,51 @@ program
     return require('../cli/install')({skipserver: true, skipadmin: true, skipclient: true})
   })
 
-program
-  .command('backup')
-    .option('path', {
+
+program.command('useradd')
+  .options({
+    'client': {
+      position: 1,
+      help: "Client to install"
+    },
+    'password': {
       abbr: 'p',
-      default: __dirname + '/backup',
-      help: "Backup path"
-   })
-  .callback()
+      help: 'User password',
+    },
+    'role': {
+      abbr: 'r',
+      choices: ['user', 'admin'],
+    }
+  })
+  .callback(function(opts) {
+    // body...
+  })
+
+// program
+//   .command('backup')
+//     .option('path', {
+//       abbr: 'p',
+//       default: __dirname + '/backup',
+//       help: "Backup path"
+//    })
+//   .callback()
 
 // program
 //   .command('reboot')
 //   .callback()
+//
+// program
+//   .command('update')
+//   .callback()
 
-program
-  .command('update')
-  .callback()
-
-program
-  .command('credits')
-  .callback(function() {
-
-  })
+// program
+//   .command('credits')
+//   .callback(function() {
+//
+//   })
 
 // program.nocommand().callback(  )
+
 
 program.parse()
 

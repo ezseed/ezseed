@@ -1,5 +1,4 @@
-var spawner = require('../helpers/spawner')
-  , p = require('path')
+var p = require('path')
   , helper = require('../helpers/promise')
   , scripts_path = '../../scripts'
 
