@@ -6,39 +6,37 @@ var fs = require('fs')
 
 module.exports = function() {
 
-	return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
 
-		require('local-port').findOpen(3000, 9000, function(err, open_port) {
-			if(err) {
-				logger.error('We could not find any open port')
-				open_port = 8970
-			}
+    require('local-port').findOpen(3000, 9000, function(err, open_port) {
+      if(err) {
+        logger.error('We could not find any open port')
+        open_port = 8970
+      }
 
-
-			inquirer.prompt([{
-				type      : "input",
-				name      : "home",
-				message   : i18n.__("Ezseed home directory"),
-      default   : process.env.HOME,
-				validate  : function(directory) {
-					return fs.existsSync(directory)
-				}
-			},
-			{
-				type: 'input',
-				name: 'tmp',
-				message: i18n.__('Temporary directory'),
+      inquirer.prompt([{
+        type      : "input",
+        name      : "home",
+        message   : i18n.__("Ezseed home directory"),
+          default   : process.env.HOME,
+        validate  : function(directory) {
+          return fs.existsSync(directory)
+        }
+      },
+      {
+        type: 'input',
+        name: 'tmp',
+        message: i18n.__('Temporary directory'),
         default: process.env.HOME + '/tmp',
-				validate  : function(directory) {
-
+        validate  : function(directory) {
 
           if(!fs.existsSync(directory)) {
-						mkdirp.sync(directory)
-					}
+            mkdirp.sync(directory)
+          }
 
           return true
-				}
-			},
+        }
+      },
       {
         type: 'password',
         name: 'sudo',
@@ -74,15 +72,15 @@ module.exports = function() {
       //     return true
       //   }
       // },
-			{
-				type: 'input',
-				name: 'port',
-				message: i18n.__('Listening on'),
-				default: open_port,
-				validate: function(port) {
-					return !isNaN(parseInt(port)) && parseInt(port) > 1024
-				}
-			},
+      {
+        type: 'input',
+        name: 'port',
+        message: i18n.__('Listening on'),
+        default: open_port,
+        validate: function(port) {
+          return !isNaN(parseInt(port)) && parseInt(port) > 1024
+        }
+      },
       {
 
         type: 'input',
@@ -93,13 +91,13 @@ module.exports = function() {
 
           var done = this.async()
 
-          if(ssl.length === '') {
+          if(ssl === ' ') {
             return require('../helpers/ssl').create(done)
           }
 
           ssl = ssl.split(' ')
 
-          function ok(val) { return val == '.pem' || val == '.key'}
+          function ok(val) { return val.indexOf('.pem') !== -1 || val.indexOf('.key') !== -1}
 
           if(ok(ssl[0]) && ok(ssl[1])) {
             return require('../helpers/ssl').move(ssl, done)
@@ -109,10 +107,10 @@ module.exports = function() {
 
         }
       }], function (answers) {
-				answers.lang = answer.lang
-				return resolve(answers)
-			})
+        answers.lang = answer.lang
+        return resolve(answers)
+      })
 
-		})
-	})
+    })
+  })
 }
