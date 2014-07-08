@@ -134,6 +134,10 @@ program.command('useradd')
       position: 1,
       help: "Client to install"
     },
+    'username': {
+      position: 2,
+      help: "Username"
+    },
     'password': {
       abbr: 'p',
       help: 'User password',
@@ -143,9 +147,11 @@ program.command('useradd')
       choices: ['user', 'admin'],
     }
   })
-  .callback(function(opts) {
-    // body...
-  })
+  .callback(require('../cli/useradd'))
+
+program.command('userdel')
+  .option('username', {position: 2, help: "Username"})
+  .callback(require('./cli/userdel'))
 
 // program
 //   .command('backup')

@@ -35,8 +35,12 @@ module.exports = {
   },
   client: function(client) {
     //where fn one of useradd, userdel
-    return function(fn, username, password) {
-      return helper.runasroot(require('ezseed-'+client)(fn) + [username, password].join(' '))
+    return function() {
+      var args = [].slice.call(arguments, 0)
+
+      var fn = args.shift()
+
+      return helper.runasroot(require('ezseed-'+client)(fn) + args.join(' '))
     }
   }
 }
