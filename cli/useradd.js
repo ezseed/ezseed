@@ -40,7 +40,7 @@ module.exports = function(opts) {
       return
       require('./commands/user')
       .create(opts.username, opts.password)
-      .catch(helper.exit('There was an error while creating system user.'))
+      .catch(helper.exit('Creating system user.'))
       .then(function() {
 
         //adds the client user (transmission or rtorrent)
