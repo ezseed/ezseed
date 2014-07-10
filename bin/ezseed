@@ -127,7 +127,6 @@ program
     return require('../cli/install')({skipserver: true, skipadmin: true, skipclient: true})
   })
 
-
 program.command('useradd')
   .options({
     'client': {
@@ -153,30 +152,20 @@ program.command('userdel')
   .option('username', {position: 2, help: "Username"})
   .callback(require('./cli/userdel'))
 
-// program
-//   .command('backup')
-//     .option('path', {
-//       abbr: 'p',
-//       default: __dirname + '/backup',
-//       help: "Backup path"
-//    })
-//   .callback()
-
-// program
-//   .command('reboot')
-//   .callback()
-//
-// program
-//   .command('update')
-//   .callback()
-
-// program
-//   .command('credits')
-//   .callback(function() {
-//
-//   })
-
-// program.nocommand().callback(  )
+program.command('usermod')
+  .options({
+    'username': {
+      position: 1
+    },
+    'key': {
+      position: 2,
+      choices: ['password', 'client', 'role']
+    },
+    'value': {
+      position: 3
+    }
+  })
+  .callback(require('./cli/usermod'))
 
 
 program.parse()
