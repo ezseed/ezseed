@@ -68,12 +68,13 @@ program
   .commands('rtorrent transmission')
   .callback(require('../cli/commands/daemon').client)
   .options({
-    'command': {
+    command: {
       position: 1,
       choices: ['start', 'stop', 'restart'],
-      help: 'One of start|stop|restart'
+      // help: 'One of start|stop|restart',
+      required: true
     },
-    'user': {
+    user: {
       abbr: 'u',
       help: 'Specify user to restart (if not specified we restart all of them)'
     }
@@ -82,27 +83,27 @@ program
 program
   .command('install')
   .options({
-    'client': {
+    client: {
       position: 1,
       help: "Client to install"
     },
-    'skipserver': {
+    skipserver: {
       flag: true,
       help: "Skip server installation"
     },
-    'skipclient': {
+    skipclient: {
       flag: true,
       help: "Skip client installation"
     },
-    'skipadmin': {
+    skipadmin: {
       flag: true,
       help: "Skip admin creation"
     },
-    'skipconfig': {
+    skipconfig: {
       flag: true,
       help: "Skip config creation"
     },
-    'force': {
+    force: {
       flag: true,
       help: "Force"
     }
@@ -129,19 +130,21 @@ program
 
 program.command('useradd')
   .options({
-    'client': {
+    username: {
       position: 1,
-      help: "Client to install"
+      help: "Username",
+      required: true
     },
-    'username': {
+    client: {
       position: 2,
-      help: "Username"
+      help: "Client to install",
+      choices: ['rtorrent', 'transmission']
     },
-    'password': {
+    password: {
       abbr: 'p',
       help: 'User password',
     },
-    'role': {
+    role: {
       abbr: 'r',
       choices: ['user', 'admin'],
     }
@@ -154,15 +157,18 @@ program.command('userdel')
 
 program.command('usermod')
   .options({
-    'username': {
-      position: 1
+    username: {
+      position: 1,
+      required: true
     },
-    'key': {
+    key: {
       position: 2,
-      choices: ['password', 'client', 'role']
+      choices: ['password', 'client', 'role'],
+      required: true
     },
-    'value': {
-      position: 3
+    value: {
+      position: 3,
+      required: true
     }
   })
   .callback(require('./cli/usermod'))
