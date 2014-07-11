@@ -36,11 +36,17 @@ module.exports = {
   client: function(client) {
     //where fn one of useradd, userdel
     return function() {
-      var args = [].slice.call(arguments, 0)
 
-      var fn = args.shift()
+      if(client) {
+        var args = [].slice.call(arguments, 0)
 
-      return helper.runasroot(require('ezseed-'+client)(fn) + args.join(' '))
+        var fn = args.shift()
+
+        return helper.runasroot(require('ezseed-'+client)(fn) + args.join(' '))
+      } else {
+        logger.warn('No client specified, skipping')
+        return helper.next()
+      }
     }
   }
 }
