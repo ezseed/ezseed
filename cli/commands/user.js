@@ -34,7 +34,7 @@ module.exports = {
       .spawn('usermod -p $(mkpasswd -H md5 "'+password+'") '+username)
   },
   client: function(client) {
-    //where fn one of useradd, userdel
+    //where fn (first arg) one of useradd, userdel
     return function() {
 
       if(client) {
