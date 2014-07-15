@@ -15,9 +15,8 @@ module.exports = function(opts) {
       if(opts.key == 'password') {
         require('./commands/daemon')(user.client)({user: user.username, command: 'stop'})
         .then(function() {
-          return
-            require('./commands/user')
-             .client(opts.client)('passwd', opts.username, opts.password)
+          return require('./commands/user')
+          .client(opts.client)('passwd', opts.username, opts.password)
         })
         .then(function() {
           require('./commands/daemon')(user.client)({user: user.username, command: 'start'})

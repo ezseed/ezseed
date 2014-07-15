@@ -9,8 +9,7 @@ var spawn = new require('promise-spawner')({out: ''})
 
 module.exports = {
   create: function(username, password) {
-    return
-      spawn
+    return spawn
       .spawn('grep -c "^'+username+':" /etc/passwd')
       .then(function() {
 
@@ -29,8 +28,7 @@ module.exports = {
       })
   },
   password: function(username, password) {
-    return
-      spawner
+    return spawner
       .spawn('usermod -p $(mkpasswd -H md5 "'+password+'") '+username)
   },
   client: function(client) {

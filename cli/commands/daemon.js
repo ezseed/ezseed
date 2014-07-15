@@ -8,8 +8,7 @@ module.exports = {
       // helper.checkroot()
 
       if(opts.user) {
-			  return
-          helper.runasroot(require('ezseed-'+client)('daemon') + ' ' + [opts.command, opts.user].join(' '))
+			  return helper.runasroot(require('ezseed-'+client)('daemon') + ' ' + [opts.command, opts.user].join(' '))
       } else {
         db.users.get(function(err, docs) {
           if(err) throw err

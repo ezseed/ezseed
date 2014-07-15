@@ -10,8 +10,7 @@ var sudo_password = ''
 module.exports = {
   runasroot: function(cmd) {
 
-    return
-    new Promise(function(resolve, reject) {
+    return new Promise(function(resolve, reject) {
       inquirer.prompt([{
         type: 'password',
         name: 'sudo',
