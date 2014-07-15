@@ -29,6 +29,9 @@ module.exports = function() {
           .then(function() {
             done(true)
           })
+          .catch(function() {
+            done(false)
+          })
         }
       },
       {
@@ -48,6 +51,9 @@ module.exports = function() {
             return
             helper
             .runasroot('[ -d "/usr/local/opt/ezseed" ] || mkdir /usr/local/opt/ezseed')
+          })
+          .catch(function() {
+            done(false)
           })
         }
       },

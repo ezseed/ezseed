@@ -3,6 +3,7 @@ var Promise = require('bluebird')
   , i18n = require('i18n')
   , util = require('util')
   , debug = require('debug')('ezseed:cli')
+  , inquirer = require('inquirer')
 
 var sudo_password = ''
 
@@ -12,7 +13,6 @@ module.exports = {
     return
     new Promise(function(resolve, reject) {
       inquirer.prompt([{
-
         type: 'password',
         name: 'sudo',
         message: i18n.__('Please enter your root password'),
