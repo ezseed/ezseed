@@ -4,24 +4,44 @@ var Promise = require('bluebird')
   , util = require('util')
   , debug = require('debug')('ezseed:cli')
 
-var pw = ''
+var sudo_password = ''
 
 module.exports = {
   runasroot: function(cmd) {
 
-    var args = [].slice.call(arguments)
+    return
+    new Promise(function(resolve, reject) {
+      inquirer.prompt([{
 
-    if(args.length == 2) {
-      pw = args[0], cmd = args[1]
-    } else {
-      cmd = args[1]
-    }
+        type: 'password',
+        name: 'sudo',
+        message: i18n.__('Please enter your root password'),
+        when: function() {
+          return sudo_password === ''
+        },
+        validate: function(pw) {
+          var done = this.async()
 
-    var c = pw ? 'echo "'+pw+'" | ' : ''
-        c += 'sudo -S su root -c "'+cmd+'"'
+          require('./spawner')
+          .spawn('echo "'+pw+'" | sudo -S su root -c "exit 0"')
+          .then(function() {
+            done(true)
+          })
+          .catch(function() {
+            done(false)
+          })
+        }
+      }], function(answer) {
+        sudo_password = sudo_password === '' ? answer.sudo : sudo_password
 
-    return require('./spawner')
-      .spawn(c)
+        resolve()
+      })
+    })
+    .then(function() {
+      return require('./spawner')
+      .spawn('echo "'+pw+'" | sudo -S su root -c "'+cmd+'"')
+    })
+
   },
   checkroot: function() {
     if(process.getuid() !== 0) {

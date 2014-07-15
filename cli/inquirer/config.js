@@ -1,6 +1,7 @@
 var fs = require('fs')
   , mkdirp = require('mkdirp')
   , inquirer = require('inquirer')
+  , helper = require('../helpers/promise')
   , i18n = require('i18n')
   , Promise = require('bluebird')
   , logger = require('ezseed-logger')('config')
@@ -19,46 +20,35 @@ module.exports = function() {
         type      : "input",
         name      : "home",
         message   : i18n.__("Ezseed home directory"),
-          default   : process.env.HOME,
+        default   : process.env.HOME,
         validate  : function(directory) {
-          if(!fs.existsSync(directory)) {
-            mkdirp.sync(directory)
-          }
-
-          return true
-        }
-      },
-      {
-        type: 'input',
-        name: 'tmp',
-        message: i18n.__('Temporary directory'),
-        default: process.env.HOME + '/tmp',
-        validate  : function(directory) {
-
-          if(!fs.existsSync(directory)) {
-            mkdirp.sync(directory)
-          }
-
-          return true
-        }
-      },
-      {
-        type: 'password',
-        name: 'sudo',
-        message: i18n.__('Please enter your root password'),
-        validate: function(pw) {
           var done = this.async()
 
-          require('../helpers/promise')
-            .runasroot(pw, '[ -d "/usr/local/opt/ezseed" ] || mkdir /usr/local/opt/ezseed')
-            .catch(function(code) {
-              logger.error('Sorry but this needs to be run as root. Exiting.')
-              process.exit(1)
-            })
-            .then(function() {
-              done(true)
-            })
+          helper
+          .runasroot('[ -d "'+directory+'" ] || mkdir -p '+directory)
+          .then(function() {
+            done(true)
+          })
+        }
+      },
+      {
+        type     : 'input',
+        name     : 'tmp',
+        message  : i18n.__('Temporary directory'),
+        default  : process.env.HOME + '/tmp',
+        validate : function(directory) {
+          var done = this.async()
 
+          helper
+          .runasroot('[ -d "'+directory+'" ] || mkdir -p '+directory)
+          .then(function() {
+
+            logger.info('Creating ezssed configuration directory: /usr/local/opt/ezseed')
+
+            return
+            helper
+            .runasroot('[ -d "/usr/local/opt/ezseed" ] || mkdir /usr/local/opt/ezseed')
+          })
         }
       },
       //to add this feature we would need to update shells to add the values
@@ -78,21 +68,21 @@ module.exports = function() {
       //   }
       // },
       {
-        type: 'input',
-        name: 'port',
-        message: i18n.__('Listening on'),
-        default: open_port,
-        validate: function(port) {
+        type     : 'input',
+        name     : 'port',
+        message  : i18n.__('Listening on'),
+        default  : open_port,
+        validate : function(port) {
           return !isNaN(parseInt(port)) && parseInt(port) > 1024
         }
       },
       {
 
-        type: 'input',
-        name: 'sslkeys',
-        message: i18n.__('Want to add ssl keys? (ie: "./ssl.pem ./ssl.key"):'),
-        default: ' ',
-        validate: function(ssl) {
+        type     : 'input',
+        name     : 'sslkeys',
+        message  : i18n.__('Want to add ssl keys? (ie: "./ssl.pem ./ssl.key"):'),
+        default  : ' ',
+        validate : function(ssl) {
 
           var done = this.async()
 

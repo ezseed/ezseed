@@ -1,5 +1,5 @@
 //Moves or create ssl keys
-var spawner = require('../helpers/spawner')
+var spawner = require('./promise').runasroot
   , logger = require('ezseed-logger')
   , p = require('path')
 
@@ -7,8 +7,7 @@ module.exports = {
   create: function(done) {
     var cmd = "openssl req -new -x509 -days 365 -nodes -out /usr/local/opt/ezseed/ezseed.pem -keyout /usr/local/opt/ezseed/ezseed.key -subj '/CN=ezseed/O=EzSeed/C=FR'";
 
-    spawner
-      .spawn(cmd)
+    spawner(cmd)
       .then(function() { done(true) })
       .catch(function(code) {
         logger('openssl')
@@ -27,8 +26,7 @@ module.exports = {
       cmd.push("mv " + k.path + " " + "/usr/local/opt/ezseed/" + k.ext)
     }
 
-    spawner
-      .spawn(cmd)
+    spawner(cmd)
       .then(function() { done(true) })
       .catch(function(code) {
         logger('ssl keys')
