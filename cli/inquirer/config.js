@@ -3,6 +3,7 @@ var fs = require('fs')
   , inquirer = require('inquirer')
   , i18n = require('i18n')
   , Promise = require('bluebird')
+  , logger = require('ezseed-logger')('config')
 
 module.exports = function() {
 
@@ -20,7 +21,11 @@ module.exports = function() {
         message   : i18n.__("Ezseed home directory"),
           default   : process.env.HOME,
         validate  : function(directory) {
-          return fs.existsSync(directory)
+          if(!fs.existsSync(directory)) {
+            mkdirp.sync(directory)
+          }
+
+          return true
         }
       },
       {
@@ -47,7 +52,7 @@ module.exports = function() {
           require('../helpers/promise')
             .runasroot(pw, '[ -d "/usr/local/opt/ezseed" ] || mkdir /usr/local/opt/ezseed')
             .catch(function(code) {
-              logger().error('Sorry but this needs to be run as root. Exiting.')
+              logger.error('Sorry but this needs to be run as root. Exiting.')
               process.exit(1)
             })
             .then(function() {
