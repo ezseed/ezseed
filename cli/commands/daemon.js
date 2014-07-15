@@ -10,8 +10,6 @@ module.exports = {
       if(opts.user) {
 			  return
           helper.runasroot(require('ezseed-'+client)('daemon') + ' ' + [opts.command, opts.user].join(' '))
-          .then(helper.exit(i18n.__('Daemon %s %s', opts.command, client)))
-          .catch(helper.exit(i18n.__('Daemon %s %s', opts.command, client)))
       } else {
         db.users.get(function(err, docs) {
           if(err) throw err
@@ -23,8 +21,6 @@ module.exports = {
           }
 
           return helper.runasroot(users.join(' && '))
-          .then(helper.exit(i18n.__('Daemon %s %s', opts.command, client)))
-          .catch(helper.exit(i18n.__('Daemon %s %s', opts.command, client)))
 
         })
       }
