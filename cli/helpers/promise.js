@@ -22,7 +22,7 @@ module.exports = {
           var done = this.async()
 
           require('./spawner')
-          .spawn('echo "'+pw+'" | sudo -S su root -c "exit 0"')
+          .spawn('echo "'+pw+'" | sudo -S su - root')
           .then(function() {
             done(true)
           })
@@ -38,7 +38,7 @@ module.exports = {
     })
     .then(function() {
       return require('./spawner')
-      .spawn('echo "'+pw+'" | sudo -S su root -c "'+cmd+'"')
+      .spawn('echo "'+pw+'" | sudo -S su - root -c "'+cmd+'"')
     })
 
   },
