@@ -79,7 +79,7 @@ module.exports = {
 
   },
   exit: function() {
-    var message = util.format.call(util, arguments)
+    var message = util.format.apply(util, arguments)
 
     return function(code) {
       if(code === 0)
