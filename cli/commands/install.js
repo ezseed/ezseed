@@ -1,6 +1,6 @@
 var p = require('path')
   , helper = require('../helpers/promise')
-  , scripts_path = '../../scripts'
+  , scripts_path = p.resolve(__dirname, '../../scripts')
 
 module.exports = {
 	client: function(client) {
