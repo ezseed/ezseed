@@ -1,12 +1,13 @@
-var fs = require('fs')
-  , mkdirp = require('mkdirp')
-  , inquirer = require('inquirer')
+var inquirer = require('inquirer')
   , helper = require('../helpers/promise')
   , i18n = require('i18n')
   , Promise = require('bluebird')
   , logger = require('ezseed-logger')('config')
+  , p = require('path')
 
 module.exports = function() {
+
+  var runasroot = []
 
   return new Promise(function(resolve, reject) {
 
@@ -16,22 +17,16 @@ module.exports = function() {
         open_port = 8970
       }
 
-      inquirer.prompt([{
+      inquirer.prompt([
+      {
         type      : "input",
         name      : "home",
         message   : i18n.__("Ezseed home directory"),
         default   : process.env.HOME,
         validate  : function(directory) {
-          var done = this.async()
+          runasroot.push('[ -d "'+directory+'" ] || mkdir -p '+directory)
 
-          helper
-          .runasroot('[ -d "'+directory+'" ] || mkdir -p '+directory)
-          .then(function() {
-            done(true)
-          })
-          .catch(function() {
-            done(false)
-          })
+          return true
         }
       },
       {
@@ -40,21 +35,8 @@ module.exports = function() {
         message  : i18n.__('Temporary directory'),
         default  : process.env.HOME + '/tmp',
         validate : function(directory) {
-          var done = this.async()
-
-          helper
-          .runasroot('[ -d "'+directory+'" ] || mkdir -p '+directory)
-          .then(function() {
-
-            logger.info('Creating ezssed configuration directory: /usr/local/opt/ezseed')
-
-            return
-            helper
-            .runasroot('[ -d "/usr/local/opt/ezseed" ] || mkdir /usr/local/opt/ezseed')
-          })
-          .catch(function() {
-            done(false)
-          })
+          runasroot.push('[ -d "'+directory+'" ] || mkdir -p '+directory)
+          return true
         }
       },
       //to add this feature we would need to update shells to add the values
@@ -90,10 +72,10 @@ module.exports = function() {
         default  : ' ',
         validate : function(ssl) {
 
-          var done = this.async()
-
           if(ssl === ' ') {
-            return require('../helpers/ssl').create(done)
+            // return require('../helpers/ssl').create(done)
+            runasroot.push("openssl req -new -x509 -days 365 -nodes -out /usr/local/opt/ezseed/ezseed.pem -keyout /usr/local/opt/ezseed/ezseed.key -subj '/CN=ezseed/O=EzSeed/C=FR' 2>/dev/null")
+            return true
           }
 
           ssl = ssl.split(' ')
@@ -101,15 +83,30 @@ module.exports = function() {
           function ok(val) { return val.indexOf('.pem') !== -1 || val.indexOf('.key') !== -1}
 
           if(ok(ssl[0]) && ok(ssl[1])) {
-            return require('../helpers/ssl').move(ssl, done)
+            for(var i in ssl) {
+              var k = {path: ssl[i], ext: p.extname(ssl[i])}
+
+              runasroot.push("mv " + k.path + " " + "/usr/local/opt/ezseed/" + k.ext)
+            }
+
+            return true
           } else {
-            return done(false)
+            return false
           }
 
         }
       }], function (answers) {
-        answers.lang = answer.lang
-        return resolve(answers)
+        answers.lang = answers.lang
+
+
+        //Creating directories as root
+        runasroot.push('[ -d "/usr/local/opt/ezseed" ] || mkdir /usr/local/opt/ezseed')
+
+        helper.runasroot(runasroot)
+        .then(function() {
+          resolve(answers)
+        })
+        .catch(helper.exit('Configuration'))
       })
 
     })
