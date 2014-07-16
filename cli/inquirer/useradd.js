@@ -21,7 +21,7 @@ module.exports = function(opts) {
         type      : 'password',
         name      : 'password',
         message   : i18n.__('Password?'),
-        validate  : function(v) {
+        validate  : function(val) {
           return val.length > 0
         },
         when      : function() {
