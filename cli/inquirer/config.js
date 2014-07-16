@@ -6,8 +6,9 @@ var inquirer = require('inquirer')
   , p = require('path')
 
 module.exports = function() {
-
-  var runasroot = []
+  //Array that contains all the commands that'd be executed as root
+  //this one is the main configuration directory
+  var runasroot = ['[ -d "/usr/local/opt/ezseed" ] || mkdir -p /usr/local/opt/ezseed']
 
   return new Promise(function(resolve, reject) {
 
@@ -33,9 +34,10 @@ module.exports = function() {
         type     : 'input',
         name     : 'tmp',
         message  : i18n.__('Temporary directory'),
-        default  : '/var/www/ezseed/tmp',
+        default  : '/usr/local/opt/ezseed/tmp',
         validate : function(directory) {
           runasroot.push('[ -d "'+directory+'" ] || mkdir -p '+directory)
+
           return true
         }
       },
@@ -97,10 +99,6 @@ module.exports = function() {
         }
       }], function (answers) {
         answers.lang = answers.lang
-
-
-        //Creating directories as root
-        runasroot.push('[ -d "/usr/local/opt/ezseed" ] || mkdir -p /usr/local/opt/ezseed')
 
         helper.runasroot(runasroot)
         .then(function() {
