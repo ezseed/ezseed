@@ -100,7 +100,7 @@ module.exports = function() {
 
 
         //Creating directories as root
-        runasroot.push('[ -d "/usr/local/opt/ezseed" ] || mkdir /usr/local/opt/ezseed')
+        runasroot.push('[ -d "/usr/local/opt/ezseed" ] || mkdir -p /usr/local/opt/ezseed')
 
         helper.runasroot(runasroot)
         .then(function() {
