@@ -1,8 +1,5 @@
 var helper = require('./helpers/promise')
   , db = require('ezseed-database').db
-  , logger = require('ezseed-logger')('useradd')
-  , config = require('../../lib/config.js')
-
 
 module.exports = function(opts) {
   //find client, launch client userdel without deleting content + delete client from ezseed + rm paths that are not watched etc.
