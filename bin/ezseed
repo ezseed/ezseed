@@ -153,7 +153,7 @@ program.command('useradd')
 
 program.command('userdel')
   .option('username', {position: 2, help: "Username"})
-  .callback(require('./cli/userdel'))
+  .callback(require('../cli/userdel'))
 
 program.command('usermod')
   .options({
@@ -171,7 +171,7 @@ program.command('usermod')
       required: true
     }
   })
-  .callback(require('./cli/usermod'))
+  .callback(require('../cli/usermod'))
 
 
 program.parse()

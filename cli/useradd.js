@@ -1,7 +1,7 @@
 var helper = require('./helpers/promise')
   , db = require('ezseed-database').db
   , logger = require('ezseed-logger')('useradd')
-  , config = require('../../lib/config.js')
+  , config = require('../lib/config.js')
 
 
 module.exports = function(opts) {
