@@ -22,7 +22,7 @@ module.exports = function() {
         type      : "input",
         name      : "home",
         message   : i18n.__("Ezseed home directory"),
-        default   : process.env.HOME,
+        default   : '/var/www/ezseed',
         validate  : function(directory) {
           runasroot.push('[ -d "'+directory+'" ] || mkdir -p '+directory)
 
@@ -33,7 +33,7 @@ module.exports = function() {
         type     : 'input',
         name     : 'tmp',
         message  : i18n.__('Temporary directory'),
-        default  : process.env.HOME + '/tmp',
+        default  : '/var/www/ezseed/tmp',
         validate : function(directory) {
           runasroot.push('[ -d "'+directory+'" ] || mkdir -p '+directory)
           return true
