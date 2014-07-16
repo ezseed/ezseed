@@ -2,7 +2,7 @@ var helper = require('./helpers/promise')
   , db = require('ezseed-database').db
   , logger = require('ezseed-logger')('useradd')
   , config = require('../lib/config.js')
-
+  , async = require('async')
 
 module.exports = function(opts) {
 
