@@ -7,8 +7,15 @@ var Promise = require('bluebird')
 
 var sudo_password = ''
 
+var Spawner = require('promise-spawner')
+  , spawner = new Spawner({
+      out: '',
+      err: ''
+    })
+
 module.exports = {
   runasroot: function(cmd) {
+    cmd = cmd instanceof Array ? cmd.join('&&') : cmd;
 
     return new Promise(function(resolve, reject) {
       inquirer.prompt([{
@@ -21,10 +28,18 @@ module.exports = {
         validate: function(pw) {
           var done = this.async()
 
-          require('./spawner')
-          .spawn('echo "'+pw+'" | sudo -S su - root')
+          spawner
+          .spawn('echo "'+pw+'" | sudo -S whoami')
           .then(function() {
-            done(true)
+            if(this.data.out[0] == 'root') {
+              done(true)
+            } else {
+              logger('root').error('You logged yourself as %s - please send an issue on github about this', this.data[0])
+
+              setTimeout(function() {
+                done(false)
+              }, 100)
+            }
           })
           .catch(function() {
             done(false)
@@ -33,15 +48,15 @@ module.exports = {
       }], function(answer) {
         sudo_password = sudo_password === '' ? answer.sudo : sudo_password
 
-        resolve()
+        resolve(sudo_password)
       })
     })
     .then(function() {
       return require('./spawner')
-      .spawn('echo "'+pw+'" | sudo -S su - root -c "'+cmd+'"')
+      .spawn('echo "'+sudo_password+'" | sudo -S su - root -c "'+cmd+'"')
     })
-
   },
+  //@depreceated
   checkroot: function() {
     if(process.getuid() !== 0) {
       logger().error('Sorry but this needs to be run as root. Exiting.')
