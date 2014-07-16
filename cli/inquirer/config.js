@@ -23,7 +23,7 @@ module.exports = function() {
         type      : "input",
         name      : "home",
         message   : i18n.__("Ezseed home directory"),
-        default   : '/var/www/ezseed',
+        default   : '/home',
         validate  : function(directory) {
           runasroot.push('[ -d "'+directory+'" ] || mkdir -p '+directory)
 
