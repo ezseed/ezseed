@@ -72,7 +72,7 @@ module.exports = function(opts) {
         }
       }
 
-      fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config, undefined, 2), {mode: 664})
+      fs.writeFileSync(config_path, 'module.exports = '+JSON.stringify(config, undefined, 2), {mode: 775})
       logger.info(i18n.__('Configuration saved in %s', config_path))
 
     }
