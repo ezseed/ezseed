@@ -3,7 +3,8 @@ var helper = require('./helpers/promise')
   , logger = require('ezseed-logger')('useradd')
   , config = require('../lib/config.js')
   , async = require('async')
-
+  , p = require('path')
+  
 module.exports = function(opts) {
 
   require('./inquirer/useradd.js')(opts)
