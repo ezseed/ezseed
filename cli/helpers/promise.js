@@ -2,16 +2,9 @@ var Promise = require('bluebird')
   , logger = require('ezseed-logger')
   , i18n = require('i18n')
   , util = require('util')
-  , debug = require('debug')('ezseed:cli')
   , inquirer = require('inquirer')
 
 var sudo_password = ''
-
-var Spawner = require('promise-spawner')
-  , spawner = new Spawner({
-      out: '',
-      err: ''
-    })
 
 module.exports = {
   runasroot: function(cmd) {
@@ -28,7 +21,7 @@ module.exports = {
         validate: function(pw) {
           var done = this.async()
 
-          spawner
+          require('./quiet_spawner')
           .spawn('echo "'+pw+'" | sudo -S whoami')
           .then(function() {
             if(this.data.out[0] == 'root') {

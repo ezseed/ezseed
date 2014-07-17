@@ -5,11 +5,10 @@ var spawner = require('../helpers/spawner')
   , config = require('../../lib/config.js')
   , p = require('path')
 
-var spawn = new require('promise-spawner')({out: ''})
 
 module.exports = {
   create: function(username, password) {
-    return spawn
+    return require('../helpers/quiet_spawner')
       .spawn('grep -c "^'+username+':" /etc/passwd')
       .then(function() {
 
