@@ -173,8 +173,9 @@ program.command('usermod')
   })
   .callback(require('../cli/usermod'))
 
-
-program.parse()
+require('ezseed-database')(function() {
+  program.parse()
+})
 
 /*
 if no args, display menu
