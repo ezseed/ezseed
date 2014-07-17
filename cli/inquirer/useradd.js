@@ -27,6 +27,15 @@ module.exports = function(opts) {
         when      : function() {
           return opts.password === undefined
         }
+      },
+      {
+        type: 'list',
+        name: 'client',
+        message: i18n.__('Which client?'),
+        choices: ['rtorrent', 'transmission', 'none'],
+        when: function() {
+          return opts.client === undefined
+        }
       }
     ], function(answers) {
       resolve(_.extend(opts, answers))
