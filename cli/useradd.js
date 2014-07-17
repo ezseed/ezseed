@@ -4,7 +4,7 @@ var helper = require('./helpers/promise')
   , config = require('../lib/config.js')
   , async = require('async')
   , p = require('path')
-  
+
 module.exports = function(opts) {
 
   require('./inquirer/useradd.js')(opts)
@@ -13,7 +13,9 @@ module.exports = function(opts) {
 
     async.waterfall([
       function(done) {
-        return db.user.create(opts, done)
+        return db.user.create(opts, function() {
+          return done() //forcing no arguments to prevent async.waterfall to add those
+        })
       },
       function(done) {
         //adds the ezseed user
