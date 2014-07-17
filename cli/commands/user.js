@@ -12,8 +12,8 @@ module.exports = {
       .spawn('grep -c "^'+username+':" /etc/passwd')
       .then(function() {
 
-        if(this.data.out[0] === 1) {
-          logger.warn('User %s already exists! Skipping.')
+        if(parseInt(this.data.out[0]) === 1) {
+          logger.warn('User %s already exists! Skipping.', username)
           return helper.next()
         } else {
 
