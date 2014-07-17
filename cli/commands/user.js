@@ -39,7 +39,7 @@ module.exports = {
 
         var fn = args.shift()
 
-        return helper.runasroot(require('ezseed-'+client)(fn) + args.join(' '))
+        return helper.runasroot(require('ezseed-'+client)(fn) +' ' + args.join(' '))
       } else {
         logger.warn('No client specified, skipping')
         return helper.next()
