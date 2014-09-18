@@ -18,5 +18,8 @@
 	"failed with code: %s": "failed with code: %s",
 	"Want to add ssl keys? \"./ssl.pem ./ssl.key\"": "Want to add ssl keys? \"./ssl.pem ./ssl.key\"",
 	"Please enter your root password": "Please enter your root password",
-	"Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):": "Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):"
+	"Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):": "Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):",
+	"Role?": "Role?",
+	"Password?": "Password?",
+	"Which client?": "Which client?"
 }
