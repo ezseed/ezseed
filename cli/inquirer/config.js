@@ -98,7 +98,7 @@ module.exports = function() {
 
         }
       }], function (answers) {
-        answers.lang = answers.lang
+        answers.lang = i18n.getLocale()
 
         helper.runasroot(runasroot)
         .then(function() {
