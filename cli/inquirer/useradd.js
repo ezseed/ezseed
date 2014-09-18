@@ -32,9 +32,12 @@ module.exports = function(opts) {
         type: 'list',
         name: 'client',
         message: i18n.__('Which client?'),
-        choices: ['rtorrent', 'transmission', 'none'],
+        choices: ['rtorrent', 'transmission', 'none', ''],
         when: function() {
           return opts.client === undefined
+        },
+        filter: function() {
+          return opts.client == 'none' ? '' : opts.client
         }
       }
     ], function(answers) {
