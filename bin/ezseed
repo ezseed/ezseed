@@ -5,6 +5,7 @@ var pkg = require('../package')
   , config
   , p = require('path')
   , helper = require('../cli/helpers/promise')
+  , _ = require('lodash')
 
 var i18n = require('i18n').configure({
   locales:['en', 'fr'],
@@ -105,6 +106,7 @@ program
     },
     force: {
       flag: true,
+      abbr: "f",
       help: "Force"
     }
   })
@@ -124,8 +126,16 @@ program
 
 program
   .command('config')
-  .callback(function() {
-    return require('../cli/install')({skipserver: true, skipadmin: true, skipclient: true})
+  .options({
+    force: {
+      flag: true,
+      abbr: 'f',
+      help: "Force"
+    }
+  })
+  .callback(function(opts) {
+    opts = _.extend(opts, {skipserver: true, skipadmin: true, skipclient: true})
+    return require('../cli/install')(opts)
   })
 
 program.command('useradd')
@@ -163,7 +173,7 @@ program.command('usermod')
     },
     key: {
       position: 2,
-      choices: ['password', 'client', 'role'],
+      choices: ['password', 'client', 'role', 'spaceLeft'],
       required: true
     },
     value: {
