@@ -1,4 +1,4 @@
-var db = require('ezseed-database')
+var db = require('ezseed-database').db
   , helper = require('./helpers/promise')
   , logger = require('ezseed-logger')('usermod')
 
@@ -13,18 +13,19 @@ module.exports = function(opts) {
     } else {
 
       if(opts.key == 'password') {
-        require('./commands/daemon')(user.client)({user: user.username, command: 'stop'})
+        require('./commands/daemon').client(user.client)({user: user.username, command: 'stop'})
         .then(function() {
           return require('./commands/user')
           .client(opts.client)('passwd', opts.username, opts.password)
         })
         .then(function() {
-          require('./commands/daemon')(user.client)({user: user.username, command: 'start'})
+          return require('./commands/daemon').client(user.client)({user: user.username, command: 'start'})
         })
         .catch(helper.exit('usermod'))
+        .then(helper.exit('Usermod'))
 
       } else {
-        logger.warn('Only database %s has been updated')
+        logger.warn('Only database %s has been updated', opts.key)
         helper.exit('Usermod')(0)
       }
     }
