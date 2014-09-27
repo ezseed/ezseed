@@ -30,7 +30,7 @@ require(config.theme)(app)
 //loading api
 require('./api')(app)
 
-require('ezseed-database')(function() {
+require('ezseed-database')({database: process.database || 'ezseed'}, function() {
   var server = app.listen(port, function() {
     require('ezseed-logger')('server').log('Listening on ' + port)
   })
