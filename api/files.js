@@ -23,16 +23,13 @@ files
   if(db.helpers.isObjectId(req.params.id)) {
     next()
   } else {
-    res.status(500).send({error: req.params.type+' is not a valid type'})
+    res.status(500).send({error: req.params.id+' is not a valid id'})
   }
 
 })
 
 /** Protected methods **/
 .get('/:type/:id', function(req, res) {
-  if(req.params.type == 'files') {
-    return res.status(501).send({error: "Can't get files"}).end()
-  }
 
   db[req.params.type].get(req.params.id, function(err, docs) {
     if(err)
@@ -120,21 +117,21 @@ var action = {
           // .audioChannels(2)
         
         // MP4 test - TODO stream phones
-          ffmpeg(file.path, {logger: logger})
-          .format('avi')
-          .videoCodec('libx264')
+          // ffmpeg(file.path, {logger: logger})
+          // .format('avi')
+          // .videoCodec('libx264')
           // .audioCodec('aac')
-          .outputOptions(['-pix_fmt yuv420p','-movflags', '+faststart', '-preset ultrafast', '-qp 0'])
+          // .outputOptions(['-pix_fmt yuv420p','-movflags', '+faststart', '-preset ultrafast', '-qp 0'])
         
           // setup event handlers
-          .on('end', function() {
-            logger.log('Stream - '+file.path+' has end')
-          })
-          .on('error', function(err) {
-            logger.error(err.message)
-          })
+          // .on('end', function() {
+          //   logger.log('Stream - '+file.path+' has end')
+          // })
+          // .on('error', function(err) {
+          //   logger.error(err.message)
+          // })
           // save to stream
-          .writeToStream(res, {end:true})
+          // .writeToStream(res, {end:true})
       })
 
     } catch(e) {
