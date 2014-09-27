@@ -17,6 +17,9 @@ module.exports = function(opts) {
             if(err) {
               throw err
             } else {
+
+              opts.paths = deleted_paths
+
               require('./inquirer/userdel')(opts)
                 .then(function() {
                   helper.exit()

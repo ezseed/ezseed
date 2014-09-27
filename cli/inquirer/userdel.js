@@ -13,10 +13,13 @@ module.exports = function(opts) {
         type      : 'checkbox',
         name      : 'deleted_paths',
         message   :  i18n.__('These directories will be removed:'),
-        default   : opts.paths,
+        default   : [],
         choices   : opts.paths,
         validate: function(paths) {
           var done = this.async()
+
+          if(paths.length == 0)
+            done()
 
           async.each(paths, rimraf, function(err) {
             if(err)
