@@ -148,7 +148,7 @@ program.command('useradd')
     client: {
       position: 2,
       help: "Client to install",
-      choices: ['rtorrent', 'transmission']
+      choices: ['rtorrent', 'transmission', 'none']
     },
     password: {
       abbr: 'p',
@@ -162,7 +162,18 @@ program.command('useradd')
   .callback(require('../cli/useradd'))
 
 program.command('userdel')
-  .option('username', {position: 2, help: "Username"})
+  .options({
+    username: {
+      position: 1,
+      help: "Username",
+      required: true
+    },
+    client: {
+      position: 2,
+      help: "Client to install",
+      choices: ['rtorrent', 'transmission', 'none']
+    }
+  })
   .callback(require('../cli/userdel'))
 
 program.command('usermod')
