@@ -21,5 +21,7 @@
 	"Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):": "Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):",
 	"Role?": "Role?",
 	"Password?": "Password?",
-	"Which client?": "Which client?"
+	"Which client?": "Which client?",
+	"These directories will be removed:": "These directories will be removed:",
+	"Delete the system user %s?": "Delete the system user %s?"
 }
