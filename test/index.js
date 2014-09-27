@@ -1,4 +1,4 @@
-var db = require('ezseed-database').db
+process.database = 'ezseed-test'
 
 request = require('supertest')(require('../server.js'))
 expect = require('chai').expect
@@ -15,20 +15,12 @@ token = ''
 
 describe('ezseed', function() {
   before(function(cb) {
-    require('ezseed-database')({database: 'ezseed-test'}, cb)
-  })
+    db = require('ezseed-database').db
 
-
-  before(function(cb) {
-		db.user.create(user, function(err, u) {
-			db.paths.save(
-				user_path,
-				{
-					_id: u._id,
-					default: true
-				},
-				cb)
-		})
+    db.user.create(user, function(err, u) {
+      db.paths.save( user_path, {_id: u._id, default: true }, cb)
+    })
+                        
   })
 
   require('./api/api')

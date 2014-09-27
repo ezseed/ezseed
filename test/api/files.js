@@ -1,12 +1,25 @@
 
 describe('files', function(){
 
-  it('should get movies', function(cb) {
+  it('should fail getting bad type', function(cb) {
     request
-      .get('/movies/id/download')
+      .get('/something/id')
       .set({'Authorization': 'Bearer '+token})
       .end(function(error, res) {
-        console.log(res.text)
+        expect(res.status).to.equal(500)
+        expect(res.body.error).to.contain('not a valid type')
+        cb()
+      })
+  })
+
+  it('should fail id not valid', function(cb) {
+    request
+      .get('/movies/nonexistant')
+      .set({'Authorization': 'Bearer '+token})
+      .end(function(error, res) {
+        expect(res.status).to.equal(500)
+        expect(res.body.error).to.contain('not a valid id')
+        cb()
       })
   })
 
