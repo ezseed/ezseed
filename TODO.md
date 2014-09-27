@@ -23,3 +23,4 @@ paths!
 Socket live update
 
 Tests
+config => generate secret key
