@@ -1,17 +1,22 @@
-process.database = 'ezseed-test'
-
 request = require('supertest')(require('../server.js'))
 expect = require('chai').expect
 
 user = {
   username: 'test-user' + Math.round(Math.random() * 100),
   password: 'crazy-password',
-  role: 'admin'
+  role: 'user'
 }
 
 user_path = '/home/'+user.username+'/downloads'
 
 token = ''
+
+updateUser = function(cb) {
+  db.user.update(user.username, {role: 'admin'}, function(err) {
+    user.role = 'admin'
+    cb()
+  })
+}
 
 describe('ezseed', function() {
   before(function(cb) {
@@ -25,4 +30,5 @@ describe('ezseed', function() {
 
   require('./api/api')
   require('./api/files')
+  require('./api/admin')
 })
