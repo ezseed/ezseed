@@ -4,6 +4,13 @@ var app = require('express')()
   , debug = require('debug')('ezseed:server')
 
 var port = config.port || 8970
+var database = null
+  
+if(process.env.NODE_ENV == 'test') {
+  port = 7103
+  var database = 'ezseed-test'
+}
+
 
 //watcher socket variables
 var axon = require('axon')
@@ -30,7 +37,7 @@ require(config.theme)(app)
 //loading api
 require('./api')(app)
 
-require('ezseed-database')({database: process.database || 'ezseed'}, function() {
+require('ezseed-database')({database: database || 'ezseed'}, function() {
   var server = app.listen(port, function() {
     require('ezseed-logger')('server').log('Listening on ' + port)
   })
