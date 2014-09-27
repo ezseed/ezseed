@@ -11,12 +11,13 @@ jwt.sign = require('jsonwebtoken').sign
 api
 
 .use(
-  jwt({ secret: config.secret }).unless({ path: ['/login'] }) 
+  jwt({ secret: config.secret }).unless({ path: ['/api/login'] }) 
 )
 
 .use(function(err, req, res, next) {
   if(err.name === 'UnauthorizedError') {
-    res.status(401).end()
+    logger.error(err)
+    return res.status(401).end()
   }
 
   next()
@@ -82,12 +83,24 @@ api
   })
 })
 
+.get('/-/refresh', function(req, res) {
+  db.paths(req.user.id, function(err, user) {
+    process.watcher.client.call('refresh', user.paths, function(err, update) {
+      if(err) {
+        res.status(500).send({error: err})
+      } else {
+        res.json(update)
+      }
+    }) 
+  })
+})
+
+// Mainly used for debugging
 .get('/-/reset', function(req,res) {
   db.reset(req.user.id, function(err, paths) {
     if(err) {
       logger.error(err)
     }
-
     process.watcher.client.call('refresh', paths.paths, function(err, update) {
       if(err) {
         res.status(500).send({error: err})
