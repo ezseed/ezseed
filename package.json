@@ -4,7 +4,7 @@
   "description": "Cli interface for ezseed - rtorrent/transmission multi-user installer and manager",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
+    "test": "NODE_ENV=test mocha",
     "install": "EZSEED_ENV=install ./bin/ezseed"
   },
   "preferGlobal": true,
