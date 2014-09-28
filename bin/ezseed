@@ -96,10 +96,6 @@ program
       flag: true,
       help: "Skip client installation"
     },
-    skipadmin: {
-      flag: true,
-      help: "Skip admin creation"
-    },
     skipconfig: {
       flag: true,
       help: "Skip config creation"
@@ -197,44 +193,3 @@ program.command('usermod')
 require('ezseed-database')(function() {
   program.parse()
 })
-
-/*
-if no args, display menu
-else parse args
-
-commands :
-Usage: ezseed [options] [command]
-
-  Commands:
-
-	autocheck if it's first start + make some configuration
-
-    start|stop|restart [options] [name]		the ezseed daemon (or specified damon watcher, ezseed, rtorrent, transmission)
-    rtorrent|transmission [options]     	<start|stop|restart> (-u user)
-
-    install [options] [client] Install ezseed or the specified client
-	update - same
-
-	config
-
-    useradd [options] <rutorrent|transmission|aucun> <username> Adds a user to ezseed and to the system using the specified client
-    userdel <username>     /!\ All files will be deleted
-	  passwd <username>
-
-    backup                 Backup
-    restore [options]      Restore backup config
-
-    credits                Credits
-
-    rtorrent [options] <start|stop|restart> stop rtorrent daemon(s)
-    transmission [options] <start|stop|restart> start|stop|restart transmission daemon(s)
-    reboot                 Restart all daemons
-    deploy                 Deploy ezseed
-    configure [options]    Configure
-
-    -v verbose shell commands
-    -q quiet
-
-    *
-
-*/
