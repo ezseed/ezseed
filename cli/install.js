@@ -57,7 +57,8 @@ module.exports = function(opts) {
 
       if(fs.existsSync(config_path)) {
         if(!opts.force) {
-          throw new Error(i18n.__('%s already exists - use force to replace, skipping', config_path))
+          logger.warn(i18n.__('%s already exists - use force to replace, skipping', config_path))
+          return helper.next()
         } else {
           logger.warn(i18n.__('Overriding %s', config_path))
         }
