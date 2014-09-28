@@ -17,6 +17,7 @@ module.exports = function(opts) {
   .then(function(lang) {
 
     i18n.setLocale(lang)
+    config['lang'] = lang
 
     return helper.condition(!opts.skipconfig, require('./inquirer/config'))
 
@@ -75,7 +76,14 @@ module.exports = function(opts) {
   .then(function() {
 
     if(!opts.skipconfig) {
-      var root = p.resolve(__dirname, '../') 
+
+      var root = p.resolve(__dirname, '../'),
+        ezseed_pm2 = p.join(root, 'ezseed.json')
+
+      if(fs.existsSync(ezseed_pm2) && !opts.force) {
+        logger.warn(i18n.__('%s already exists - use force to replace, skipping', p.join(root, 'ezseed.json')))
+        return helper.next()
+      }
 
       var json = {
         apps: [{
@@ -94,7 +102,7 @@ module.exports = function(opts) {
         }]
       } 
 
-      fs.writeFileSync(p.join(root, 'ezseed.json'), JSON.stringify(json, undefined, 2), {mode: 775})
+      fs.writeFileSync(ezseed_pm2, JSON.stringify(json, undefined, 2))
 
       logger.info(i18n.__('Ezseed json declaration saved'))
     }
