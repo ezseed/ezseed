@@ -8,7 +8,11 @@ var inquirer = require('inquirer')
 module.exports = function() {
   //Array that contains all the commands that'd be executed as root
   //this one is the main configuration directory
-  var runasroot = ['[ -d "/usr/local/opt/ezseed" ] || mkdir -p /usr/local/opt/ezseed']
+  //using mkdir -p to add logs directory
+  var runasroot = [
+    '[ -d "/usr/local/opt/ezseed/logs" ] || mkdir -p /usr/local/opt/ezseed/logs',
+    'chmod -R 777 /usr/local/opt/ezseed/logs'
+  ]
 
   return new Promise(function(resolve, reject) {
 
