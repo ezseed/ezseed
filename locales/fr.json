@@ -4,5 +4,9 @@
 	"Do you wish to install transmission or rtorrent?": "Do you wish to install transmission or rtorrent?",
 	"Which one?": "Lequel ?",
 	"Listening on": "Port d'écoute",
-	"Configuration saved in %s": "Configuration sauvegardée dans %s"
+	"Configuration saved in %s": "Configuration sauvegardée dans %s",
+	"Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):": "Envie d'ajouter des clés ssl ? (ex: \"./ssl.pem ./ssl.key\"):",
+	"Please enter your root password": "Entrez votre mot de passe root",
+	"%s already exists - use force to replace, skipping": "Le fichier %s existe déjà - utilisez l'option force pour remplacer",
+	"failed with error:": "a échoué avec l'erreur :"
 }
