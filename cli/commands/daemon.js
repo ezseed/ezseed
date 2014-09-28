@@ -2,7 +2,6 @@ var spawner = require('../helpers/spawner')
   , helper = require('../helpers/promise')
   , logger = require('ezseed-logger')('daemon')
   , db = require('ezseed-database').db
-  , fs = require('fs')
   , p = require('path')
 
 module.exports = {
@@ -35,59 +34,65 @@ module.exports = {
     }
   },
   ezseed: function(command) {
-    var pm2 = require('pm2')
-    pm2.connect(function(err) {
-      if(err) {
-        logger.error('Error while connecting with pm2')
-        throw new Error(err)
-      }
-      
-      switch(command) {
-        case 'start':
-          pm2.start('../../ezseed.json', function(err) {
-            if(err) {
-              logger.error('Error while starting process', err)
-            }
+    return function(options) {
 
-            return helper.next()
-          })
-          break;
-        case 'stop':
-          pm2.stop('ezseed', function(err) {
-            if(err) {
-              logger.error('Error while stopping ezseed', err)
-            }
+      var pm2 = require('pm2')
+      var json = p.resolve(__dirname, '../../ezseed.json')
+      var exit = 'Ezseed '+command
 
-            pm2.stop('watcher', function(err) {
+      pm2.connect(function(err) {
+        if(err) {
+          logger.error('Error while connecting with pm2', err)
+          return helper.exit(exit)(1)
+        }
+
+        switch(command) {
+          case 'start':
+            pm2.startJson(json, {}, null, function(err) {
               if(err) {
-                logger.error('Error while stopping watcher', err)
+                logger.error('Error while starting process', err)
               }
 
-              return helper.next()
+              return helper.exit(exit)(err ? 1 : 0)
             })
-          })
-          break;
-        case 'restart':
-          pm2.restart('ezseed', function(err) {
-            if(err) {
-              logger.error('Error while restarting ezseed', err)
-            }
-
-            pm2.restart('watcher', function(err) {
+            break;
+          case 'stop':
+            pm2.stop('ezseed', function(err) {
               if(err) {
-                logger.error('Error while restarting watcher', err)
+                logger.error('Error while stopping ezseed', err)
               }
 
-              return helper.next()
-            })
-          })
-          break;
-        default:
-          logger.warn(i18n.__('No such command %s', command))
-          return helper.next()
-      }
+              pm2.stop('watcher', function(err) {
+                if(err) {
+                  logger.error('Error while stopping watcher', err)
+                }
 
-    })
+                return helper.exit(exit)(err ? 1 : 0)
+              })
+            })
+            break;
+          case 'restart':
+            pm2.restart('ezseed', function(err) {
+              if(err) {
+                logger.error('Error while restarting ezseed', err)
+              }
+
+              pm2.restart('watcher', function(err) {
+                if(err) {
+                  logger.error('Error while restarting watcher', err)
+                }
+
+                return helper.exit(exit)(err ? 1 : 0)
+              })
+            })
+            break;
+          default:
+            logger.warn(i18n.__('No such command %s', command))
+            return helper.exit(exit)(1)
+        }
+
+      })
+    }
      
   }
 
