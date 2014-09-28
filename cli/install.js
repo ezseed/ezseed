@@ -1,12 +1,3 @@
-/*
- * 1) config.js
- * 2) remplacer dans ezseed.json
- * 3) créer tmp
- * 4) installer client ? => ezseed install
- * 5) ajouter admin ?
- * 6) gulp + test + pm2 ??
- */
-
 var p = require('path')
   , logger = require('ezseed-logger')()
   , fs = require('fs')
@@ -79,9 +70,42 @@ module.exports = function(opts) {
 
     return helper.next()
   })
+  //Write pm2 json configuration
+  .then(function() {
+
+    if(!opts.skipconfig) {
+      var root = p.resolve(__dirname, '../') 
+
+      var json = {
+        apps: [{
+          name: 'ezseed',
+          script: p.join(root, 'server.js'),
+          out_file: '/usr/local/opt/ezseed/logs/ezseed-out.log',
+          error_file: '/usr/local/opt/ezseed/logs/ezseed-error.log',
+          exec_mode: 'fork_mode'
+        }, 
+        {
+          name: 'watcher',
+          script: p.join(root, 'watcher.js'),
+          out_file: '/usr/local/opt/ezseed/logs/watcher-out.log',
+          error_file: '/usr/local/opt/ezseed/logs/wathcer-error.log',
+          exec_mode: 'fork_mode'
+        }]
+      } 
+
+      fs.writeFileSync(p.join(root, 'ezseed.json'), JSON.stringify(json, undefined, 2), {mode: 775})
+
+      logger.info(i18n.__('Ezseed json declaration saved'))
+    }
+
+    return helper.next()
+  })
+
   .then(function() {
      if(opts.new) {
-      logger.info(i18n.__('Please run "ezseed useradd username"'))
+      logger.info(i18n.__('Installation complete!'))
+      logger.info(i18n.__('Please run "ezseed useradd username" to add a user'))
+      logger.info(i18n.__('To launch ezseed run "ezseed start"'))
       return helper.exit('Installation')(0)
     } else {
       return helper.exit('Configuration')(0)
