@@ -4,6 +4,7 @@ var helper = require('./helpers/promise')
   , config = require('../lib/config.js')
   , async = require('async')
   , p = require('path')
+  , i18n = require('i18n')
 
 module.exports = function(opts) {
 
