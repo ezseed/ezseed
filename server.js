@@ -34,6 +34,9 @@ app.use(require('morgan')('dev'))
 //loading the template
 require(config.theme)(app)
 
+//add tmp static dir (used for covers)
+app.use('/tmp', require('express').static(config.tmp))
+
 //loading api
 require('./api')(app)
 
