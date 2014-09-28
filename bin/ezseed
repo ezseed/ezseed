@@ -47,22 +47,6 @@ program.options({
 program
   .commands('start stop restart')
   .callback(require('../cli/commands/daemon').ezseed)
-  .options({
-    rtorrent: {
-      help: "rtorrent",
-      abbr: "r",
-      flag: true
-    },
-    transmission: {
-      abbr: 't',
-      help: "transmission",
-      flag: true
-    },
-    user: {
-      abbr: 'u',
-      help: 'Specify user to restart (if not specified we restart all of them)'
-    }
-  })
   .help('the ezseed daemon (or specified daemon watcher, ezseed, rtorrent, transmission)')
 
 program
