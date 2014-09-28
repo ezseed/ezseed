@@ -36,8 +36,8 @@ module.exports = function(opts) {
         when: function() {
           return opts.client === undefined
         },
-        filter: function() {
-          return opts.client == 'none' ? '' : opts.client
+        filter: function(client) {
+          return client == 'none' ? '' : client
         }
       }
     ], function(answers) {
