@@ -1,26 +1,24 @@
 EZSEED (easy seedbox)
 ===
 
-Still a work in progress ;)
+Toujours en cours de travaux ;)
 
-[README en français]()
-
-## Requirements
+## Pré-requis
 
 ### Nodejs
-[Node version manager](https://github.com/creationix/nvm) is recommended
+[Node version manager](https://github.com/creationix/nvm) est recommandé
 
 ### MongoDB
-[Installation instruction](http://docs.mongodb.org/manual/installation/)
+[Instructions d'installation](http://docs.mongodb.org/manual/installation/)
 
-## Installation 
+## Installation
 
 ### Debian
 
 ```
 aptitude install gcc-4.7 sudo curl
 
-# nvm
+# nvm - nodejs
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
 source ~/.bashrc
 nvm install 0.11.13
@@ -34,24 +32,24 @@ sudo apt-get install -y mongodb-org
 
 # ezseed
 npm i ezseed -g
-# follow the configuration instructions
+# suivez les instructions de configuration
 ```
 
 ## Usage
 
-After the configuration process, you'll need to add an user and start ezseed:
+Après la configuration, il vous faudra ajouter un utilisateur et lancer ezseed
 
 ```
 ezseed useradd mynewuser
 ezseed start
 ```
 
-For more options look at `ezseed -h`
+Pour plus d'options regardez l'aide `ezseed -h`
 
-## Known Issues
+## Bugs connus
 
-- rtorrent has issues with upper/lower case usernames
-- rtorrent has issues with torrent special caracters and could break ezseed watcher process
-- rtorrent needs an Autotools configuration to move downloaded torrents:
+- rtorrent a un souci avec les noms en majuscules/minuscules
+- rtorrent a un souci avec les caractères spéciaux de certains torrents et peut mener à un disfonctionnement d'ezseed
+- rtorrent nécessite une configuration supplémentaire d'AutoTools pour déplacer les téléchargements:
 
 ![](https://camo.githubusercontent.com/a278375b20071e41ed233b5f6b1e8936222ae0bf/687474703a2f2f7777772e7a75706d6167652e65752f692f687052455238336376472e706e67)
