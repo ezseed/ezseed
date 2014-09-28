@@ -16,12 +16,12 @@
 	"Overriding %s": "Overriding %s",
 	"failed with error:": "failed with error:",
 	"failed with code: %s": "failed with code: %s",
-	"Want to add ssl keys? \"./ssl.pem ./ssl.key\"": "Want to add ssl keys? \"./ssl.pem ./ssl.key\"",
 	"Please enter your root password": "Please enter your root password",
 	"Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):": "Want to add ssl keys? (ie: \"./ssl.pem ./ssl.key\"):",
 	"Role?": "Role?",
 	"Password?": "Password?",
 	"Which client?": "Which client?",
 	"These directories will be removed:": "These directories will be removed:",
-	"Delete the system user %s?": "Delete the system user %s?"
+	"Delete the system user %s?": "Delete the system user %s?",
+	"Ezseed json declaration saved": "Ezseed json declaration saved"
 }
