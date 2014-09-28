@@ -16,7 +16,7 @@ Toujours en cours de travaux ;)
 ### Debian
 
 ```
-aptitude install gcc-4.7 sudo curl
+sudo aptitude install gcc-4.7 sudo curl
 
 # nvm - nodejs
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
