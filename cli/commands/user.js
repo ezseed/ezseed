@@ -9,23 +9,31 @@ var spawner = require('../helpers/spawner')
 module.exports = {
   create: function(username, password) {
     return helper.condition(os.platform() == 'linux', function() {
-      return require('../helpers/quiet_spawner')
-        .spawn('grep -c "^'+username+':" /etc/passwd')
-        .then(function() {
-
-          if(parseInt(this.data.out[0]) === 1) {
-            logger.warn('User %s already exists! Skipping.', username)
-            return helper.next()
-          } else {
-
-            return helper
-             .runasroot(
-               'useradd -d '+ p.join(config.home, username) + ' --groups ezseed --password broken ' + username +
-               '&& usermod -p $(mkpasswd -H md5 "'+password+'") ' + username
-            )
-          }
-
-        })
+      //tests if group exists
+      return require('../helpers/quiet_spawner').spawn('grep -c "^ezseed:" /etc/group')
+      //if yes go to next
+      .then(function() {
+        return helper.next()
+      })
+      //else create it
+      .catch(function() {
+        return helper.runasroot('groupadd ezseed')
+      })
+      //same with the user
+      .then(function() {
+        return require('../helpers/quiet_spawner').spawn('id -u '+username)
+      })
+      .then(function() {
+        logger.warn('User %s already exists! Skipping.', username)
+        return helper.next()
+      })
+      .catch(function() {
+        return helper
+          .runasroot([
+            'useradd -d '+ p.join(config.home, username) + ' --groups ezseed --password broken ' + username,
+            'usermod -p $(mkpasswd -H md5 "'+password+'") ' + username
+          ])
+      })
     }, function() {
       logger.warn('System user not supported')
       return helper.next(0)
