@@ -3,7 +3,7 @@ EZSEED (easy seedbox)
 
 Still a work in progress ;)
 
-[README en français]()
+[README en français](https://github.com/ezseed/ezseed/tree/master/docs/fr)
 
 ## Requirements
 
