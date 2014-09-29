@@ -3,7 +3,7 @@ EZSEED (easy seedbox)
 
 Still a work in progress ;)
 
-[README en français](https://github.com/ezseed/ezseed/tree/master/docs/fr)
+### [README en français](https://github.com/ezseed/ezseed/tree/master/docs/fr)
 
 ## Requirements
 
@@ -12,6 +12,10 @@ Still a work in progress ;)
 
 ### MongoDB
 [Installation instruction](http://docs.mongodb.org/manual/installation/)
+
+### Server
+If no server is provided, [ezseed will install nginx](https://github.com/ezseed/ezseed/blob/master/scripts/server.sh)
+If you have already a server installed, ezseed is apache or nginx friendly (note apache hasn't been tested yet)
 
 ## Installation 
 

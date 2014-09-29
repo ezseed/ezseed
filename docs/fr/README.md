@@ -11,6 +11,10 @@ Toujours en cours de travaux ;)
 ### MongoDB
 [Instructions d'installation](http://docs.mongodb.org/manual/installation/)
 
+### Server
+Si aucun serveur n'est présent, [ezseed installera nginx](https://github.com/ezseed/ezseed/blob/master/scripts/server.sh)
+Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration apache ou nginx (note: apache n'a pas encore été testé)
+
 ## Installation
 
 ### Debian
