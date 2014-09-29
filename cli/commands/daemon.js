@@ -37,7 +37,7 @@ module.exports = {
     return function(options) {
 
       var pm2 = require('pm2')
-      var json = p.resolve(__dirname, '../../ezseed.json')
+      var json = '/usr/local/opt/ezseed/ezseed.json'
       var exit = 'Ezseed '+command
 
       pm2.connect(function(err) {

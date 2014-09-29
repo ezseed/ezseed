@@ -78,10 +78,10 @@ module.exports = function(opts) {
     if(!opts.skipconfig) {
 
       var root = p.resolve(__dirname, '../'),
-        ezseed_pm2 = p.join(root, 'ezseed.json')
+        ezseed_pm2 = '/usr/local/opt/ezseed/ezseed.json'
 
       if(fs.existsSync(ezseed_pm2) && !opts.force) {
-        logger.warn(i18n.__('%s already exists - use force to replace, skipping', p.join(root, 'ezseed.json')))
+        logger.warn(i18n.__('%s already exists - use force to replace, skipping', ezseed_pm2))
         return helper.next()
       }
 
