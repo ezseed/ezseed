@@ -25,3 +25,5 @@ Socket live update
 
 Tests
 config => generate secret key
+config => move to /usr/opt ! (npm erase)
+config => move ezseed.json
