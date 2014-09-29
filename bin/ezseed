@@ -15,7 +15,7 @@ var i18n = require('i18n').configure({
 
 //Detect first launch
 try {
-  config = require('../config/config')
+  config = require('/usr/local/opt/ezseed/config')
 
   if(process.env.EZSEED_ENV == 'install') {
     helper.exit('npm install')(0)
