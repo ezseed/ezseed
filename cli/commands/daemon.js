@@ -15,12 +15,17 @@ module.exports = {
         return helper.next(0)
       }
 
-      if(opts.user) {
+      return helper.condition(!opts.user, function() {
+        return new Promise(function(resolve) {
+          db.users.get(function(err, docs) {
+            resolve(docs)
+          })
+        })
+      })
+      .then(function(docs) {
+        if(opts.user) {
           return helper.runasroot(daemon + ' ' + [opts.command, opts.user].join(' '))
-      } else {
-        db.users.get(function(err, docs) {
-          if(err) throw err
-
+        } else {
           var num = docs.length, users = []
 
           while(num--) {
@@ -28,9 +33,8 @@ module.exports = {
           }
 
           return helper.runasroot(users.join(' && '))
-
-        })
-      }
+        }
+      })
     }
   },
   ezseed: function(command) {

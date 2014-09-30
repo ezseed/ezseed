@@ -1,3 +1,6 @@
+var helper = require('./helpers/promise')
+  , i18n = require('i18n')
+
 module.exports = function(client) {
   return function(opts) {
     require('./commands/daemon').client(client)(opts)
