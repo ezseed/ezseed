@@ -152,6 +152,11 @@ program.command('userdel')
       position: 2,
       help: "Client to install",
       choices: ['rtorrent', 'transmission', 'none']
+    },
+    force: {
+      flag: true,
+      abbr: "f",
+      help: "Force"
     }
   })
   .callback(require('../cli/userdel'))
