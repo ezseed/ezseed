@@ -14,43 +14,16 @@ module.exports = function(opts) {
         name      : 'deleted_paths',
         message   :  i18n.__('These directories will be removed:'),
         default   : [],
-        choices   : opts.paths,
-        validate: function(paths) {
-          var done = this.async()
-
-          if(paths.length == 0)
-            done()
-
-          async.each(paths, rimraf, function(err) {
-            if(err)
-              logger.error(err)
-
-            done()
-          })
-
-        }
+        choices   : opts.paths
       },
       {
         type      : 'confirm',
         name      : 'delete_user',
         default   : false,
-        message   : i18n.__('Delete the system user %s?', opts.username),
-        validate  : function(v) {
-          var done = this.async()
-
-          require('../helpers/spawner')
-          .spawn('userdel '+ opts.username)
-          .then(function() {
-            done()
-          })
-          .catch(function() {
-            logger.error(i18n.__('Deleting the user failed'))
-            done()
-          })
-        },
+        message   : i18n.__('Delete the system user %s?', opts.username)
       }
     ], function(answers) {
-      resolve()
+      resolve(answers)
     })
   })
 }
