@@ -3,12 +3,13 @@ var Promise = require('bluebird')
   , i18n = require('i18n')
   , util = require('util')
   , inquirer = require('inquirer')
+  , debug = require('debug')('ezseed:cli:promise')
 
 var sudo_password = ''
 
 module.exports = {
   runasroot: function(cmd) {
-    cmd = cmd instanceof Array ? cmd.join('&&') : cmd;
+    cmd = cmd instanceof Array ? cmd.join(' && ') : cmd;
 
     return new Promise(function(resolve, reject) {
       inquirer.prompt([{
@@ -45,6 +46,7 @@ module.exports = {
       })
     })
     .then(function() {
+      debug('Command executed by root: ', cmd)
       return require('./spawner')
       .spawn('echo "'+sudo_password+'" | sudo -S su - root -c "'+cmd+'"')
     })
