@@ -75,7 +75,7 @@ module.exports = function() {
 
         type     : 'input',
         name     : 'sslkeys',
-        message  : i18n.__('Want to add ssl keys? (ie: "./ssl.pem ./ssl.key"):'),
+        message  : i18n.__("Want to add ssl keys? (ie: './ssl.pem ./ssl.key')"),
         default  : ' ',
         validate : function(ssl) {
 

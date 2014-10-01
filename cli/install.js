@@ -114,8 +114,8 @@ module.exports = function(opts) {
   .then(function() {
      if(opts.new) {
       logger.info(i18n.__('Installation complete!'))
-      logger.info(i18n.__('Please run "ezseed useradd username" to add a user'))
-      logger.info(i18n.__('To launch ezseed run "ezseed start"'))
+      logger.info(i18n.__("Please run 'ezseed useradd username' to add a user"))
+      logger.info(i18n.__("To launch ezseed run 'ezseed start'"))
       return helper.exit('Installation')(0)
     } else {
       return helper.exit('Configuration')(0)

@@ -15,7 +15,7 @@ if(!fs.existsSync(constants.HOME)) {
 
 var i18n = require('i18n').configure({
   locales:['en', 'fr'],
-  defaultLocale: 'en',
+  defaultLocale: 'fr',
   directory: p.resolve(__dirname, '..', 'locales')
 })
 
