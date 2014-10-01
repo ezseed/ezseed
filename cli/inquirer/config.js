@@ -4,6 +4,7 @@ var inquirer = require('inquirer')
   , Promise = require('bluebird')
   , logger = require('ezseed-logger')('config')
   , p = require('path')
+  , HOME = require('../../constants').HOME
 
 module.exports = function() {
   //Array that contains all the commands that'd be executed as root
@@ -11,7 +12,8 @@ module.exports = function() {
   //using mkdir -p to add logs directory
   var runasroot = [
     '[ -d "/usr/local/opt/ezseed/logs" ] || mkdir -p /usr/local/opt/ezseed/logs',
-    'chmod -R 777 /usr/local/opt/ezseed/logs'
+    'chmod -R 777 /usr/local/opt/ezseed/logs',
+    '[ -d "'+ HOME +'" ] || mkdir -p ' + HOME
   ]
 
   return new Promise(function(resolve, reject) {
