@@ -40,7 +40,7 @@ module.exports = function() {
         message  : i18n.__('Temporary directory'),
         default  : '/usr/local/opt/ezseed/tmp',
         validate : function(directory) {
-          runasroot.push('[ -d "'+directory+'" ] || mkdir -p '+directory)
+          runasroot.push('[ -d "'+directory+'" ] || mkdir -p '+directory, 'chmod -R 777 /usr/local/opt/ezseed/tmp')
 
           return true
         }

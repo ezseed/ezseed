@@ -6,6 +6,7 @@ var pkg = require('../package')
   , p = require('path')
   , helper = require('../cli/helpers/promise')
   , _ = require('lodash')
+  , constants = require('../constants')
 
 var i18n = require('i18n').configure({
   locales:['en', 'fr'],
@@ -15,7 +16,7 @@ var i18n = require('i18n').configure({
 
 //Detect first launch
 try {
-  config = require('/usr/local/opt/ezseed/config')
+  config = require(constants.CONFIG_FILE)
 
   if(process.env.EZSEED_ENV == 'install') {
     helper.exit('npm install')(0)

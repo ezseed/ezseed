@@ -3,7 +3,7 @@ var p = require('path')
   , fs = require('fs')
   , i18n = require('i18n')
   , config = require('../config/config-sample')
-  , config_path = '/usr/local/opt/ezseed/config.js'
+  , config_path = require('../constants').CONFIG_FILE
   , helper = require('./helpers/promise')
 
 module.exports = function(opts) {
