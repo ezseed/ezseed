@@ -3,7 +3,8 @@ var p = require('path')
   , fs = require('fs')
   , i18n = require('i18n')
   , config = require('../config/config-sample')
-  , config_path = require('../constants').CONFIG_FILE
+  , constants = require('../constants')
+  , config_path = constants.CONFIG_FILE
   , helper = require('./helpers/promise')
 
 module.exports = function(opts) {
@@ -78,7 +79,7 @@ module.exports = function(opts) {
     if(!opts.skipconfig) {
 
       var root = p.resolve(__dirname, '../'),
-        ezseed_pm2 = '/usr/local/opt/ezseed/ezseed.json'
+        ezseed_pm2 = p.join(constants.HOME, 'ezseed.json')
 
       if(fs.existsSync(ezseed_pm2) && !opts.force) {
         logger.warn(i18n.__('%s already exists - use force to replace, skipping', ezseed_pm2))
