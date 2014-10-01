@@ -30,8 +30,7 @@ module.exports = {
       .catch(function() {
         return helper
           .runasroot([
-            'useradd -d '+ p.join(config.home, username) + ' --groups ezseed --password broken ' + username,
-            'usermod -p $(mkpasswd -H md5 "'+password+'") ' + username,
+            'useradd -d '+ p.join(config.home, username) + ' --groups ezseed --password $(mkpasswd -H md5 "'+password+'") ' + username,
             'mkdir /home/' + username,
             'chown '+ username + ':' + username + ' /home/' + username
           ])
