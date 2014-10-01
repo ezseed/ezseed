@@ -8,6 +8,10 @@ var pkg = require('../package')
   , _ = require('lodash')
   , constants = require('../constants')
 
+if(!fs.existsSync(constants.HOME)) {
+  require('mkdirp').sync(constants.HOME)
+}
+
 var i18n = require('i18n').configure({
   locales:['en', 'fr'],
   defaultLocale: 'en',
