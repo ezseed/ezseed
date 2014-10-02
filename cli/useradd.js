@@ -5,6 +5,7 @@ var helper = require('./helpers/promise')
   , async = require('async')
   , p = require('path')
   , i18n = require('i18n')
+  , Promise = require('bluebird')
 
 module.exports = function(opts) {
 
@@ -64,6 +65,17 @@ module.exports = function(opts) {
           //adds the client user (transmission or rtorrent)
         return require('./commands/user')
           .client(opts.client)('useradd', opts.username, opts.password, opts.transmission_port)
+      })
+      .then(function() {
+        return new Promise(function(resolve, reject) {
+          db.user.update(opts.username, {port: opts.transmission_port}, function(err) {
+            if(err) {
+              return reject(err)
+            } else {
+              resolve()
+            }
+          })
+        })
       })
       .then(helper.exit(i18n.__('Creating %s', opts.username)))
       .catch(helper.exit(i18n.__('Creating %s client', opts.client)))

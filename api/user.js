@@ -34,11 +34,6 @@ api
       user.prettySize = prettyBytes(user.spaceLeft)
       user.token = jwt.sign(user, config.secret) 
 
-      if(user.client == 'transmission') {
-        var transmission = JSON.parse(fs.readFileSync(p.join(config.home, user.username, '.settings.json')))
-        user.port = transmission['rpc-port']
-      }
-
       return res.json(user)
     }
   })
