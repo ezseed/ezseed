@@ -66,19 +66,20 @@ module.exports = function(opts) {
         return require('./commands/user')
           .client(opts.client)('useradd', opts.username, opts.password, opts.transmission_port)
       })
+      .catch(helper.exit(i18n.__('Creating %s client', opts.client)))
       .then(function() {
         return new Promise(function(resolve, reject) {
           db.user.update(opts.username, {port: opts.transmission_port}, function(err) {
             if(err) {
               return reject(err)
             } else {
-              resolve()
+              resolve(0)
             }
           })
         })
       })
       .then(helper.exit(i18n.__('Creating %s', opts.username)))
-      .catch(helper.exit(i18n.__('Creating %s client', opts.client)))
+      .catch(helper.exit(i18n.__('Creating %s', opts.username)))
 
     })
 
