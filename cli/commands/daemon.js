@@ -34,7 +34,7 @@ module.exports = {
             }
           }
 
-          return helper.runasroot(users.join(' && '))
+          return helper.runasroot(users)
         }
       })
     }

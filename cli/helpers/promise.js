@@ -9,7 +9,7 @@ var sudo_password = ''
 
 module.exports = {
   runasroot: function(cmd) {
-    cmd = cmd instanceof Array ? cmd.join(' && ') : cmd;
+    cmd = cmd instanceof Array ? cmd : [cmd];
 
     return new Promise(function(resolve, reject) {
       inquirer.prompt([{
@@ -47,8 +47,13 @@ module.exports = {
     })
     .then(function() {
       debug('Command executed by root: ', cmd)
+
+      for(var i in cmd) {
+        cmd[i] = 'echo "'+sudo_password+'" | sudo -S '+cmd[i]
+      }
+
       return require('./spawner')
-      .spawn('echo "'+sudo_password+'" | sudo -S '+cmd)
+      .spawn(cmd)
     })
   },
   //@depreceated
