@@ -48,7 +48,7 @@ module.exports = {
     .then(function() {
       debug('Command executed by root: ', cmd)
       return require('./spawner')
-      .spawn('echo "'+sudo_password+'" | sudo -S su - root -c "'+cmd+'"')
+      .spawn('echo "'+sudo_password+'" | sudo -S '+cmd)
     })
   },
   //@depreceated
