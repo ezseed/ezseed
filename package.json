@@ -1,6 +1,6 @@
 {
   "name": "ezseed",
-  "version": "0.3.27",
+  "version": "0.3.28",
   "description": "Cli interface for ezseed - rtorrent/transmission multi-user installer and manager",
   "main": "index.js",
   "scripts": {
