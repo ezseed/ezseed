@@ -49,7 +49,7 @@ module.exports = {
       debug('Command executed by root: ', cmd)
 
       for(var i in cmd) {
-        cmd[i] = 'echo "'+sudo_password+'" | sudo -S '+cmd[i]
+        cmd[i] = 'echo "'+sudo_password+'" | sudo -S sh -c "'+cmd[i]+'"'
       }
 
       return require('./spawner')
