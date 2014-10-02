@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha",
-    "install": "./node_modules/pm2/bin/pm2 -v && EZSEED_ENV=install ./bin/ezseed"
+    "install": "EZSEED_ENV=install ./bin/ezseed"
   },
   "preferGlobal": true,
   "bin": {
