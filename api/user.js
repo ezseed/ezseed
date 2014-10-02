@@ -51,7 +51,11 @@ api
 
   //get user paths
   db.paths(req.user.id, function(err, user) {
-    user.prettySize = prettyBytes(user.spaceLeft)
+    if(user.spaceLeft) {
+      user.prettySize = prettyBytes(user.spaceLeft)
+    } else {
+      user.spaceLeft = 0
+    }
     return res.json(user)
   })
 
