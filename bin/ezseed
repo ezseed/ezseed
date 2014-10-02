@@ -24,7 +24,7 @@ try {
   config = require(constants.CONFIG_FILE)
 
   if(process.env.EZSEED_ENV == 'install') {
-    helper.exit('npm install')(0)
+    helper.exit('npm update')(0)
   }
 
 } catch(e) {
