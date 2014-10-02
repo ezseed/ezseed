@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "NODE_ENV=test mocha",
-    "install": "EZSEED_ENV=install ./bin/ezseed"
+    "install": "./bin/pm2 -v && EZSEED_ENV=install ./bin/ezseed"
   },
   "preferGlobal": true,
   "bin": {
@@ -41,7 +41,7 @@
     "ezseed-database": "^0.1.21",
     "ezseed-logger": "^0.2.0",
     "ezseed-rtorrent": "0.0.7",
-    "ezseed-transmission": "0.0.18",
+    "ezseed-transmission": "0.0.20",
     "ezseed-watcher": "^0.1.4",
     "ezseed-web": "https://github.com/ezseed/web/archive/v1.0.8.tar.gz",
     "i18n": "^0.5.0",
