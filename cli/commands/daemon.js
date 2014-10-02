@@ -29,7 +29,9 @@ module.exports = {
           var num = docs.length, users = []
 
           while(num--) {
-            users.push(daemon + ' ' + [opts.command, docs[num].username].join(' '))
+            if(docs[num].client == 'client') {
+              users.push(daemon + ' ' + [opts.command, docs[num].username].join(' '))
+            }
           }
 
           return helper.runasroot(users.join(' && '))
