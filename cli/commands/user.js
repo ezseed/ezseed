@@ -30,9 +30,9 @@ module.exports = {
       .catch(function() {
         return helper
           .runasroot([
+            'mkdir -p '+p.join(config.home, username),
             'useradd -d '+ p.join(config.home, username) + ' --groups ezseed --password $(mkpasswd -H md5 "'+password+'") ' + username,
-            'mkdir /home/' + username,
-            'chown '+ username + ':' + username + ' /home/' + username
+            'chown '+ username + ':' + username + ' ' + p.join(config.home, username)
           ])
       })
     }, function() {
@@ -42,8 +42,8 @@ module.exports = {
   },
   password: function(username, password) {
     return helper.condition(os.platform() == 'linux', function() {
-      return spawner
-        .spawn('usermod -p $(mkpasswd -H md5 "'+password+'") '+username)
+      return helper
+        .runasroot('usermod -p $(mkpasswd -H md5 "'+password+'") '+username)
     }, function() {
       logger.warn('System user not supported')
       return helper.next(0)
