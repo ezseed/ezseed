@@ -1,6 +1,8 @@
 var api = require('express').Router()
   , config = require('../lib/config')
   , db = require('ezseed-database').db.user
+  , p = require('path')
+  , fs = require('fs')
   , jwt = require('express-jwt')
   , prettyBytes = require('pretty-bytes')
   , debug = require('debug')('ezseed:api')
@@ -31,6 +33,12 @@ api
     } else {
       user.prettySize = prettyBytes(user.spaceLeft)
       user.token = jwt.sign(user, config.secret) 
+
+      if(user.client == 'transmission') {
+        var transmission = JSON.parse(fs.readFileSync(p.join(config.home, user.username, '.settings.'+user.username+'.json')))
+        user.port = transmission['rpc-port']
+      }
+
       return res.json(user)
     }
   })
