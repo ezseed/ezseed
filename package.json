@@ -31,7 +31,7 @@
     "ansi-rainbow": "0.0.8",
     "archiver": "^0.11.0",
     "async": "^0.9.0",
-    "axon": "https://github.com/ezseed/axon/archive/2.0.1.tar.gz",
+    "ezseed-axon": "^2.0.1",
     "bluebird": "^2.3.2",
     "body-parser": "^1.8.2",
     "chalk": "^0.5.1",

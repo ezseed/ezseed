@@ -13,7 +13,7 @@ if(process.env.NODE_ENV == 'test') {
 
 
 //watcher socket variables
-var axon = require('axon')
+var axon = require('ezseed-axon')
   , sock = axon.socket('pull')
   , socket = config.watcher
   , rpc_socket = config.watcher_rpc
