@@ -29,7 +29,7 @@ module.exports = {
           var num = docs.length, users = []
 
           while(num--) {
-            if(docs[num].client == 'client') {
+            if(docs[num].client == client) {
               users.push(daemon + ' ' + [opts.command, docs[num].username].join(' '))
             }
           }
