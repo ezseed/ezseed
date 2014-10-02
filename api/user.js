@@ -51,12 +51,12 @@ api
 
   //get user paths
   db.paths(req.user.id, function(err, user) {
-    if(user.spaceLeft) {
-      user.prettySize = prettyBytes(user.spaceLeft)
+    if(!user) {
+      return res.send('Unauthorized').status(401).end()
     } else {
-      user.spaceLeft = 0
+      user.prettySize = prettyBytes(user.spaceLeft)
+      return res.json(user)
     }
-    return res.json(user)
   })
 
 })
