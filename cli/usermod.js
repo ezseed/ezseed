@@ -16,11 +16,11 @@ module.exports = function(opts) {
         require('./commands/daemon').client(user.client)({user: user.username, command: 'stop'})
         .then(function() {
           return require('./commands/user')
-          .client(user.client)('passwd', user.username, opts.password)
+          .client(user.client)('passwd', user.username, opts.value)
         })
         .then(function() {
           return require('./commands/user')
-          .password(user.username, opts.password)
+          .password(user.username, opts.value)
         })
         .then(function() {
           return require('./commands/daemon').client(user.client)({user: user.username, command: 'start'})
