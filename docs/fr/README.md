@@ -35,7 +35,7 @@ sudo apt-get update
 sudo apt-get install -y mongodb-org
 
 # ezseed
-npm i ezseed -g
+npm i pm2@rc ezseed -g
 # suivez les instructions de configuration
 ```
 
