@@ -10,14 +10,20 @@ var sudo_password = ''
 module.exports = {
   runasroot: function(cmd) {
     cmd = cmd instanceof Array ? cmd : [cmd];
+    var uid = process.getuid()
 
     return new Promise(function(resolve, reject) {
+
+      if(uid == 0) {
+        return resolve()
+      }
+
       inquirer.prompt([{
         type: 'password',
         name: 'sudo',
         message: i18n.__('Please enter your root password'),
         when: function() {
-          return process.getuid() !== 0 || sudo_password === ''
+          return sudo_password === ''
         },
         validate: function(pw) {
           var done = this.async()
@@ -47,8 +53,6 @@ module.exports = {
     })
     .then(function() {
       debug('Command executed by root: ', cmd)
-
-      var uid = process.getuid()
 
       for(var i in cmd) {
         cmd[i] = uid !== 0 ? 'echo "'+sudo_password+'" | sudo -S sh -c "'+cmd[i]+'"' : 'sh -c "'+cmd[i]+'"'
