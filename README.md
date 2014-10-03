@@ -19,7 +19,7 @@ If you have already a server installed, ezseed is apache or nginx friendly (note
 
 ## Installation 
 
-### Debian
+### Dependencies
 
 ```
 sudo aptitude install gcc-4.7 sudo curl
@@ -35,11 +35,22 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
 echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
 sudo apt-get update
 sudo apt-get install -y mongodb-org
-
-# ezseed
-npm i pm2@rc ezseed -g
-# follow the configuration instructions
 ```
+
+### Ezseed
+
+#### As user
+```
+npm i pm2@rc ezseed -g
+```
+
+#### As root
+```
+npm i ezseed -g --unsafe-perm
+npm i pm2@rc -g --unsafe-perm
+```
+
+Then, follow the configuration instructions.
 
 ## Usage
 
