@@ -17,7 +17,7 @@ module.exports = {
         name: 'sudo',
         message: i18n.__('Please enter your root password'),
         when: function() {
-          return sudo_password === ''
+          return process.getuid() !== 0 || sudo_password === ''
         },
         validate: function(pw) {
           var done = this.async()
@@ -48,8 +48,10 @@ module.exports = {
     .then(function() {
       debug('Command executed by root: ', cmd)
 
+      var uid = process.getuid()
+
       for(var i in cmd) {
-        cmd[i] = 'echo "'+sudo_password+'" | sudo -S sh -c "'+cmd[i]+'"'
+        cmd[i] = uid !== 0 ? 'echo "'+sudo_password+'" | sudo -S sh -c "'+cmd[i]+'"' : 'sh -c "'+cmd[i]+'"'
       }
 
       return require('./spawner')
