@@ -59,6 +59,7 @@ Après la configuration, il vous faudra ajouter un utilisateur et lancer ezseed
 ```
 ezseed useradd mynewuser
 ezseed start
+ezseed transmission start
 ```
 
 Pour plus d'options regardez l'aide `ezseed -h`
