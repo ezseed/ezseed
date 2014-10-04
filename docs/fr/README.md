@@ -20,13 +20,13 @@ Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration a
 ### Dépendances
 
 ```
-sudo aptitude install gcc-4.7 sudo curl
+sudo aptitude install gcc-4.7 sudo curl python
 
 # nvm - nodejs
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
 source ~/.bashrc
-nvm install 0.11.13
-nvm alias default 0.11.13
+nvm install 0.10.32
+nvm alias default 0.10.32
 
 # mongodb
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
