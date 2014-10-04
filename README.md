@@ -22,7 +22,7 @@ If you have already a server installed, ezseed is apache or nginx friendly (note
 ### Dependencies
 
 ```
-sudo aptitude install gcc-4.7 sudo curl python
+sudo aptitude install gcc-4.7 sudo curl python whois
 
 # nvm
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
