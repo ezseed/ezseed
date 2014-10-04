@@ -22,13 +22,13 @@ If you have already a server installed, ezseed is apache or nginx friendly (note
 ### Dependencies
 
 ```
-sudo aptitude install gcc-4.7 sudo curl
+sudo aptitude install gcc-4.7 sudo curl python
 
 # nvm
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
 source ~/.bashrc
-nvm install 0.11.13
-nvm alias default 0.11.13
+nvm install 0.10.31
+nvm alias default 0.10.31
 
 # mongodb
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
