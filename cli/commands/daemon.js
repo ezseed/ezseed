@@ -69,9 +69,16 @@ module.exports = {
               pm2.startJson(json, {}, null, function(err) {
                 if(err) {
                   logger.error('Error while starting process', err)
-                }
+                } else {
+                  pm2.dump(function(err) {
+                    if(err) {
+                      logger.error('Error while dumping pm2', err)
+                    }
 
-                return helper.exit(exit)(err ? 1 : 0)
+                    logger.info('Tip: Launch "pm2 startup ubuntu"')
+                    return helper.exit(exit)(err ? 1 : 0)
+                  })
+                }
               })
               break;
             case 'stop':
