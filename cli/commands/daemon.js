@@ -5,6 +5,7 @@ var spawner = require('../helpers/spawner')
   , p = require('path')
   , fs = require('fs')
   , exec = require('child_process').exec
+  , Promise = require('bluebird')
 
 module.exports = {
   client: function(client) {
