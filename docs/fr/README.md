@@ -17,16 +17,16 @@ Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration a
 
 ## Installation
 
-### Debian
+### Dépendances
 
 ```
-sudo aptitude install gcc-4.7 sudo curl
+sudo aptitude install gcc-4.7 sudo curl python whois
 
 # nvm - nodejs
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
 source ~/.bashrc
-nvm install 0.11.13
-nvm alias default 0.11.13
+nvm install 0.10.32
+nvm alias default 0.10.32
 
 # mongodb
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
@@ -34,18 +34,32 @@ echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' |
 sudo apt-get update
 sudo apt-get install -y mongodb-org
 
-# ezseed
+```
+
+### Ezseed
+
+#### En tant qu'utilisateur
+```
 npm i pm2@rc ezseed -g
 # suivez les instructions de configuration
 ```
 
-## Usage
+#### En tant que `root`
+
+```
+npm i ezseed -g --unsafe-perm
+npm i pm2@rc -g --unsafe-perm
+```
+
+
+## Utilisation
 
 Après la configuration, il vous faudra ajouter un utilisateur et lancer ezseed
 
 ```
 ezseed useradd mynewuser
 ezseed start
+ezseed transmission start
 ```
 
 Pour plus d'options regardez l'aide `ezseed -h`
