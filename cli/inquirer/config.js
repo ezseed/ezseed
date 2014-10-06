@@ -12,7 +12,7 @@ module.exports = function() {
   //using mkdir -p to add logs directory
   var runasroot = [
     '[ -d "/usr/local/opt/ezseed/logs" ] || mkdir -p /usr/local/opt/ezseed/logs',
-    'chmod -R 777 /usr/local/opt/ezseed/logs'
+    'chmod -R 777 /usr/local/opt/ezseed'
   ]
 
   return new Promise(function(resolve, reject) {
