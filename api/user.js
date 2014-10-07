@@ -13,7 +13,7 @@ jwt.sign = require('jsonwebtoken').sign
 api
 
 .use(
-  jwt({ secret: config.secret }).unless({ path: ['/api/login'] }) 
+  jwt({ secret: config.secret }).unless({ path: ['/api/login', '/api/config'] }) 
 )
 
 .use(function(err, req, res, next) {
@@ -23,6 +23,10 @@ api
   }
 
   next()
+})
+
+.get('/config', function(req, res) {
+  res.json(config)
 })
 
 .post('/login', function(req, res) {
