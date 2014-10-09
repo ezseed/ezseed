@@ -28,6 +28,12 @@ files
 
 })
 
+.use('/', function(res, req, next) {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  next() 
+})
+
 /** Protected methods **/
 .get('/:type/:id', function(req, res) {
 
