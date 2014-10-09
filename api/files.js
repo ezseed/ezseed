@@ -51,6 +51,17 @@ var action = {
   delete: function(params) {
     //@todo rpc
   },
+  cover: function(req, res) {
+    if(req.params.type !== 'albums') {
+      return res.status(501).send({error: "Can't get cover for type "+req.params.type}).end()
+    }
+
+    db[req.params.type].get(req.params.id, function(err, docs) {
+      docs = docs.toJSON()
+
+      return res.download(docs.picture)
+    })
+  },
   archive: function(req, res) {
 
     if(req.params.type !== 'albums') {
