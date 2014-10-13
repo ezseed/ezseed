@@ -41,13 +41,13 @@ sudo apt-get install -y mongodb-org
 
 #### As user
 ```
-npm i pm2@rc ezseed -g
+npm i pm2@0.11.0 ezseed -g
 ```
 
 #### As root
 ```
 npm i ezseed -g --unsafe-perm
-npm i pm2@rc -g --unsafe-perm
+npm i pm2@0.11.0 -g --unsafe-perm
 ```
 
 Then, follow the configuration instructions.
