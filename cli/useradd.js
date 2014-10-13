@@ -15,7 +15,11 @@ module.exports = function(opts) {
 
     async.waterfall([
       function(done) {
-        return db.user.create(opts, function() {
+        return db.user.create(opts, function(err) {
+          if(err) {
+            logger.error(err)
+          }
+
           return done() //forcing no arguments to prevent async.waterfall to add those
         })
       },
@@ -68,13 +72,15 @@ module.exports = function(opts) {
       })
       .catch(helper.exit(i18n.__('Creating %s client', opts.client)))
       .then(function() {
-        return new Promise(function(resolve, reject) {
-          db.user.update(opts.username, {port: opts.transmission_port}, function(err) {
-            if(err) {
-              return reject(err)
-            } else {
-              resolve(0)
-            }
+        return helper.condition(opts.client == 'transmission', function() {
+          return new Promise(function(resolve, reject) {
+            db.user.update(opts.username, {port: opts.transmission_port}, function(err) {
+              if(err) {
+                return reject(err)
+              } else {
+                resolve(0)
+              }
+            })
           })
         })
       })
