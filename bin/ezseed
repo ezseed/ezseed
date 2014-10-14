@@ -175,7 +175,7 @@ program.command('usermod')
     },
     key: {
       position: 2,
-      choices: ['password', 'client', 'role', 'spaceLeft'],
+      choices: ['password', 'client', 'role', 'spaceLeft', 'port'],
       required: true
     },
     value: {
