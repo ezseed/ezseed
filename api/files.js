@@ -28,12 +28,6 @@ files
 
 })
 
-.use('/', function(res, req, next) {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
-  next() 
-})
-
 /** Protected methods **/
 .get('/:type/:id', function(req, res) {
 
@@ -61,6 +55,9 @@ var action = {
     if(req.params.type !== 'albums') {
       return res.status(501).send({error: "Can't get cover for type "+req.params.type}).end()
     }
+
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 
     db[req.params.type].get(req.params.id, function(err, docs) {
       docs = docs.toJSON()
