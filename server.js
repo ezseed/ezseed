@@ -2,6 +2,7 @@ var app = require('express')()
   , config = require('./lib/config')
   , logger = require('ezseed-logger')('ezseed')
   , debug = require('debug')('ezseed:server')
+  , axm = require('axm')
 
 var port = config.port || 8970
 var database = null
@@ -30,6 +31,8 @@ process.watcher.client = new rpc.Client(req)
 app.use(require('body-parser').json())
 //logger
 app.use(require('morgan')('dev'))
+//keymetrics
+app.use(axm.expressErrorHandler())
 
 //loading the template
 require(config.theme)(app)
@@ -67,7 +70,12 @@ require('ezseed-database')({database: database || 'ezseed'}, function() {
 })
 
 process.on('unhandledException', function(e) {
-  console.log(e) 
+  console.error(e) 
+  axm.notify(e)
+
+  process.nextTick(function() {
+    process.exit(1)
+  })
 })
 
 module.exports = app
