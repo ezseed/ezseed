@@ -36,6 +36,10 @@ try {
 i18n = require('i18n')
 i18n.setLocale(config.lang)
 
+var updateNotifier = require('update-notifier')
+
+updateNotifier({packageName: pkg.name, packageVersion: pkg.version}).notify()
+
 program.options({
   version: {
     flag: true,
