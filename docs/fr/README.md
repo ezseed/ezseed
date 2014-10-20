@@ -71,3 +71,6 @@ Pour plus d'options regardez l'aide `ezseed -h`
 - rtorrent nécessite une configuration supplémentaire d'AutoTools pour déplacer les téléchargements:
 
 ![](https://camo.githubusercontent.com/a278375b20071e41ed233b5f6b1e8936222ae0bf/687474703a2f2f7777772e7a75706d6167652e65752f692f687052455238336376472e706e67)
+
+## Bonus
+
