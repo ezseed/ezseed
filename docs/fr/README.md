@@ -71,3 +71,26 @@ Pour plus d'options regardez l'aide `ezseed -h`
 - rtorrent nécessite une configuration supplémentaire d'AutoTools pour déplacer les téléchargements:
 
 ![](https://camo.githubusercontent.com/a278375b20071e41ed233b5f6b1e8936222ae0bf/687474703a2f2f7777772e7a75706d6167652e65752f692f687052455238336376472e706e67)
+
+## Bonus
+Synchronisation automatique vers votre NAS
+http://www.legeektechno.fr/serveurs/script-de-synchronisation-de-seedbox-version-2.html
+
+Génération de la clé RSA
+```
+ssh-keygen -t rsa
+ssh-copy-id -i ~/.ssh/id_rsa.pub root@monippublique 
+```
+Modification de l'emplacement des fichier logs
+```
+mkdir -p /var/log/rsync
+chown -R batch /var/log/rsync
+chgrp -R batch /var/log/rsync
+cd /home/batch/scripts
+nano setEnv.sh
+```
+Modifier la valeur LOGS_DIR par
+```
+LOGS_DIR=/var/log/rsync
+```
+
