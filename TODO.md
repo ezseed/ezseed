@@ -11,11 +11,11 @@ http://www.upnp.org/specs/arch/UPnP-arch-DeviceArchitecture-v1.1.pdf
 https://github.com/diversario/node-ssdp
 https://github.com/oeuillot/upnpserver
 
-+ add pm2 + json
 
 green = seen (todo add viewed)
+add lang to user db
 
-lang through watcher config fr_FR.split
+//lang through watcher config fr_FR.split - done?
 
 Web:
 Movie stream
@@ -25,5 +25,3 @@ Socket live update
 
 Tests
 config => generate secret key
-config => move to /usr/opt ! (npm erase)
-config => move ezseed.json
