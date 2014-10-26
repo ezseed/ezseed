@@ -61,7 +61,8 @@
     "promise-spawner": "0.0.3",
     "rimraf": "^2.2.8",
     "socket.io": "^1.1.0",
-    "update-notifier": "^0.2.2"
+    "update-notifier": "^0.2.2",
+    "which": "^1.0.5"
   },
   "devDependencies": {
     "chai": "~1.9.2",

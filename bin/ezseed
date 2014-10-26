@@ -8,6 +8,8 @@ var pkg = require('../package')
   , _ = require('lodash')
   , constants = require('../constants')
   , fs = require('fs')
+  , logger = require('ezseed-logger')()
+  , rainbow = require('ansi-rainbow').r
 
 if(!fs.existsSync(constants.HOME)) {
   require('mkdirp').sync(constants.HOME)
@@ -117,6 +119,16 @@ program
 program
   .command('config')
   .options({
+    key: {
+      position: 1,
+      help: 'key',
+      required: false
+    },
+    value: {
+      position: 2,
+      help: "value",
+      required: false
+    },
     force: {
       flag: true,
       abbr: 'f',
@@ -124,8 +136,29 @@ program
     }
   })
   .callback(function(opts) {
-    opts = _.extend(opts, {skipserver: true, skipadmin: true, skipclient: true})
-    return require('../cli/install')(opts)
+
+    if(opts.key && opts.value) {
+
+      if(!config) {
+        logger.error('No configuration file found - did you ran ezseed install?')
+        return process.exit()
+      }
+
+      if(!opts.force && !config.hasOwnProperty(opts.key)) {
+        logger.error('Allowed keys are %s', rainbow(Object.keys(config).join(', ')))
+        return process.exit()
+      }
+
+      config[opts.key] = opts.value
+
+      fs.writeFileSync(constants.CONFIG_FILE, 'module.exports = '+JSON.stringify(config, undefined, 2))
+      logger.info(i18n.__('Configuration saved in %s', constants.CONFIG_FILE))
+
+      return process.exit()
+    } else {
+      opts = _.extend(opts, {skipserver: true, skipadmin: true, skipclient: true})
+      return require('../cli/install')(opts)
+    }
   })
 
 program.command('useradd')

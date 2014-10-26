@@ -105,11 +105,22 @@ module.exports = function() {
       }], function (answers) {
         answers.lang = i18n.getLocale()
 
-        helper.runasroot(runasroot)
-        .then(function() {
-          resolve(answers)
-        })
-        .catch(helper.exit('Configuration'))
+        require('../helpers/which_stream.js')(function(converter) {
+
+          if(converter === false) {
+            logger.warn(i18n.__('avconv, or ffmpeg is not installed'))
+          } else {
+            logger.info(i18n.__('using %s to encode'), converter)
+          }
+
+          answers.converter = converter
+
+          helper.runasroot(runasroot)
+          .then(function() {
+            resolve(answers)
+          })
+          .catch(helper.exit('Configuration'))
+          })
       })
 
     })
