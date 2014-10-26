@@ -32,7 +32,7 @@ module.exports = {
           .runasroot([
             'mkdir -p '+p.join(config.home, username),
             'useradd -d '+ p.join(config.home, username) + ' --groups ezseed --password $(mkpasswd -H md5 "'+password+'") ' + username,
-            'chown '+ username + ':' + username + ' ' + p.join(config.home, username)
+            'chown root:root ' + p.join(config.home, username)
           ])
       })
     }, function() {
