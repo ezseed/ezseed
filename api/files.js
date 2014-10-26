@@ -5,8 +5,9 @@ var files = require('express').Router()
   , archiver = require('archiver')
   , p = require('path')
   , fs = require('fs')
-  , ffmpeg
+  , debug = require('debug')('ezseed:api:files')
 
+var previous_filesize = 0
 
 files
 
@@ -43,7 +44,8 @@ files
   })
 
 })
-.get('/:type/:id/:action', function(req, res) {
+.get('/:type/:id/:action/:os?', function(req, res) {
+  debug()
   return action[req.params.action](req, res)
 })
 
@@ -62,7 +64,11 @@ var action = {
     db[req.params.type].get(req.params.id, function(err, docs) {
       docs = docs.toJSON()
 
-      return res.download(docs.picture)
+      if(fs.existsSync(docs.picture)) {
+        return res.download(docs.picture)
+      } else {
+        return res.status(404).end()
+      }
     })
   },
   archive: function(req, res) {
@@ -91,7 +97,7 @@ var action = {
 
       archive.pipe(res)
 
-      //if movies, try playing with .file
+      //@todo if movies, try playing with .file
       archive.bulk([
         {expand: true, cwd: docs.prevDir, src: ['**'], dest: p.basename(docs.prevDir)}
       ])
@@ -111,48 +117,7 @@ var action = {
       }
     })
   },
-  stream: function(req, res) {
-    try {
-      ffmpeg = require('fluent-ffmpeg')
-      res.contentType('video/mp4')
-
-      db.files.get(req.params.id, function(err, file) {
-        // FLV stream - heavy cpu load
-        // ffmpeg(file.path)
-          // .flvmeta()
-          // .format('flv')
-          // .size('720x?')
-          // .videoBitrate('1000k')
-          // .videoCodec('libx264')
-          // .fps(24)
-          // .audioBitrate('96k')
-          // .audioCodec('aac')
-          // .audioFrequency(22050)
-          // .audioChannels(2)
-        
-        // MP4 test - TODO stream phones
-          // ffmpeg(file.path, {logger: logger})
-          // .format('avi')
-          // .videoCodec('libx264')
-          // .audioCodec('aac')
-          // .outputOptions(['-pix_fmt yuv420p','-movflags', '+faststart', '-preset ultrafast', '-qp 0'])
-        
-          // setup event handlers
-          // .on('end', function() {
-          //   logger.log('Stream - '+file.path+' has end')
-          // })
-          // .on('error', function(err) {
-          //   logger.error(err.message)
-          // })
-          // save to stream
-          // .writeToStream(res, {end:true})
-      })
-
-    } catch(e) {
-      logger.error('File stream - ', err.message)
-      res.send(500, {error: 'ffmpeg not installed'})
-    }
-  }
+  stream: require('../lib/stream.js')
 }
 
 module.exports = files
