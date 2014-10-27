@@ -53,7 +53,7 @@ module.exports = {
     //where fn (first arg) one of useradd, userdel
     return function() {
 
-      if(client) {
+      if(client && client !== 'none') {
 
         if(os.platform() !== 'linux') {
           logger.warn('Sadly %s is not supported atm', os.platform())

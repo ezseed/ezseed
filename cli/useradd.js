@@ -6,6 +6,7 @@ var helper = require('./helpers/promise')
   , p = require('path')
   , i18n = require('i18n')
   , Promise = require('bluebird')
+  , debug = require('debug')('ezseed:cli:useradd')
 
 module.exports = function(opts) {
 
@@ -66,23 +67,30 @@ module.exports = function(opts) {
       .catch(helper.exit(i18n.__('Creating system user')))
       .then(function() {
 
-          //adds the client user (transmission or rtorrent)
+        debug('Created system user')
+        //adds the client user (transmission or rtorrent)
         return require('./commands/user')
           .client(opts.client)('useradd', opts.username, opts.password, opts.transmission_port)
       })
       .catch(helper.exit(i18n.__('Creating %s client', opts.client)))
       .then(function() {
+        debug('Created client')
         return helper.condition(opts.client == 'transmission', function() {
           return new Promise(function(resolve, reject) {
             db.user.update(opts.username, {port: opts.transmission_port}, function(err) {
               if(err) {
                 return reject(err)
               } else {
-                resolve(0)
+                return resolve(0)
               }
             })
           })
+        }, function() {
+          return helper.next(0)
         })
+      })
+      .then(function() {
+        return require('./commands/daemon').client(opts.client)({command: 'start', user: opts.username})
       })
       .then(helper.exit(i18n.__('Creating %s', opts.username)))
       .catch(helper.exit(i18n.__('Creating %s', opts.username)))
