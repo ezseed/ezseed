@@ -41,7 +41,7 @@
     "ezseed-database": "^1.0.1",
     "ezseed-logger": "^0.2.0",
     "ezseed-rtorrent": "0.0.8",
-    "ezseed-transmission": "0.0.24",
+    "ezseed-transmission": "0.0.25",
     "ezseed-watcher": "^1.0.1",
     "ezseed-web": "https://github.com/ezseed/web/archive/v1.0.25.tar.gz",
     "faststart": "^0.1.1",
