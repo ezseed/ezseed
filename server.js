@@ -41,6 +41,7 @@ app.use('/tmp', require('express').static(config.tmp))
 require('./api')(app)
 
 require('ezseed-database')({database: database || 'ezseed'}, function() {
+
   var server = app.listen(port, function() {
     require('ezseed-logger')('server').log('Listening on ' + port)
   })
@@ -57,7 +58,9 @@ require('ezseed-database')({database: database || 'ezseed'}, function() {
     req.connect(rpc_socket)
   })
 
+  //this is the user socket
   io.on('connection', function(socket) {
+
     sock.on('message', function(msg, update){
       //notify client for update
       logger.log('Watcher message', msg)
@@ -67,7 +70,7 @@ require('ezseed-database')({database: database || 'ezseed'}, function() {
 })
 
 process.on('unhandledException', function(e) {
-  console.log(e) 
+  console.error(e) 
 })
 
 module.exports = app

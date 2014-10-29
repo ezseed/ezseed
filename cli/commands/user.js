@@ -32,7 +32,7 @@ module.exports = {
           .runasroot([
             'mkdir -p '+p.join(config.home, username),
             'useradd -d '+ p.join(config.home, username) + ' --groups ezseed --password $(mkpasswd -H md5 "'+password+'") ' + username,
-            'chown '+ username + ':' + username + ' ' + p.join(config.home, username)
+            'chown root:root ' + p.join(config.home, username)
           ])
       })
     }, function() {
@@ -53,7 +53,7 @@ module.exports = {
     //where fn (first arg) one of useradd, userdel
     return function() {
 
-      if(client) {
+      if(client && client !== 'none') {
 
         if(os.platform() !== 'linux') {
           logger.warn('Sadly %s is not supported atm', os.platform())

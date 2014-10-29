@@ -65,7 +65,7 @@ api
 
   if(req.query.match)
     req.query.match = JSON.parse(req.query.match)
-  
+
   debug("Files", req.query)
 
   //need params, limit, dateUpdate, paths, type !
@@ -124,7 +124,14 @@ api
     movies: 0,
     albums: 0,
     others: 0
-  }, total = 0
+  },
+  //stores the number of elements for paging
+  num = {
+    movies: 0,
+    albums: 0,
+    others: 0
+  },
+  total = 0
 
   var opts = req.params.default ? {default: req.user.default_path} : {}
 
@@ -137,6 +144,7 @@ api
 
       if(!req.params.path || req.params.paths.indexOf(p._id) !== -1 || req.params.paths.indexOf(p._id) !== -1) {
         for(var i in size) {
+          num[i] += p[i].length
           p[i].forEach(function(files) {
             files[require('ezseed-database').helpers.filename(i)].forEach(function(file) {
               size[i] += file.size
@@ -156,9 +164,10 @@ api
     //converting bytes to pretty version
     for(var i in size) {
       pretty[i] = {
-        percent: size[i] / total * 100,
+        percent: size[i] / req.user.spaceLeft * 100,
         bytes: size[i],
-        pretty: prettyBytes(size[i])
+        pretty: prettyBytes(size[i]),
+        num: num[i]
       } 
     }
 
