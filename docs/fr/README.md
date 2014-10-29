@@ -22,6 +22,7 @@ Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration a
 ```
 sudo aptitude install gcc-4.7 sudo curl python whois
 
+
 # nvm - nodejs
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
 source ~/.bashrc
@@ -33,6 +34,18 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
 echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
 sudo apt-get update
 sudo apt-get install -y mongodb-org
+
+# AVCONV
+
+wget https://www.libav.org/releases/libav-11.tar.xz
+tar xf libav-11.tar.xz
+apt-get install gcc-4.7 build-essential  pkg-config x264 libx264-dev libvo-aacenc-dev
+cd libav-11
+./configure --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3
+make
+sudo make install
+
+
 
 ```
 
