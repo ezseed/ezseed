@@ -3,6 +3,18 @@ EZSEED (easy seedbox)
 
 Toujours en cours de travaux ;)
 
+- [Prérequis](#pre-requis)
+  - [Nodejs](#nodejs)
+  - [MongoDB](#mongodb)
+  - [Serveur](#serveur)
+- [Installation](#installation)
+  - [Dépendances](#dependances)
+  - [ezseed](#ezseed)
+- [Configuration](#configuration)
+- [Streaming](#streaming)
+- [Bugs connus](#bugs-connus)
+- [Trucs et astuces](#truc-et-astuces)
+
 ## Pré-requis
 
 ### Nodejs
@@ -11,7 +23,7 @@ Toujours en cours de travaux ;)
 ### MongoDB
 [Instructions d'installation](http://docs.mongodb.org/manual/installation/)
 
-### Server
+### Serveur
 Si aucun serveur n'est présent, [ezseed installera nginx](https://github.com/ezseed/ezseed/blob/master/scripts/server.sh)
 Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration apache ou nginx (note: apache n'a pas encore été testé)
 
@@ -38,12 +50,6 @@ sudo apt-get install -y mongodb-org
 
 ### Ezseed
 
-#### En tant qu'utilisateur
-```
-npm i pm2@0.11.0 ezseed -g
-# suivez les instructions de configuration
-```
-
 #### En tant que `root`
 
 ```
@@ -51,8 +57,13 @@ npm i ezseed -g --unsafe-perm
 npm i pm2@0.11.0 -g --unsafe-perm
 ```
 
+#### En tant qu'utilisateur
+```
+npm i pm2@0.11.0 ezseed -g
+# suivez les instructions de configuration
+```
 
-## Utilisation
+## Configuration
 
 Après la configuration, il vous faudra ajouter un utilisateur et lancer ezseed
 
@@ -64,6 +75,15 @@ ezseed transmission start
 
 Pour plus d'options regardez l'aide `ezseed -h`
 
+## Streaming
+
+Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Pour l'installer suivez les indications ci-dessous : 
+
+```
+❯ sudo aptitude install pkg-config gcc-4.7 build-essential libx264-dev libvo-aacenc-dev 
+❯ ./configure --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3
+```
+
 ## Bugs connus
 
 - rtorrent a un souci avec les noms en majuscules/minuscules
@@ -72,9 +92,10 @@ Pour plus d'options regardez l'aide `ezseed -h`
 
 ![](https://camo.githubusercontent.com/a278375b20071e41ed233b5f6b1e8936222ae0bf/687474703a2f2f7777772e7a75706d6167652e65752f692f687052455238336376472e706e67)
 
-## Bonus
-Synchronisation automatique vers votre NAS
-http://www.legeektechno.fr/serveurs/script-de-synchronisation-de-seedbox-version-2.html
+## Trucs et astuces
+
+### Synchronisation via rsync
+[Synchronisation automatique vers votre NAS](http://www.legeektechno.fr/serveurs/script-de-synchronisation-de-seedbox-version-2.html)
 
 Génération de la clé RSA
 ```
