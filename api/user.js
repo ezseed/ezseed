@@ -42,14 +42,20 @@ api
     }
   })
 
-})
+}
 
 /** Protected methods **/
 
-.get('/-', function(req, res) {
+.get('/-', function(req, res, next) {
 
   //get user paths
   db.paths(req.user.id, function(err, user) {
+
+    if(!user) 
+      return next(new Error('No user'))
+    else if (err)
+      return next(err)
+
     user.prettySize = prettyBytes(user.spaceLeft)
     return res.json(user)
   })
@@ -57,7 +63,7 @@ api
 })
 
 
-.get('/-/files', function(req, res) {
+.get('/-/files', function(req, res, next) {
   var types = ['others', 'movies', 'albums']
 
   if(req.query.type && types.indexOf(req.query.type) === -1) 
@@ -70,6 +76,11 @@ api
 
   //need params, limit, dateUpdate, paths, type !
   db.files(req.user.id, req.query, function(err, paths) {
+
+    if(!paths) 
+      return next(new Error('No paths'))
+    else if (err)
+      return next(err)
 
     if(req.query.type) {
       var files = {}
@@ -118,7 +129,7 @@ api
   })
 })
 
-.get('/-/size', function(req, res) {
+.get('/-/size', function(req, res, next) {
 
   var size = {
     movies: 0,
@@ -133,12 +144,14 @@ api
   },
   total = 0
 
-  var opts = req.params.default ? {default: req.user.default_path} : {}
+  var opts = req.params && req.params.default ? {default: req.user.default_path} : {}
 
   db.files(req.user.id, opts, function(err, files) {
 
     if(!files) 
-      return res.status(500).end()
+      return next(new Error('No files'))
+    else if (err)
+      return next(err)
 
     files.paths.forEach(function(p) {
 
@@ -173,6 +186,15 @@ api
 
     return res.json(pretty)
   })
+})
+
+.use(function(err, req, res, next) {
+  if(err) {
+    logger.error(err)
+    return res.status(500).send(err)
+  } else {
+    next()
+  }
 })
 
 module.exports = api
