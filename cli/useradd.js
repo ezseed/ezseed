@@ -10,7 +10,7 @@ var helper = require('./helpers/promise')
 
 module.exports = function(opts) {
 
-  require('./inquirer/useradd.js')()
+  require('./inquirer/useradd.js')(opts)
   //find transmission port
   .then(function() {
 
