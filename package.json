@@ -38,7 +38,7 @@
     "express": "^4.9.8",
     "express-jwt": "^0.4.0",
     "ezseed-axon": "^2.0.1",
-    "ezseed-database": "^1.0.2",
+    "ezseed-database": "^1.0.3",
     "ezseed-logger": "^0.2.0",
     "ezseed-rtorrent": "0.0.8",
     "ezseed-transmission": "0.0.25",
