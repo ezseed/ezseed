@@ -80,7 +80,7 @@ Pour plus d'options regardez l'aide `ezseed -h`
 Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Pour l'installer suivez les indications ci-dessous : 
 
 ```
-❯ sudo aptitude install pkg-config gcc-4.7 build-essential libx264-dev libvo-aacenc-dev 
+❯ sudo aptitude install pkg-config gcc-4.7 build-essential libx264-dev libvo-aacenc-dev libvorbis-dev libvpx-dev
 ❯ wget https://www.libav.org/releases/libav-11.tar.xz
 ❯ tar xf libav-11.tar.xz
 ❯ cd libav-11
