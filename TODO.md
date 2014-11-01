@@ -18,3 +18,5 @@ Movie stream
 
 Tests
 config => generate secret key
+add watched to db
+add delete transmission
