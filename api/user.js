@@ -42,7 +42,7 @@ api
     }
   })
 
-}
+})
 
 /** Protected methods **/
 
