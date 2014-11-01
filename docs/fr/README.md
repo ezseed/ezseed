@@ -80,13 +80,18 @@ Pour plus d'options regardez l'aide `ezseed -h`
 Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Pour l'installer suivez les indications ci-dessous : 
 
 ```
-❯ sudo aptitude install pkg-config gcc-4.7 build-essential libx264-dev libvo-aacenc-dev 
+❯ sudo aptitude install pkg-config gcc-4.7 build-essential libx264-dev libvo-aacenc-dev libvorbis-dev libvpx-dev
 ❯ wget https://www.libav.org/releases/libav-11.tar.xz
 ❯ tar xf libav-11.tar.xz
 ❯ cd libav-11
-❯ ./configure --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3
+❯ ./configure --enable-libvpx --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3 --enable-libvorbis
 ❯ make
 ❯ sudo make install
+```
+
+### OS X
+```
+❯ brew install libav --with-libvo-aacenc
 ```
 
 ## Bugs connus
