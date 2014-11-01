@@ -2,19 +2,13 @@ var which = require('which')
 
 var which_stream = function(cb) {
 
-  // which('avconv', function(err, path) {
-    // if(err) {
-      which('ffmpeg', function(err, path) {
-        if(err) {
-          return cb(false)
-        } else {
-          return cb(path)
-        }
-      })
-  //   } else {
-  //     return cb(path)
-  //   }
-  // })
+  which('avconv', function(err, path) {
+    if(err) {
+      return cb(false)
+    } else {
+      return cb(path)
+    }
+  })
 
 }
 
