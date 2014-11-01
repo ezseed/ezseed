@@ -89,6 +89,11 @@ Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Po
 ❯ sudo make install
 ```
 
+### OS X
+```
+❯ brew install libav --with-libvo-aacenc
+```
+
 ## Bugs connus
 
 - rtorrent a un souci avec les noms en majuscules/minuscules
