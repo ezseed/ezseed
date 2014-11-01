@@ -62,7 +62,6 @@ api
 
 })
 
-
 .get('/-/files', function(req, res, next) {
   var types = ['others', 'movies', 'albums']
 
@@ -74,7 +73,6 @@ api
 
   debug("Files", req.query)
 
-  //need params, limit, dateUpdate, paths, type !
   db.files(req.user.id, req.query, function(err, paths) {
 
     if(!paths) 
