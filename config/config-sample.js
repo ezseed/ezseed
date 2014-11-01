@@ -11,4 +11,6 @@ module.exports =
 	scrapper: 'tmdb',
 	lang: 'en',
 	secret: 'really-secret-key'
+        converter: '/usr/local/bin/avconv'
+
 }
