@@ -84,7 +84,7 @@ Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Po
 ❯ wget https://www.libav.org/releases/libav-11.tar.xz
 ❯ tar xf libav-11.tar.xz
 ❯ cd libav-11
-❯ ./configure --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3
+❯ ./configure --enable-libvpx --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3 --enable-libvorbis
 ❯ make
 ❯ sudo make install
 ```
