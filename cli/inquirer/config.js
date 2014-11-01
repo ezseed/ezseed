@@ -108,7 +108,7 @@ module.exports = function() {
         require('../helpers/which_stream.js')(function(converter) {
 
           if(converter === false) {
-            logger.warn(i18n.__('avconv, or ffmpeg is not installed'))
+            logger.warn(i18n.__('avconv is not installed'))
           } else {
             logger.info(i18n.__('using %s to encode'), converter)
           }

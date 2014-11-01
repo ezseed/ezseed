@@ -31,6 +31,6 @@
   "Creating %s client": "Création du client %s",
   "Client installation": "Installation du client",
   " is not a valid entry for client, install": " n'est pas une donnée valid pour le client",
-  "avconv, or ffmpeg is not installed": "avconv, ou ffmpeg n'est pas installé",
+  "avconv is not installed": "avconv n'est pas installé",
   "using %s to encode": "%s sera utilisé pour encoder"
 }

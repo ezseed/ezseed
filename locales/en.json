@@ -31,6 +31,6 @@
   "Creating %s client": "Creating %s client",
   "Client installation": "Client installation",
   " is not a valid entry for client, install": " is not a valid entry for client, install",
-  "avconv, or ffmpeg is not installed": "avconv, or ffmpeg is not installed",
+  "avconv is not installed": "avconv is not installed",
   "using %s to encode": "using %s to encode"
 }
