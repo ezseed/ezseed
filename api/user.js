@@ -62,6 +62,8 @@ api
 
 })
 
+.get('/-/tree', require('../lib/filetree'))
+
 .get('/-/files', function(req, res, next) {
   var types = ['others', 'movies', 'albums']
 
