@@ -29,7 +29,27 @@ files
 
 })
 
-/** Protected methods **/
+.get('/download', function(req, res, next) {
+  fs.exists(req.query.path, function(exists) {
+    if(!exists) {
+      return res.status(404).end()
+    }
+
+    fs.stat(req.query.path, function(err, stats) {
+      if(stats.isDirectory()) {
+        return res.status(418).end()
+      }
+
+      if(!req.query.read) {
+        return res.download(req.query.path)
+      } else {
+        return res.sendFile(req.query.path)
+      }
+    })
+ 
+  })
+})
+
 .get('/:type/:id', function(req, res) {
 
   db[req.params.type].get(req.params.id, function(err, docs) {
@@ -45,7 +65,6 @@ files
 
 })
 .get('/:type/:id/:action/:os?', function(req, res) {
-  debug()
   return action[req.params.action](req, res)
 })
 
