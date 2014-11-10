@@ -137,7 +137,7 @@ program
   })
   .callback(function(opts) {
 
-    if(opts.key && opts.value) {
+    if(opts.key && opts.value !== undefined) {
 
       if(!config) {
         logger.error('No configuration file found - did you ran ezseed install?')
