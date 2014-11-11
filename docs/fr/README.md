@@ -11,6 +11,7 @@ Toujours en cours de travaux ;)
   - [Dépendances](#dependances)
   - [ezseed](#ezseed)
 - [Configuration](#configuration)
+- [SFTP](#SFTP)
 - [Streaming](#streaming)
 - [Bugs connus](#bugs-connus)
 - [Trucs et astuces](#truc-et-astuces)
@@ -74,6 +75,17 @@ ezseed transmission start
 ```
 
 Pour plus d'options regardez l'aide `ezseed -h`
+
+## SFTP
+
+Pour un accès en sftp sécurisé éditez `/etc/ssh/sshd_config` puis ajoutez :
+```
+  Match group ezseed
+    ChrootDirectory /home/%u
+    X11Forwarding no
+    AllowTCPForwarding no
+    ForceCommand internal-sftp
+```
 
 ## Streaming
 
