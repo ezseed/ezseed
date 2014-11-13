@@ -33,7 +33,7 @@ Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration a
 ### Dépendances
 
 ```
-sudo aptitude install gcc-4.7 sudo curl python whois
+sudo aptitude install gcc-4.7 sudo curl python whois git
 
 # nvm - nodejs
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
