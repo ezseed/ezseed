@@ -11,8 +11,9 @@ Toujours en cours de travaux ;)
   - [Dépendances](#dependances)
   - [ezseed](#ezseed)
 - [Configuration](#configuration)
+- [SFTP](#sftp)
 - [Streaming](#streaming)
-- [Bugs connus](#bugs-connus)
+- [rtorrent](#rtorrent)
 - [Trucs et astuces](#truc-et-astuces)
 
 ## Pré-requis
@@ -32,7 +33,7 @@ Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration a
 ### Dépendances
 
 ```
-sudo aptitude install gcc-4.7 sudo curl python whois
+sudo aptitude install gcc-4.7 sudo curl python whois git
 
 # nvm - nodejs
 curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
@@ -75,6 +76,17 @@ ezseed transmission start
 
 Pour plus d'options regardez l'aide `ezseed -h`
 
+## SFTP
+
+Pour un accès en sftp sécurisé éditez `/etc/ssh/sshd_config` puis ajoutez :
+```
+  Match group ezseed
+    ChrootDirectory /home/%u
+    X11Forwarding no
+    AllowTCPForwarding no
+    ForceCommand internal-sftp
+```
+
 ## Streaming
 
 Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Pour l'installer suivez les indications ci-dessous : 
@@ -94,13 +106,18 @@ Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Po
 ❯ brew install libav --with-libvo-aacenc
 ```
 
-## Bugs connus
+## Rtorrent
 
 - rtorrent a un souci avec les noms en majuscules/minuscules
 - rtorrent a un souci avec les caractères spéciaux de certains torrents et peut mener à un disfonctionnement d'ezseed
 - rtorrent nécessite une configuration supplémentaire d'AutoTools pour déplacer les téléchargements:
 
 ![](https://camo.githubusercontent.com/a278375b20071e41ed233b5f6b1e8936222ae0bf/687474703a2f2f7777772e7a75706d6167652e65752f692f687052455238336376472e706e67)
+
+- pour ajouter la création de torrents il faut installe le paquet suivant :
+```
+sudo apt-get install buildtorrent
+```
 
 ## Trucs et astuces
 
