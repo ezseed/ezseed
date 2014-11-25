@@ -17,3 +17,7 @@ add watched to db
 add delete transmission
 images - explorer
 version to admin
+
+explorer name zip
+remove !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+firefox ?!
