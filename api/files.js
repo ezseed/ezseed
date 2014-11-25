@@ -1,11 +1,11 @@
 var files = require('express').Router()
-  , logger = require('ezseed-logger')('files')
-  , config = require('../lib/config')
-  , db = require('ezseed-database').db
-  , archiver = require('archiver')
-  , p = require('path')
-  , fs = require('fs')
-  , debug = require('debug')('ezseed:api:files')
+var logger = require('ezseed-logger')('files')
+var config = require('../lib/config')
+var db = require('ezseed-database').db
+var p = require('path')
+var fs = require('fs')
+var archiver = require('../lib/archiver')
+var debug = require('debug')('ezseed:api:files')
 
 var previous_filesize = 0
 
@@ -26,6 +26,31 @@ files
   } else {
     res.status(500).send({error: req.params.id+' is not a valid id'})
   }
+
+})
+
+.get('/files/archive', function(req, res, next) {
+
+  var bulk = []
+
+  for(var i in req.query.paths) {
+    var e = req.query.paths[i]
+    
+    if(e.prevDir == e.path) {
+      bulk.push({
+        expand: true, cwd: e.prevDir, src: ['**'], dest: p.basename(docs.prevDir)
+      }) 
+    } else {
+      bulk.push({
+        expand: true, cwd: e.prevDir, src: [e.name], dest: '' 
+      }) 
+    }
+  }
+
+  return archiver(req,res, {
+    name: req.query.name,
+    bulk: bulk
+  })
 
 })
 
@@ -92,38 +117,29 @@ var action = {
   },
   archive: function(req, res) {
 
-    if(req.params.type !== 'albums') {
+    if(req.params.type === 'albums') {
+    
+      db[req.params.type].get(req.params.id, function(err, docs) {
+
+        var filetype = db.helpers.filename(req.params.type)
+
+        docs = docs.toJSON()
+
+        //@todo if movies, try playing with .file
+        return archiver(req,res, {
+          name: docs.artist + ' - '+ docs.album,
+          bulk: [
+            {expand: true, cwd: docs.prevDir, src: ['**'], dest: p.basename(docs.prevDir)}
+          ]
+        })
+
+
+      })
+    } else if(req.param.type == 'explorer'){
+       
+    } else {
       return res.status(501).send({error: "Can't archive files for type "+req.params.type}).end()
     }
-    
-    db[req.params.type].get(req.params.id, function(err, docs) {
-
-      var filetype = db.helpers.filename(req.params.type)
-        , archive = archiver('zip')
-
-      docs = docs.toJSON()
-
-      archive.on('error', function(err) {
-        res.status(500).send({error: err.message})
-      })
-
-      res.attachment(docs.artist + ' - '+ docs.album + '.zip');
-
-      res.on('close', function() {
-        logger.log('Archive wrote %s bytes', archive.pointer())
-        return res.sendStatus(200).end()
-      })
-
-      archive.pipe(res)
-
-      //@todo if movies, try playing with .file
-      archive.bulk([
-        {expand: true, cwd: docs.prevDir, src: ['**'], dest: p.basename(docs.prevDir)}
-      ])
-      
-      archive.finalize()
-
-    })
   },
   download: function(req, res) {
     db.files.get(req.params.id, function(err, file) {
