@@ -38,7 +38,7 @@ files
     
     if(e.prevDir == e.path) {
       bulk.push({
-        expand: true, cwd: e.prevDir, src: ['**'], dest: p.basename(docs.prevDir)
+        expand: true, cwd: e.prevDir, src: ['**'], dest: p.basename(e.prevDir)
       }) 
     } else {
       bulk.push({
