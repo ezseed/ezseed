@@ -43,7 +43,7 @@
     "ezseed-rtorrent": "0.0.8",
     "ezseed-transmission": "0.0.25",
     "ezseed-watcher": "^1.1.0",
-    "ezseed-web": "https://github.com/ezseed/web/archive/v1.1.13.tar.gz",
+    "ezseed-web": "https://github.com/ezseed/web/archive/v1.1.14.tar.gz",
     "faststart": "^0.1.1",
     "i18n": "^0.5.0",
     "inquirer": "^0.8.0",
