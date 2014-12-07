@@ -13,7 +13,7 @@ Toujours en cours de travaux ;)
 - [Configuration](#configuration)
 - [SFTP](#sftp)
 - [Streaming](#streaming)
-- [rtorrent](#rtorrent)
+- [Bugs connus](#bugs-connus)
 - [Trucs et astuces](#truc-et-astuces)
 
 ## Pré-requis
@@ -106,18 +106,13 @@ Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Po
 ❯ brew install libav --with-libvo-aacenc
 ```
 
-## Rtorrent
+## Bugs connus
 
 - rtorrent a un souci avec les noms en majuscules/minuscules
 - rtorrent a un souci avec les caractères spéciaux de certains torrents et peut mener à un disfonctionnement d'ezseed
 - rtorrent nécessite une configuration supplémentaire d'AutoTools pour déplacer les téléchargements:
 
 ![](https://camo.githubusercontent.com/a278375b20071e41ed233b5f6b1e8936222ae0bf/687474703a2f2f7777772e7a75706d6167652e65752f692f687052455238336376472e706e67)
-
-- pour ajouter la création de torrents il faut installe le paquet suivant :
-```
-sudo apt-get install buildtorrent
-```
 
 ## Trucs et astuces
 
@@ -142,3 +137,39 @@ Modifier la valeur LOGS_DIR par
 LOGS_DIR=/var/log/rsync
 ```
 
+### Synchronisation via BtSync (Multi-platerforme, User-friendly)
+
+Installation de btsync (effectuer en tant que root/sudo)
+```
+#Ajout et paramétrage des dépots
+apt-key adv --keyserver keys.gnupg.net --recv-keys 6BF18B15
+CODENAME=$(lsb_release -cs | sed -n '/lucid\|precise\|quantal\|raring\|saucy\|trusty\|squeeze\|wheezy\|jessie\|sid/p')
+echo "" >> /etc/apt/sources.list
+echo "#### BitTorrent Sync - see: http://forum.bittorrent.com/topic/18974-debian-and-ubuntu-server-packages-for-bittorrent-sync-121-1/" >> /etc/apt/sources.list
+echo "## Run this command: apt-key adv --keyserver keys.gnupg.net --recv-keys 6BF18B15" >> /etc/apt/sources.list
+echo "deb http://debian.yeasoft.net/btsync ${CODENAME:-sid} main" >> /etc/apt/sources.list
+echo "deb-src http://debian.yeasoft.net/btsync ${CODENAME:-sid} main" >> /etc/apt/sources.list
+unset CODENAME
+#Installation du paquet
+apt-get update
+apt-get -y install btsync 
+```
+
+Configuration
+
+Pour autoriser à btsync l'acces en écriture a votre dossier de téléchargement :
+```
+#Il suffit de l'ajouter au groupe du propriétaire du dossier
+sudo usermod -aG 'utilisateur' btsync
+
+#Puis autoriser RWX au groupe
+sudo chmod -R 775 /home/'utilisateur'/downloads
+
+#Il faut ensuite de relancer le serveur pour que ces modifications soient prises en compte
+sudo service btsync restart
+```
+
+Edition de la configuration (changement du port,...)
+```
+sudo dpkg-reconfigure btsync
+````
