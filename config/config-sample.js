@@ -10,5 +10,6 @@ module.exports =
 	theme: 'ezseed-web',
 	scrapper: 'tmdb',
 	lang: 'en',
-	secret: 'really-secret-key'
+	secret: 'really-secret-key',
+        base: '/' //ezseed base path
 }
