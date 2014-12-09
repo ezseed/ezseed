@@ -28,17 +28,22 @@ process.watcher.client = new rpc.Client(req)
 
 //body-parser
 app.use(require('body-parser').json())
+
 //logger
 app.use(require('morgan')('dev'))
 
-//loading the template
-require(config.theme)(app)
-
 //add tmp static dir (used for covers)
-app.use('/tmp', require('express').static(config.tmp))
+app.use('/tmp/', require('express').static(config.tmp))
+
+var router = require('express').Router()
+
+//loading the template
+require(config.theme)(router, app, config)
 
 //loading api
-require('./api')(app)
+require('./api')(router)
+
+app.use(router)
 
 require('ezseed-database')({database: database || 'ezseed'}, function() {
 
