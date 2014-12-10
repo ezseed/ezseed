@@ -72,6 +72,20 @@ module.exports = function() {
         }
       },
       {
+        type     : 'input',
+        name     : 'basepath',
+        message  : i18n.__('Base path'),
+        default  : '/',
+        validate : function(basepath) {
+          return basepath.charAt(0) == '/' 
+        },
+        filter: function (basepath) {
+          basepath += basepath.charAt(basepath.length - 1) == '/' ? '' : '/'
+
+          return basepath
+        }
+      },
+      {
 
         type     : 'input',
         name     : 'sslkeys',

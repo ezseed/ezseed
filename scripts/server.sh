@@ -45,7 +45,8 @@ nginx ()
 	fi
 
 	cp $DIR/vhost/nginx/ezseed $NGINXAVAILABLE/
-	sed -i "s variableport $1 " $NGINXAVAILABLE/ezseed
+	sed -i "s {{variableport}} $1 " $NGINXAVAILABLE/ezseed
+	sed -i "s {{basepath}} $2 " $NGINXAVAILABLE/ezseed
 	ln -s $NGINXAVAILABLE/ezseed $NGINXENABLED/
 
 	# Optimisation de worker_processes

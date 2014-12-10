@@ -10,10 +10,10 @@ module.exports = {
       return helper.runasroot(require('ezseed-'+client)('install'))
     }
   },
-  server: function(host) {
+  server: function(host, base) {
     return function() {
       return helper.condition(os.platform() == 'linux', function() {
-        return helper.runasroot(p.join(scripts_path, 'server.sh') + ' ' +host)
+        return helper.runasroot(p.join(scripts_path, 'server.sh') + ' ' +host + ' ' + base)
       }, function() {
         logger.warn('System user not supported')
         return helper.next(0)

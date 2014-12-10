@@ -32,5 +32,6 @@
   "Client installation": "Client installation",
   " is not a valid entry for client, install": " is not a valid entry for client, install",
   "avconv is not installed": "avconv is not installed",
-  "using %s to encode": "using %s to encode"
+  "using %s to encode": "using %s to encode",
+  "Base path": "Base path"
 }

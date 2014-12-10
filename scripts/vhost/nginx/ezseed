@@ -1,5 +1,5 @@
 upstream ezseed {
-	server variableport max_fails=0 fail_timeout=0;
+	server variableport;
 }
 
 # Configuration acces non SSL
@@ -7,7 +7,7 @@ server {
 	listen 80;
 	server_name localhost;
 
-	location / {
+	location {{basepath}} {
 		proxy_set_header X-Real-IP $remote_addr;
 		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		proxy_set_header Host $http_host;
@@ -16,7 +16,7 @@ server {
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection "upgrade";
 		proxy_max_temp_file_size 0;
-		proxy_pass http://ezseed;
+		proxy_pass http://ezseed/;
 		proxy_redirect off;
 	}
 
@@ -49,7 +49,7 @@ server {
 
 	add_header Strict-Transport-Security max-age=500;
 
-	location / {
+	location {{basepath}} {
 		proxy_set_header X-Real-IP $remote_addr;
 		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 		proxy_set_header Host $http_host;
@@ -58,7 +58,7 @@ server {
 		proxy_set_header Upgrade $http_upgrade;
 		proxy_set_header Connection "upgrade";
 		proxy_max_temp_file_size 0;
-		proxy_pass http://ezseed;
+		proxy_pass http://ezseed/;
 		proxy_redirect off;
 	}
 
