@@ -1,5 +1,5 @@
 upstream ezseed {
-	server variableport;
+	server {{variableport}};
 }
 
 # Configuration acces non SSL
