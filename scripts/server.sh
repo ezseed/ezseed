@@ -45,8 +45,10 @@ nginx ()
 	fi
 
 	cp $DIR/vhost/nginx/ezseed $NGINXAVAILABLE/
-	sed -i "s#{{variableport}}#$1#g" $NGINXAVAILABLE/ezseed
-	sed -i "s#{{basepath}}#$2#g" $NGINXAVAILABLE/ezseed
+
+	sed -i "s {{variableport}} $1 g" $NGINXAVAILABLE/ezseed
+	sed -i "s {{basepath}} $2 g" $NGINXAVAILABLE/ezseed
+
 	ln -s $NGINXAVAILABLE/ezseed $NGINXENABLED/
 
 	# Optimisation de worker_processes
@@ -96,14 +98,14 @@ fi
 
 case $serveur in
  nginx)
-  nginx $1
+  nginx $1 $2
   break;;
  apache2)
   apache $1
   break;;
  aucun)
   aptitude install -y nginx
-  nginx $1
+  nginx $1 $2
   break;;
  *)
   inconnu
