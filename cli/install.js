@@ -33,9 +33,9 @@ module.exports = function(opts) {
       }
 
       server = '127.0.0.1:'+answers.port
-    }
+    } 
 
-    return helper.condition(!opts.skipserver, require('./commands/install').server(server, answers.basepath))
+    return helper.condition(!opts.skipserver, require('./commands/install').server(server, config.basepath))
   })
   .catch(helper.exit(i18n.__('Server installation')))
 

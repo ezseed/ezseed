@@ -104,7 +104,7 @@ program
   })
   .callback(function(opts) {
     //no client, install ezseed
-    if(opts.client === undefined) {
+    if(opts.client === undefined || opts.skipclient) {
       return require('../cli/install')(opts)
     } else if(opts.client == 'rtorrent' || opts.client == 'transmission'){
       //else install the required client
