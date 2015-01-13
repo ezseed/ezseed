@@ -67,6 +67,7 @@ Then, follow the configuration instructions.
 
 ```
 npm update ezseed -g [--unsafe-perm]
+ezseed restart
 ```
 
 ## Configuration
