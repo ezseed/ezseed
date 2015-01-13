@@ -8,6 +8,7 @@
 ################################################################################
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
+PREV="$( cd $DIR/.. && pwd )"
 
 declare -a ezseed=(
 'web'
@@ -17,11 +18,23 @@ declare -a ezseed=(
 for i in ${ezseed[@]}
 do 
 
-  git clone https://github.com/ezseed/ezseed-$i ../$i
-
-  if [ -d $PWD/node_modules/ezseed-$i ]; then
-    rm -rf $PWD/node_modules/ezseed-$i
+  if [ ! -d $DIR/../$i ]; then
+    echo git clone https://github.com/ezseed/$i $PREV/$i
+    # git clone https://github.com/ezseed/$i $PREV/$i
   fi
 
-  ln -sf $PWD/../$i/ $PWD/node_modules/ezseed-$i
+  if [ -d $DIR/node_modules/ezseed-$i ] && [ ! -L $DIR/node_modules/ezseed-$i ]; then
+    echo rm -rf $DIR/node_modules/ezseed-$i
+    # rm -rf $DIR/node_modules/ezseed-$i
+  fi
+
+  if [ ! -L $DIR/node_modules/ezseed-$i ]; then
+    echo ln -sf $PREV/$i/ $DIR/node_modules/ezseed-$i
+    # ln -sf $PREV/$i/ $DIR/node_modules/ezseed-$i
+  fi
+
+  cd $PREV/$i
+  npm i --verbose
+  
+  cd $DIR
 done
