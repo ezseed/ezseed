@@ -11,5 +11,5 @@ module.exports =
 	scrapper: 'tmdb',
 	lang: 'en',
 	secret: 'really-secret-key',
-        base: '/' //ezseed base path
+        basepath: '/', //ezseed base path
 }
