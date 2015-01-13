@@ -1,6 +1,6 @@
 {
   "name": "ezseed",
-  "version": "0.6.10",
+  "version": "0.6.11",
   "description": "Cli interface for ezseed - rtorrent/transmission multi-user installer and manager",
   "main": "index.js",
   "scripts": {
@@ -43,7 +43,7 @@
     "ezseed-rtorrent": "0.0.9",
     "ezseed-transmission": "0.0.25",
     "ezseed-watcher": "^1.1.0",
-    "ezseed-web": "https://github.com/ezseed/web/archive/v1.1.18.tar.gz",
+    "ezseed-web": "https://github.com/ezseed/web/archive/v1.1.19.tar.gz",
     "faststart": "^0.1.1",
     "i18n": "^0.5.0",
     "inquirer": "^0.8.0",
