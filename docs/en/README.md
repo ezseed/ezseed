@@ -1,10 +1,20 @@
 EZSEED (easy seedbox)
 ===
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/ezseed/ezseed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Still a work in progress ;)
 
-### [README en français](https://github.com/ezseed/ezseed/tree/master/docs/fr)
+- [Requirements](#requirements)
+  - [Nodejs](#nodejs)
+  - [MongoDB](#mongodb)
+  - [Server](#server)
+- [Installation](#installation)
+  - [Dependencies](#dependencies)
+  - [ezseed](#ezseed)
+- [Update](#update)
+- [Configuration](#configuration)
+- [SFTP](#sftp)
+- [Streaming](#streaming)
+- [Known Issues](#known-issues)
 
 ## Requirements
 
@@ -23,13 +33,13 @@ If you have already a server installed, ezseed is apache or nginx friendly (note
 ### Dependencies
 
 ```
-sudo aptitude install gcc-4.7 sudo curl python whois
+sudo aptitude install gcc-4.7 sudo curl python whois git
 
 # nvm
-curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
+curl https://raw.githubusercontent.com/creationix/nvm/v0.22.1/install.sh | bash
 source ~/.bashrc
-nvm install 0.10.32
-nvm alias default 0.10.32
+nvm install 0.10
+nvm alias default 0.10
 
 # mongodb
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
@@ -42,18 +52,25 @@ sudo apt-get install -y mongodb-org
 
 #### As user
 ```
-npm i pm2@0.11.0 ezseed -g
+npm i ezseed pm2 -g
 ```
 
 #### As root
 ```
 npm i ezseed -g --unsafe-perm
-npm i pm2@0.11.0 -g --unsafe-perm
+npm i pm2 -g --unsafe-perm
 ```
 
 Then, follow the configuration instructions.
 
-## Usage
+## Update
+
+```
+npm update ezseed -g [--unsafe-perm]
+ezseed restart
+```
+
+## Configuration
 
 After the configuration process, you'll need to add an user and start ezseed:
 
@@ -63,7 +80,41 @@ ezseed start
 ezseed transmission start
 ```
 
-For more options look at `ezseed -h`
+For more options look at `ezseed -h`.
+
+The configuration file is located in `~/.ezseed/config.js`.
+
+## SFTP
+
+For a secure sftp access per user edit `/etc/ssh/sshd_config` by adding:
+```
+  Match group ezseed
+    ChrootDirectory /home/%u
+    X11Forwarding no
+    AllowTCPForwarding no
+    ForceCommand internal-sftp
+```
+
+Users will be chrooted.
+
+## Streaming
+
+Streaming requires `avconv` from [libav](https://libav.org/). It's optional and if needed should be installed like this:
+
+```
+❯ sudo aptitude install pkg-config gcc-4.7 build-essential libx264-dev libvo-aacenc-dev libvorbis-dev libvpx-dev
+❯ wget https://www.libav.org/releases/libav-11.tar.xz
+❯ tar xf libav-11.tar.xz
+❯ cd libav-11
+❯ ./configure --enable-libvpx --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3 --enable-libvorbis
+❯ make
+❯ sudo make install
+```
+
+### OS X
+```
+❯ brew install libav --with-libvo-aacenc
+```
 
 ## Known Issues
 
