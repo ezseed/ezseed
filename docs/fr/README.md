@@ -10,6 +10,7 @@ Toujours en cours de travaux ;)
 - [Installation](#installation)
   - [Dépendances](#dependances)
   - [ezseed](#ezseed)
+- [Update](#update)
 - [Configuration](#configuration)
 - [SFTP](#sftp)
 - [Streaming](#streaming)
@@ -36,10 +37,10 @@ Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration a
 sudo aptitude install gcc-4.7 sudo curl python whois git
 
 # nvm - nodejs
-curl https://raw.githubusercontent.com/creationix/nvm/v0.17.1/install.sh | bash
+curl https://raw.githubusercontent.com/creationix/nvm/v0.22.1/install.sh | bash
 source ~/.bashrc
-nvm install 0.10.32
-nvm alias default 0.10.32
+nvm install 0.10
+nvm alias default 0.10
 
 # mongodb
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
@@ -55,13 +56,20 @@ sudo apt-get install -y mongodb-org
 
 ```
 npm i ezseed -g --unsafe-perm
-npm i pm2@0.11.0 -g --unsafe-perm
+npm i pm2 -g --unsafe-perm
 ```
 
 #### En tant qu'utilisateur
 ```
 npm i pm2@0.11.0 ezseed -g
-# suivez les instructions de configuration
+```
+
+Ensuite, suivez les instructions de configuration
+
+## Update
+
+```
+npm update ezseed -g [--unsafe-perm]
 ```
 
 ## Configuration
@@ -74,7 +82,9 @@ ezseed start
 ezseed transmission start
 ```
 
-Pour plus d'options regardez l'aide `ezseed -h`
+Pour plus d'options regardez l'aide `ezseed -h`.
+
+Le fichier de configuration d'ezseed est situé dans `~/.ezseed/config.js`.
 
 ## SFTP
 
@@ -116,60 +126,5 @@ Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Po
 
 ## Trucs et astuces
 
-### Synchronisation via rsync
-[Synchronisation automatique vers votre NAS](http://www.legeektechno.fr/serveurs/script-de-synchronisation-de-seedbox-version-2.html)
-
-Génération de la clé RSA
-```
-ssh-keygen -t rsa
-ssh-copy-id -i ~/.ssh/id_rsa.pub root@monippublique 
-```
-Modification de l'emplacement des fichier logs
-```
-mkdir -p /var/log/rsync
-chown -R batch /var/log/rsync
-chgrp -R batch /var/log/rsync
-cd /home/batch/scripts
-nano setEnv.sh
-```
-Modifier la valeur LOGS_DIR par
-```
-LOGS_DIR=/var/log/rsync
-```
-
-### Synchronisation via BtSync (Multi-platerforme, User-friendly)
-
-Installation de btsync (effectuer en tant que root/sudo)
-```
-#Ajout et paramétrage des dépots
-apt-key adv --keyserver keys.gnupg.net --recv-keys 6BF18B15
-CODENAME=$(lsb_release -cs | sed -n '/lucid\|precise\|quantal\|raring\|saucy\|trusty\|squeeze\|wheezy\|jessie\|sid/p')
-echo "" >> /etc/apt/sources.list
-echo "#### BitTorrent Sync - see: http://forum.bittorrent.com/topic/18974-debian-and-ubuntu-server-packages-for-bittorrent-sync-121-1/" >> /etc/apt/sources.list
-echo "## Run this command: apt-key adv --keyserver keys.gnupg.net --recv-keys 6BF18B15" >> /etc/apt/sources.list
-echo "deb http://debian.yeasoft.net/btsync ${CODENAME:-sid} main" >> /etc/apt/sources.list
-echo "deb-src http://debian.yeasoft.net/btsync ${CODENAME:-sid} main" >> /etc/apt/sources.list
-unset CODENAME
-#Installation du paquet
-apt-get update
-apt-get -y install btsync 
-```
-
-Configuration
-
-Pour autoriser à btsync l'acces en écriture a votre dossier de téléchargement :
-```
-#Il suffit de l'ajouter au groupe du propriétaire du dossier
-sudo usermod -aG 'utilisateur' btsync
-
-#Puis autoriser RWX au groupe
-sudo chmod -R 775 /home/'utilisateur'/downloads
-
-#Il faut ensuite de relancer le serveur pour que ces modifications soient prises en compte
-sudo service btsync restart
-```
-
-Edition de la configuration (changement du port,...)
-```
-sudo dpkg-reconfigure btsync
-````
+### [Rsync](https://github.com/ezseed/ezseed/blob/master/docs/fr/rsync.md)
+### [Btsync](https://github.com/ezseed/ezseed/blob/master/docs/fr/btsync.md)
