@@ -3,51 +3,36 @@ EZSEED (easy seedbox)
 
 Toujours en cours de travaux ;)
 
-- [Prérequis](#pre-requis)
-  - [Nodejs](#nodejs)
-  - [MongoDB](#mongodb)
-  - [Serveur](#serveur)
 - [Installation](#installation)
   - [Dépendances](#dependances)
   - [ezseed](#ezseed)
 - [Update](#update)
 - [Configuration](#configuration)
-- [SFTP](#sftp)
+
 - [Streaming](#streaming)
 - [Bugs connus](#bugs-connus)
 - [Trucs et astuces](#truc-et-astuces)
-
-## Pré-requis
-
-### Nodejs
-[Node version manager](https://github.com/creationix/nvm) est recommandé
-
-### MongoDB
-[Instructions d'installation](http://docs.mongodb.org/manual/installation/)
-
-### Serveur
-Si aucun serveur n'est présent, [ezseed installera nginx](https://github.com/ezseed/ezseed/blob/master/scripts/server.sh)
-Si vous avez déjà installé un serveur web, ezseed ajoutera sa configuration apache ou nginx (note: apache n'a pas encore été testé)
+  - [SFTP](#sftp)
 
 ## Installation
 
 ### Dépendances
 
 ```
-sudo aptitude install gcc-4.7 sudo curl python whois git
+sudo apt-get install gcc-4.7 sudo curl python whois git mongodb
+```
 
-# nvm - nodejs
+### [Node Version Manager](https://github.com/creationix/nvm)
+Souvent il faut faire avant en tant que `root`:
+```
+dpkg-reconfigure locales
+```
+Puis selectionner `FR-UTF-8`. Ensuite :
+```
 curl https://raw.githubusercontent.com/creationix/nvm/v0.22.1/install.sh | bash
-source ~/.bashrc
+source ~/.nvm/nvm.sh
 nvm install 0.10
 nvm alias default 0.10
-
-# mongodb
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
-sudo apt-get update
-sudo apt-get install -y mongodb-org
-
 ```
 
 ### Ezseed
@@ -59,7 +44,7 @@ npm i ezseed -g --unsafe-perm
 npm i pm2 -g --unsafe-perm
 ```
 
-#### En tant qu'utilisateur
+#### ou alors, en tant qu'utilisateur
 ```
 npm i pm2@0.11.0 ezseed -g
 ```
@@ -82,39 +67,34 @@ ezseed useradd mynewuser
 ezseed start
 ezseed transmission start
 ```
+***
+@FIXME Pour le moment, il faut lancer la commande ```ezseed useradd mynewuser``` deux fois pour qu'elle soit effective.  
+***
 
 Pour plus d'options regardez l'aide `ezseed -h`.
 
 Le fichier de configuration d'ezseed est situé dans `~/.ezseed/config.js`.
 
-## SFTP
 
-Pour un accès en sftp sécurisé éditez `/etc/ssh/sshd_config` puis ajoutez :
-```
-  Match group ezseed
-    ChrootDirectory /home/%u
-    X11Forwarding no
-    AllowTCPForwarding no
-    ForceCommand internal-sftp
-```
 
 ## Streaming
 
-Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Pour l'installer suivez les indications ci-dessous : 
+### Linux
+Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Pour l'installer suivez les indications ci-dessous :
 
 ```
-❯ sudo aptitude install pkg-config gcc-4.7 build-essential libx264-dev libvo-aacenc-dev libvorbis-dev libvpx-dev
-❯ wget https://www.libav.org/releases/libav-11.tar.xz
-❯ tar xf libav-11.tar.xz
-❯ cd libav-11
-❯ ./configure --enable-libvpx --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3 --enable-libvorbis
-❯ make
-❯ sudo make install
+sudo aptitude install pkg-config gcc-4.7 build-essential libx264-dev libvo-aacenc-dev libvorbis-dev libvpx-dev
+wget https://www.libav.org/releases/libav-11.tar.xz
+tar xf libav-11.tar.xz
+cd libav-11
+./configure --enable-libvpx --disable-yasm --enable-gpl --enable-libx264 --enable-libvo-aacenc --enable-version3 --enable-libvorbis
+make
+sudo make install
 ```
 
 ### OS X
 ```
-❯ brew install libav --with-libvo-aacenc
+brew install libav --with-libvo-aacenc
 ```
 
 ## Bugs connus
@@ -129,3 +109,13 @@ Le streaming nécessite `avconv` de la librairie [libav](https://libav.org/). Po
 
 ### [Rsync](https://github.com/ezseed/ezseed/blob/master/docs/fr/rsync.md)
 ### [Btsync](https://github.com/ezseed/ezseed/blob/master/docs/fr/btsync.md)
+### SFTP
+
+Pour un accès en sftp sécurisé éditez `/etc/ssh/sshd_config` puis ajoutez :
+```
+Match group ezseed
+ChrootDirectory /home/%u
+X11Forwarding no
+AllowTCPForwarding no
+ForceCommand internal-sftp
+```
