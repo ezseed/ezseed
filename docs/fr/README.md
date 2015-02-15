@@ -52,19 +52,18 @@ sudo apt-get install -y mongodb-org
 
 ### Ezseed
 
-#### En tant que `root`
+#### Soit en tant que `root`
 
 ```
-npm i ezseed -g --unsafe-perm
-npm i pm2 -g --unsafe-perm
+npm install ezseed pm2 -g --unsafe-perm
 ```
 
-#### En tant qu'utilisateur
+#### soit en tant qu'utilisateur
 ```
-npm i pm2@0.11.0 ezseed -g
+npm install pm2 ezseed -g
 ```
 
-Ensuite, suivez les instructions de configuration
+Ensuite, suivez les instructions de configuration et démarrez ezseed `ezseed start`.
 
 ## Update
 
