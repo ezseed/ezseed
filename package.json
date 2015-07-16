@@ -40,7 +40,7 @@
     "ezseed-axon": "^2.0.1",
     "ezseed-database": "^1.0.3",
     "ezseed-logger": "^0.2.0",
-    "ezseed-rtorrent": "0.0.9",
+    "ezseed-rtorrent": "0.0.10",
     "ezseed-transmission": "0.0.25",
     "ezseed-watcher": "^1.1.0",
     "ezseed-web": "https://github.com/ezseed/web/archive/v1.1.19.tar.gz",
