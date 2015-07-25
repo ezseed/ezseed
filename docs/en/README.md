@@ -35,17 +35,11 @@ If you have already a server installed, ezseed is apache or nginx friendly (note
 ```
 sudo aptitude install gcc-4.7 sudo curl python whois git
 
-# nvm
-curl https://raw.githubusercontent.com/creationix/nvm/v0.22.1/install.sh | bash
-source ~/.bashrc
-nvm install 0.10
-nvm alias default 0.10
+# nvm - nodejs
+[Instructions here](https://github.com/creationix/nvm/blob/master/README.markdown#installation)
 
 # mongodb
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
-echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
-sudo apt-get update
-sudo apt-get install -y mongodb-org
+[Debian instructions here](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-debian/)
 ```
 
 ### Ezseed
