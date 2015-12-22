@@ -91,7 +91,7 @@ fi
 # Vérification du serveur web utilisé
 # Vérification du serveur web utilisé
 serveur=
-serveur=$(netstat -tulpn | grep :80 | awk -F/ '{print $2}' | sed -e "s/ *$//" | sort -u)
+serveur=$(netstat -tulpn | grep :80 | awk -F/ '{print $2}' | awk '{print $1}' | sed -e "s/ *$//" | sort -u)
 if [ "$serveur" = "" ]
  then serveur=aucun && echo "Nginx va être parametré pour devenir votre serveur web."
 fi
