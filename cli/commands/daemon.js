@@ -66,7 +66,7 @@ module.exports = {
 
           switch(command) {
             case 'start':
-              pm2.startJson(json, {}, null, function(err) {
+              pm2.start(json, {}, null, function(err) {
                 if(err) {
                   logger.error('Error while starting process', err)
                 } else {
